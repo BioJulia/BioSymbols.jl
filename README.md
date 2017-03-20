@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/BioJulia/BiologicalSymbols.jl.svg?branch=master)](https://travis-ci.org/BioJulia/BiologicalSymbols.jl)
 [![Build status](https://ci.appveyor.com/api/projects/status/q9i9c79h0p33tiqp/branch/master?svg=true)](https://ci.appveyor.com/project/Ward9250/biologicalsymbols-jl/branch/master)
 [![](https://img.shields.io/badge/docs-stable-blue.svg)](https://biojulia.github.io/BiologicalSymbols.jl/stable)
-[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://biojulia.github.io/BiologicalSymbols/latest)
+[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://biojulia.github.io/BiologicalSymbols.jl/latest)
 
 ## Description
 
