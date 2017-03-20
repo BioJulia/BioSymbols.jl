@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta name="author" content="The BioJulia Organisation"> 
-    <link rel="canonical" href="https://biojulia.github.io/NucleicAcids.jl/types/"> 
+    <link rel="canonical" href="https://biojulia.github.io/BiologicalSymbols.jl/types/"> 
     <link rel="shortcut icon" href="../img/favicon.ico">
 
-    <title>NucleicAcids - NucleicAcids.jl</title>
+    <title>NucleicAcids - BiologicalSymbols.jl</title>
 
     <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
@@ -58,7 +58,7 @@
             
 
             <!-- Main title -->
-            <a class="navbar-brand" href="..">NucleicAcids.jl</a>
+            <a class="navbar-brand" href="..">BiologicalSymbols.jl</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -102,7 +102,7 @@
                 
                 
                     <li>
-                        <a href="https://github.com/BioJulia/NucleicAcids.jl">
+                        <a href="https://github.com/BioJulia/BiologicalSymbols.jl">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -129,8 +129,11 @@
             <li class="second-level"><a href="#bit-encoding">Bit encoding</a></li>
             
         
-            <li class="second-level"><a href="#functions">Functions</a></li>
-            
+    
+        <li class="first-level "><a href="#amino-acids">Amino Acids</a></li>
+        
+    
+        <li class="first-level "><a href="#functions">Functions</a></li>
         
     
     </ul>
@@ -141,7 +144,7 @@
 <h1 id="nucleicacids">NucleicAcids</h1>
 <p><a id='Type-definitions-1'></a></p>
 <h2 id="type-definitions">Type definitions</h2>
-<p>NucleicAcids provides two types of NucleicAcid:</p>
+<p>BiologicalSymbols provides two types of NucleicAcid:</p>
 <table>
 <thead>
 <tr>
@@ -160,7 +163,7 @@
 </tr>
 </tbody>
 </table>
-<p>The set of nucleotide symbols in NucleicAcids.jl covers the IUPAC nucleotides as well as a GAP (-) symbol.</p>
+<p>The set of nucleotide symbols in BiologicalSymbols.jl covers the IUPAC nucleotides as well as a GAP (-) symbol.</p>
 <table>
 <thead>
 <tr>
@@ -291,8 +294,187 @@
 <p><a id='Bit-encoding-1'></a></p>
 <h2 id="bit-encoding">Bit encoding</h2>
 <p>Every nucleotide is encoded using the lower 4 bits of a byte. An unambiguous nucleotide has only one set bit and the other bits are unset. The table below summarizes all unambiguous nucleotides and their corresponding bits. An ambiguous nucleotide is the bitwise OR of unambiguous nucleotides that the ambiguous nucleotide can take. For example, <code>DNA_R</code> (meaning the nucleotide is either <code>DNA_A</code> or <code>DNA_G</code>) is encoded as <code>0101</code> because <code>0101</code> is the bitwise OR of <code>0001</code> (<code>DNA_A</code>) and <code>0100</code> (<code>DNA_G</code>). The gap symbol is always <code>0000</code>.</p>
+<p><a id='Amino-Acids-1'></a></p>
+<h1 id="amino-acids">Amino Acids</h1>
+<p>Set of amino acid symbols also covers IUPAC amino acid symbols plus a gap symbol:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Symbol</th>
+<th align="left">Constant</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">'A'</td>
+<td align="left"><code>AA_A</code></td>
+<td align="left">Alanine</td>
+</tr>
+<tr>
+<td align="left">'R'</td>
+<td align="left"><code>AA_R</code></td>
+<td align="left">Arginine</td>
+</tr>
+<tr>
+<td align="left">'N'</td>
+<td align="left"><code>AA_N</code></td>
+<td align="left">Asparagine</td>
+</tr>
+<tr>
+<td align="left">'D'</td>
+<td align="left"><code>AA_D</code></td>
+<td align="left">Aspartic acid (Aspartate)</td>
+</tr>
+<tr>
+<td align="left">'C'</td>
+<td align="left"><code>AA_C</code></td>
+<td align="left">Cysteine</td>
+</tr>
+<tr>
+<td align="left">'Q'</td>
+<td align="left"><code>AA_Q</code></td>
+<td align="left">Glutamine</td>
+</tr>
+<tr>
+<td align="left">'E'</td>
+<td align="left"><code>AA_E</code></td>
+<td align="left">Glutamic acid (Glutamate)</td>
+</tr>
+<tr>
+<td align="left">'G'</td>
+<td align="left"><code>AA_G</code></td>
+<td align="left">Glycine</td>
+</tr>
+<tr>
+<td align="left">'H'</td>
+<td align="left"><code>AA_H</code></td>
+<td align="left">Histidine</td>
+</tr>
+<tr>
+<td align="left">'I'</td>
+<td align="left"><code>AA_I</code></td>
+<td align="left">Isoleucine</td>
+</tr>
+<tr>
+<td align="left">'L'</td>
+<td align="left"><code>AA_L</code></td>
+<td align="left">Leucine</td>
+</tr>
+<tr>
+<td align="left">'K'</td>
+<td align="left"><code>AA_K</code></td>
+<td align="left">Lysine</td>
+</tr>
+<tr>
+<td align="left">'M'</td>
+<td align="left"><code>AA_M</code></td>
+<td align="left">Methionine</td>
+</tr>
+<tr>
+<td align="left">'F'</td>
+<td align="left"><code>AA_F</code></td>
+<td align="left">Phenylalanine</td>
+</tr>
+<tr>
+<td align="left">'P'</td>
+<td align="left"><code>AA_P</code></td>
+<td align="left">Proline</td>
+</tr>
+<tr>
+<td align="left">'S'</td>
+<td align="left"><code>AA_S</code></td>
+<td align="left">Serine</td>
+</tr>
+<tr>
+<td align="left">'T'</td>
+<td align="left"><code>AA_T</code></td>
+<td align="left">Threonine</td>
+</tr>
+<tr>
+<td align="left">'W'</td>
+<td align="left"><code>AA_W</code></td>
+<td align="left">Tryptophan</td>
+</tr>
+<tr>
+<td align="left">'Y'</td>
+<td align="left"><code>AA_Y</code></td>
+<td align="left">Tyrosine</td>
+</tr>
+<tr>
+<td align="left">'V'</td>
+<td align="left"><code>AA_V</code></td>
+<td align="left">Valine</td>
+</tr>
+<tr>
+<td align="left">'O'</td>
+<td align="left"><code>AA_O</code></td>
+<td align="left">Pyrrolysine</td>
+</tr>
+<tr>
+<td align="left">'U'</td>
+<td align="left"><code>AA_U</code></td>
+<td align="left">Selenocysteine</td>
+</tr>
+<tr>
+<td align="left">'B'</td>
+<td align="left"><code>AA_B</code></td>
+<td align="left">Aspartic acid or Asparagine</td>
+</tr>
+<tr>
+<td align="left">'J'</td>
+<td align="left"><code>AA_J</code></td>
+<td align="left">Leucine or Isoleucine</td>
+</tr>
+<tr>
+<td align="left">'Z'</td>
+<td align="left"><code>AA_Z</code></td>
+<td align="left">Glutamine or Glutamic acid</td>
+</tr>
+<tr>
+<td align="left">'X'</td>
+<td align="left"><code>AA_X</code></td>
+<td align="left">Any amino acid</td>
+</tr>
+<tr>
+<td align="left">'*'</td>
+<td align="left"><code>AA_Term</code></td>
+<td align="left">Termination codon</td>
+</tr>
+<tr>
+<td align="left">'-'</td>
+<td align="left"><code>AA_Gap</code></td>
+<td align="left">Gap (none of the above)</td>
+</tr>
+</tbody>
+</table>
+<p><a href="http://www.insdc.org/documents/feature_table.html#7.4.3">http://www.insdc.org/documents/feature_table.html#7.4.3</a></p>
+<p>Symbols are accessible as constants with <code>AA_</code> prefix:</p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">AA_A</span>
+<span class="go">AA_A</span>
+
+<span class="gp">julia&gt;</span> <span class="n">AA_Q</span>
+<span class="go">AA_Q</span>
+
+<span class="gp">julia&gt;</span> <span class="n">AA_Term</span>
+<span class="go">AA_Term</span>
+
+<span class="gp">julia&gt;</span> <span class="n">typeof</span><span class="p">(</span><span class="n">AA_A</span><span class="p">)</span>
+<span class="go">Bio.Seq.AminoAcid</span>
+</pre></div>
+
+
+<p>Symbols can be constructed by converting regular characters:</p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">convert</span><span class="p">(</span><span class="n">AminoAcid</span><span class="p">,</span> <span class="sc">&#39;A&#39;</span><span class="p">)</span>
+<span class="go">AA_A</span>
+
+<span class="gp">julia&gt;</span> <span class="n">convert</span><span class="p">(</span><span class="n">AminoAcid</span><span class="p">,</span> <span class="sc">&#39;P&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="n">AA_P</span>
+<span class="go">true</span>
+</pre></div>
+
+
 <p><a id='Functions-1'></a></p>
-<h2 id="functions">Functions</h2>
+<h1 id="functions">Functions</h1>
 <div class="codehilite"><pre><span></span>gap
 isGC
 ispurine
@@ -327,7 +509,7 @@ alphabet
     <script src="../js/base.js"></script>
     <script>
         ((window.gitter = {}).chat = {}).options = {
-            room: 'BioJulia/NucleicAcids.jl'
+            room: 'BioJulia/BiologicalSymbols.jl'
         };
     </script>
     <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
