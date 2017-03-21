@@ -1,11 +1,11 @@
 # Project information
-site_name:   BiologicalSymbols.jl
+site_name:   BioSymbols.jl
 site_description: Bioloigcal symbol types for Julia
 site_author: The BioJulia Organisation
-site_url: https://biojulia.github.io/BiologicalSymbols.jl/
+site_url: https://biojulia.github.io/BioSymbols.jl/
 
 # Repository
-repo_url:  https://github.com/BioJulia/BiologicalSymbols.jl
+repo_url:  https://github.com/BioJulia/BioSymbols.jl
 
 # Copyright
 copyright: Copyright (c) 2017 The BioJulia Organisation

@@ -1,7 +1,7 @@
 ```@meta
-CurrentModule = BiologicalSymbols
+CurrentModule = BioSymbols
 DocTestSetup = quote
-    using BiologicalSymbols
+    using BioSymbols
 end
 ```
 
@@ -9,14 +9,14 @@ end
 
 ## Type definitions
 
-BiologicalSymbols provides two types of NucleicAcid:
+BioSymbols provides two types of NucleicAcid:
 
 | Type            | Meaning        |
 | :-------------- | :------------- |
 | `DNA`           | DNA nucleotide |
 | `RNA`           | RNA nucleotide |
 
-The set of nucleotide symbols in BiologicalSymbols.jl covers the IUPAC nucleotides
+The set of nucleotide symbols in BioSymbols.jl covers the IUPAC nucleotides
 as well as a GAP (-) symbol.
 
 | Symbol | Constant              | Meaning                    |
@@ -56,10 +56,10 @@ julia> DNA_Gap
 DNA_Gap
 
 julia> typeof(DNA_A)
-BiologicalSymbols.DNA
+BioSymbols.DNA
 
 julia> typeof(RNA_A)
-BiologicalSymbols.RNA
+BioSymbols.RNA
 
 ```
 
@@ -133,7 +133,7 @@ julia> AA_Term
 AA_Term
 
 julia> typeof(AA_A)
-BiologicalSymbols.AminoAcid
+BioSymbols.AminoAcid
 
 ```
 

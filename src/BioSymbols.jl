@@ -1,14 +1,14 @@
-# NucleicAcids
-# ============
+# BioSymbols.jl
+# =============
 #
-# DNA and RNA nucleotide types.
+# Types representing Biological Symbols.
 #
 # This file is a part of the BioJulia ecosystem.
 # License is MIT: https://github.com/BioJulia/NucleicAcids.jl/blob/master/LICENSE.md
 
 __precompile__()
 
-module BiologicalSymbols
+module BioSymbols
 
 using Compat
 

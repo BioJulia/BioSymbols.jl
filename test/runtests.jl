@@ -1,6 +1,6 @@
 using Base.Test
 
-using BiologicalSymbols
+using BioSymbols
 
 @testset "NucleicAcids" begin
     @testset "Conversions" begin
