@@ -371,6 +371,40 @@ using Compat
 end
 
 @testset "Aminoacids" begin
+    @testset "conversion" begin
+        @test convert(AminoAcid, 0x00) === AA_A
+        @test convert(AminoAcid, 0x01) === AA_R
+        @test convert(AminoAcid, 0x02) === AA_N
+        @test convert(AminoAcid, 0x03) === AA_D
+        @test convert(AminoAcid, 0x04) === AA_C
+        @test convert(AminoAcid, 0x05) === AA_Q
+        @test convert(AminoAcid, 0x06) === AA_E
+        @test convert(AminoAcid, 0x07) === AA_G
+        @test convert(AminoAcid, 0x08) === AA_H
+        @test convert(AminoAcid, 0x09) === AA_I
+        @test convert(AminoAcid, 0x0a) === AA_L
+        @test convert(AminoAcid, 0x0b) === AA_K
+        @test convert(AminoAcid, 0x0c) === AA_M
+        @test convert(AminoAcid, 0x0d) === AA_F
+        @test convert(AminoAcid, 0x0e) === AA_P
+        @test convert(AminoAcid, 0x0f) === AA_S
+        @test convert(AminoAcid, 0x10) === AA_T
+        @test convert(AminoAcid, 0x11) === AA_W
+        @test convert(AminoAcid, 0x12) === AA_Y
+        @test convert(AminoAcid, 0x13) === AA_V
+        @test convert(AminoAcid, 0x14) === AA_O
+        @test convert(AminoAcid, 0x15) === AA_U
+        @test convert(AminoAcid, 0x16) === AA_B
+        @test convert(AminoAcid, 0x17) === AA_J
+        @test convert(AminoAcid, 0x18) === AA_Z
+        @test convert(AminoAcid, 0x19) === AA_X
+        @test convert(AminoAcid, 0x1a) === AA_Term
+        @test convert(AminoAcid, 0x1b) === AA_Gap
+
+        @test convert(AminoAcid, 0) === AA_A
+        @test convert(AminoAcid, 10) === AA_L
+    end
+
     @testset "isvalid" begin
         for aa in alphabet(AminoAcid)
             @test isvalid(aa)
