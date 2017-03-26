@@ -10,8 +10,6 @@ __precompile__()
 
 module BioSymbols
 
-using Compat
-
 export
     # Types
     NucleicAcid,
@@ -96,8 +94,9 @@ export
     compatbits,
     alphabet
 
-include("typedefs.jl")
-include("bitops.jl")
-include("printing.jl")
+using Compat
+
+include("nucleicacid.jl")
+include("aminoacid.jl")
 
 end
