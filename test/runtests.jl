@@ -128,6 +128,8 @@ using Compat
                 @test convert(DNA, 'G') == DNA_G
                 @test convert(DNA, 'T') == DNA_T
                 @test convert(DNA, 'N') == DNA_N
+                @test_throws InexactError convert(DNA, 'Z')
+                @test_throws InexactError convert(DNA, '核')
             end
 
             @testset "RNA conversions from Char" begin
@@ -136,6 +138,8 @@ using Compat
                 @test convert(RNA, 'G') == RNA_G
                 @test convert(RNA, 'U') == RNA_U
                 @test convert(RNA, 'N') == RNA_N
+                @test_throws InexactError convert(DNA, 'Z')
+                @test_throws InexactError convert(DNA, '核')
             end
 
             @testset "DNA conversions to Char" begin
