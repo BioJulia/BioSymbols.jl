@@ -1,6 +1,7 @@
 using Base.Test
 
 using BioSymbols
+using Compat
 
 @testset "NucleicAcids" begin
     @testset "Conversions" begin
@@ -289,7 +290,7 @@ using BioSymbols
             for nt in [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
                 print(buf, nt)
             end
-            @test takebuf_string(buf) == "ACGTN-"
+            @test String(take!(buf)) == "ACGTN-"
         end
 
         @testset "show" begin
@@ -298,7 +299,7 @@ using BioSymbols
                 show(buf, nt)
                 write(buf, ' ')
             end
-            @test takebuf_string(buf) == "DNA_A DNA_C DNA_G DNA_T DNA_N DNA_Gap "
+            @test String(take!(buf)) == "DNA_A DNA_C DNA_G DNA_T DNA_N DNA_Gap "
         end
     end
 
@@ -308,7 +309,7 @@ using BioSymbols
             for nt in [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N, RNA_Gap]
                 print(buf, nt)
             end
-            @test takebuf_string(buf) == "ACGUN-"
+            @test String(take!(buf)) == "ACGUN-"
         end
 
         @testset "show" begin
@@ -317,7 +318,7 @@ using BioSymbols
                 show(buf, nt)
                 write(buf, ' ')
             end
-            @test takebuf_string(buf) == "RNA_A RNA_C RNA_G RNA_U RNA_N RNA_Gap "
+            @test String(take!(buf)) == "RNA_A RNA_C RNA_G RNA_U RNA_N RNA_Gap "
         end
     end
 
@@ -395,7 +396,7 @@ end
             for aa in [AA_A, AA_D, AA_B, AA_X, AA_Term, AA_Gap]
                 print(buf, aa)
             end
-            @test takebuf_string(buf) == "ADBX*-"
+            @test String(take!(buf)) == "ADBX*-"
         end
 
         @testset "show" begin
@@ -404,7 +405,7 @@ end
                 show(buf, aa)
                 write(buf, ' ')
             end
-            @test takebuf_string(buf) == "AA_A AA_D AA_B AA_X AA_Term AA_Gap "
+            @test String(take!(buf)) == "AA_A AA_D AA_B AA_X AA_Term AA_Gap "
         end
     end
 
