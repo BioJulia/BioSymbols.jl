@@ -211,6 +211,15 @@ using Compat
         end
     end
 
+    @testset "isGC" begin
+        for nt in alphabet(DNA)
+            @test isGC(nt) == (nt ∈ (DNA_G, DNA_C, DNA_S))
+        end
+        for nt in alphabet(RNA)
+            @test isGC(nt) == (nt ∈ (RNA_G, RNA_C, RNA_S))
+        end
+    end
+
     @testset "ispurine" begin
         for nt in alphabet(DNA)
             @test ispurine(nt) == (nt == DNA_A || nt == DNA_G || nt == DNA_R)
@@ -226,6 +235,24 @@ using Compat
         end
         for nt in alphabet(RNA)
             @test ispyrimidine(nt) == (nt == RNA_U || nt == RNA_C || nt == RNA_Y)
+        end
+    end
+
+    @testset "iscertain" begin
+        for nt in alphabet(DNA)
+            @test iscertain(nt) == (nt ∈ ACGT)
+        end
+        for nt in alphabet(RNA)
+            @test iscertain(nt) == (nt ∈ ACGU)
+        end
+    end
+
+    @testset "isgap" begin
+        for nt in alphabet(DNA)
+            @test isgap(nt) == (nt === DNA_Gap)
+        end
+        for nt in alphabet(RNA)
+            @test isgap(nt) == (nt === RNA_Gap)
         end
     end
 
@@ -340,11 +367,19 @@ using Compat
 end
 
 @testset "Aminoacids" begin
+    @testset "isvalid" begin
+        for aa in alphabet(AminoAcid)
+            @test isvalid(aa)
+        end
+        @test !isvalid(reinterpret(AminoAcid, 0x1c))
+        @test !isvalid(reinterpret(AminoAcid, 0xff))
+    end
+
     @testset "Arithmetic and Order" begin
-        @test AA_A + 1 == AA_R
-        @test AA_R + 1 == AA_N
-        @test AA_A + 2 == AA_N
-        @test AA_A + 28 == AA_A
+        @test AA_A + 1 == 1 + AA_A == AA_R
+        @test AA_R + 1 == 1 + AA_R == AA_N
+        @test AA_A + 2 == 2 + AA_A == AA_N
+        @test AA_A + 28 == 28 + AA_A == AA_A
         @test AA_R - 1 == AA_A
         @test AA_N - 2 == AA_A
         @test AA_A - 28 == AA_A
