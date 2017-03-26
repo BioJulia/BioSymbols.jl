@@ -128,6 +128,8 @@ using Compat
                 @test convert(DNA, 'G') == DNA_G
                 @test convert(DNA, 'T') == DNA_T
                 @test convert(DNA, 'N') == DNA_N
+                @test_throws InexactError convert(DNA, 'Z')
+                @test_throws InexactError convert(DNA, '核')
             end
 
             @testset "RNA conversions from Char" begin
@@ -136,6 +138,8 @@ using Compat
                 @test convert(RNA, 'G') == RNA_G
                 @test convert(RNA, 'U') == RNA_U
                 @test convert(RNA, 'N') == RNA_N
+                @test_throws InexactError convert(DNA, 'Z')
+                @test_throws InexactError convert(DNA, '核')
             end
 
             @testset "DNA conversions to Char" begin
@@ -211,6 +215,15 @@ using Compat
         end
     end
 
+    @testset "isGC" begin
+        for nt in alphabet(DNA)
+            @test isGC(nt) == (nt ∈ (DNA_G, DNA_C, DNA_S))
+        end
+        for nt in alphabet(RNA)
+            @test isGC(nt) == (nt ∈ (RNA_G, RNA_C, RNA_S))
+        end
+    end
+
     @testset "ispurine" begin
         for nt in alphabet(DNA)
             @test ispurine(nt) == (nt == DNA_A || nt == DNA_G || nt == DNA_R)
@@ -226,6 +239,24 @@ using Compat
         end
         for nt in alphabet(RNA)
             @test ispyrimidine(nt) == (nt == RNA_U || nt == RNA_C || nt == RNA_Y)
+        end
+    end
+
+    @testset "iscertain" begin
+        for nt in alphabet(DNA)
+            @test iscertain(nt) == (nt ∈ ACGT)
+        end
+        for nt in alphabet(RNA)
+            @test iscertain(nt) == (nt ∈ ACGU)
+        end
+    end
+
+    @testset "isgap" begin
+        for nt in alphabet(DNA)
+            @test isgap(nt) == (nt === DNA_Gap)
+        end
+        for nt in alphabet(RNA)
+            @test isgap(nt) == (nt === RNA_Gap)
         end
     end
 
@@ -340,11 +371,53 @@ using Compat
 end
 
 @testset "Aminoacids" begin
+    @testset "conversion" begin
+        @test convert(AminoAcid, 0x00) === AA_A
+        @test convert(AminoAcid, 0x01) === AA_R
+        @test convert(AminoAcid, 0x02) === AA_N
+        @test convert(AminoAcid, 0x03) === AA_D
+        @test convert(AminoAcid, 0x04) === AA_C
+        @test convert(AminoAcid, 0x05) === AA_Q
+        @test convert(AminoAcid, 0x06) === AA_E
+        @test convert(AminoAcid, 0x07) === AA_G
+        @test convert(AminoAcid, 0x08) === AA_H
+        @test convert(AminoAcid, 0x09) === AA_I
+        @test convert(AminoAcid, 0x0a) === AA_L
+        @test convert(AminoAcid, 0x0b) === AA_K
+        @test convert(AminoAcid, 0x0c) === AA_M
+        @test convert(AminoAcid, 0x0d) === AA_F
+        @test convert(AminoAcid, 0x0e) === AA_P
+        @test convert(AminoAcid, 0x0f) === AA_S
+        @test convert(AminoAcid, 0x10) === AA_T
+        @test convert(AminoAcid, 0x11) === AA_W
+        @test convert(AminoAcid, 0x12) === AA_Y
+        @test convert(AminoAcid, 0x13) === AA_V
+        @test convert(AminoAcid, 0x14) === AA_O
+        @test convert(AminoAcid, 0x15) === AA_U
+        @test convert(AminoAcid, 0x16) === AA_B
+        @test convert(AminoAcid, 0x17) === AA_J
+        @test convert(AminoAcid, 0x18) === AA_Z
+        @test convert(AminoAcid, 0x19) === AA_X
+        @test convert(AminoAcid, 0x1a) === AA_Term
+        @test convert(AminoAcid, 0x1b) === AA_Gap
+
+        @test convert(AminoAcid, 0) === AA_A
+        @test convert(AminoAcid, 10) === AA_L
+    end
+
+    @testset "isvalid" begin
+        for aa in alphabet(AminoAcid)
+            @test isvalid(aa)
+        end
+        @test !isvalid(reinterpret(AminoAcid, 0x1c))
+        @test !isvalid(reinterpret(AminoAcid, 0xff))
+    end
+
     @testset "Arithmetic and Order" begin
-        @test AA_A + 1 == AA_R
-        @test AA_R + 1 == AA_N
-        @test AA_A + 2 == AA_N
-        @test AA_A + 28 == AA_A
+        @test AA_A + 1 == 1 + AA_A == AA_R
+        @test AA_R + 1 == 1 + AA_R == AA_N
+        @test AA_A + 2 == 2 + AA_A == AA_N
+        @test AA_A + 28 == 28 + AA_A == AA_A
         @test AA_R - 1 == AA_A
         @test AA_N - 2 == AA_A
         @test AA_A - 28 == AA_A
