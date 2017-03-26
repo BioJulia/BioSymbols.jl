@@ -4,10 +4,11 @@ DocTestSetup = quote
     using BioSymbols
 end
 ```
+# Biological Symbols
 
-# NucleicAcids
+## NucleicAcids
 
-## Type definitions
+### Type definitions
 
 BioSymbols provides two types of NucleicAcid:
 
@@ -73,7 +74,7 @@ true
 
 ```
 
-## Bit encoding
+### Bit encoding
 
 Every nucleotide is encoded using the lower 4 bits of a byte. An unambiguous
 nucleotide has only one set bit and the other bits are unset. The table below
@@ -83,7 +84,7 @@ ambiguous nucleotide can take. For example, `DNA_R` (meaning the nucleotide is
 either `DNA_A` or `DNA_G`) is encoded as `0101` because `0101` is the bitwise OR
 of `0001` (`DNA_A`) and `0100` (`DNA_G`). The gap symbol is always `0000`.
 
-# Amino Acids
+## Amino Acids
 
 Set of amino acid symbols also covers IUPAC amino acid symbols plus a gap
 symbol:
