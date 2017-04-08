@@ -361,12 +361,28 @@ using Compat
         @test ACGT[4] === DNA_T
         @test collect(ACGT) == [DNA_A, DNA_C, DNA_G, DNA_T]
 
+        @test length(ACGTN) == 5
+        @test ACGTN[1] === DNA_A
+        @test ACGTN[2] === DNA_C
+        @test ACGTN[3] === DNA_G
+        @test ACGTN[4] === DNA_T
+        @test ACGTN[5] === DNA_N
+        @test collect(ACGTN) == [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N]
+
         @test length(ACGU) == 4
         @test ACGU[1] === RNA_A
         @test ACGU[2] === RNA_C
         @test ACGU[3] === RNA_G
         @test ACGU[4] === RNA_U
         @test collect(ACGU) == [RNA_A, RNA_C, RNA_G, RNA_U]
+
+        @test length(ACGUN) == 5
+        @test ACGUN[1] === RNA_A
+        @test ACGUN[2] === RNA_C
+        @test ACGUN[3] === RNA_G
+        @test ACGUN[4] === RNA_U
+        @test ACGUN[5] === RNA_N
+        @test collect(ACGUN) == [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N]
     end
 end
 
