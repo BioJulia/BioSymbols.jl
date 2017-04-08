@@ -382,7 +382,7 @@ using Compat
         @test ACGUN[3] === RNA_G
         @test ACGUN[4] === RNA_U
         @test ACGUN[5] === RNA_N
-        @test collect(ACGUN) == [RNA_A, RNA_C, RNA_G, RNA_T, RNA_N]
+        @test collect(ACGUN) == [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N]
     end
 end
 
