@@ -142,6 +142,24 @@ for (char, doc, bits) in [
     end
 end
 
+"""
+    alphabet(type)
+
+Get all symbols of `type`.
+
+# Examples
+
+```jldoctest
+julia> alphabet(DNA)
+(DNA_Gap,DNA_A,DNA_C,DNA_M,DNA_G,DNA_R,DNA_S,DNA_V,DNA_T,DNA_W,DNA_Y,DNA_H,DNA_K,DNA_D,DNA_B,DNA_N)
+
+julia> issorted(alphabet(DNA))
+true
+
+```
+"""
+function alphabet end
+
 @eval function alphabet(::Type{DNA})
     return $(tuple([reinterpret(DNA, x) for x in 0b0000:0b1111]...))
 end
@@ -221,6 +239,19 @@ function Base.trailing_zeros(nt::NucleicAcid)
     return trailing_zeros(reinterpret(UInt8, nt))
 end
 
+"""
+    gap(type)
+
+Return the gap value of `type`.
+
+# Examples
+
+```jldoctest
+julia> gap(DNA)
+DNA_Gap
+
+```
+"""
 function gap{N<:NucleicAcid}(::Type{N})
     return reinterpret(N, 0b0000)
 end
@@ -278,7 +309,24 @@ end
 
 """
     complement(nt::NucleicAcid)
+
 Return the complementary nucleotide of `nt`.
+
+This function returns the union of all possible complementary nucleotides.
+
+# Examples
+
+```jldoctest
+julia> complement(DNA_A)
+DNA_T
+
+julia> complement(DNA_N)
+DNA_N
+
+julia> complement(RNA_U)
+RNA_A
+
+```
 """
 function complement(nt::NucleicAcid)
     bits = compatbits(nt)
@@ -298,26 +346,49 @@ end
 
 """
     iscompatible(x, y)
-Return `true` if and only if `x` and `y` are compatible with each other (i.e.
-`x` and `y` can be the same symbol).
+
+Test if `x` and `y` are compatible with each other (i.e. `x` and `y` can be the same symbol).
+
 `x` and `y` must be the same type (`DNA`, `RNA` or `AminoAcid`).
+
 # Examples
-```julia
+
+```jldoctest
 julia> iscompatible(DNA_A, DNA_A)
 true
+
 julia> iscompatible(DNA_C, DNA_N)  # DNA_N can be DNA_C
 true
+
 julia> iscompatible(DNA_C, DNA_R)  # DNA_R (A or G) cannot be DNA_C
 false
+
 julia> iscompatible(AA_A, AA_X)    # AA_X can be AA_A
 true
+
 ```
 """
 @inline function iscompatible{T<:NucleicAcid}(x::T, y::T)
     return compatbits(x) & compatbits(y) != 0
 end
 
-# Return the compatibility bits of `nt`.
+"""
+    compatbits(nt::NucleicAcid)
+
+Return the compatibility bits of `nt` as `UInt8`.
+
+```jldoctest
+julia> compatbits(DNA_A)
+0x01
+
+julia> compatbits(DNA_C)
+0x02
+
+julia> compatbits(DNA_N)
+0x0f
+
+```
+"""
 @inline function compatbits(nt::NucleicAcid)
     return reinterpret(UInt8, nt)
 end

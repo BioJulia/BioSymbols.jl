@@ -172,6 +172,20 @@ Base.isvalid(aa::AminoAcid) = aa ≤ AA_Gap
 isambiguous(aa::AminoAcid) = AA_B ≤ aa ≤ AA_X
 gap(::Type{AminoAcid}) = AA_Gap
 
+"""
+    compatbits(aa::AminoAcid)
+
+Return the compatibility bits of `aa` as `UInt32`.
+
+```jldoctest
+julia> compatbits(AA_A)
+0x00000001
+
+julia> compatbits(AA_J)
+0x00000600
+
+```
+"""
 compatbits(aa::AminoAcid) = compatbits_aa[reinterpret(UInt8, aa)+1]
 
 function iscompatible(x::AminoAcid, y::AminoAcid)

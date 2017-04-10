@@ -151,15 +151,15 @@ true
 # Functions
 
 ```@docs
+alphabet
 gap
+compatbits
+complement
+isgap
+iscompatible
 isGC
 ispurine
 ispyrimidine
 isambiguous
 iscertain
-isgap
-complement
-iscompatible
-compatbits
-alphabet
 ```
