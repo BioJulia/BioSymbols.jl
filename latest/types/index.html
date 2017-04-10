@@ -6,10 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta name="author" content="The BioJulia Organisation"> 
-    <link rel="canonical" href="https://biojulia.github.io/BiologicalSymbols.jl/types/"> 
+    <link rel="canonical" href="https://biojulia.github.io/BioSymbols.jl/types/"> 
     <link rel="shortcut icon" href="../img/favicon.ico">
 
-    <title>NucleicAcids - BiologicalSymbols.jl</title>
+    <title>Biological Symbol Types - BioSymbols.jl</title>
 
     <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
@@ -58,7 +58,7 @@
             
 
             <!-- Main title -->
-            <a class="navbar-brand" href="..">BiologicalSymbols.jl</a>
+            <a class="navbar-brand" href="..">BioSymbols.jl</a>
         </div>
 
         <!-- Expanded navigation -->
@@ -75,7 +75,7 @@
                 
                 
                     <li class="active">
-                        <a href="./">NucleicAcids</a>
+                        <a href="./">Biological Symbol Types</a>
                     </li>
                 
                 
@@ -102,7 +102,7 @@
                 
                 
                     <li>
-                        <a href="https://github.com/BioJulia/BiologicalSymbols.jl">
+                        <a href="https://github.com/BioJulia/BioSymbols.jl">
                             
                                 <i class="fa fa-github"></i>
                             
@@ -121,16 +121,17 @@
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
     
-        <li class="first-level active"><a href="#nucleicacids">NucleicAcids</a></li>
+        <li class="first-level active"><a href="#biological-symbols">Biological Symbols</a></li>
         
-            <li class="second-level"><a href="#type-definitions">Type definitions</a></li>
+            <li class="second-level"><a href="#nucleicacids">NucleicAcids</a></li>
+            
+                <li class="third-level"><a href="#type-definitions">Type definitions</a></li>
+            
+                <li class="third-level"><a href="#bit-encoding">Bit encoding</a></li>
             
         
-            <li class="second-level"><a href="#bit-encoding">Bit encoding</a></li>
+            <li class="second-level"><a href="#amino-acids">Amino Acids</a></li>
             
-        
-    
-        <li class="first-level "><a href="#amino-acids">Amino Acids</a></li>
         
     
         <li class="first-level "><a href="#functions">Functions</a></li>
@@ -140,11 +141,13 @@
 </div></div>
         <div class="col-md-9" role="main">
 
+<p><a id='Biological-Symbols-1'></a></p>
+<h1 id="biological-symbols">Biological Symbols</h1>
 <p><a id='NucleicAcids-1'></a></p>
-<h1 id="nucleicacids">NucleicAcids</h1>
+<h2 id="nucleicacids">NucleicAcids</h2>
 <p><a id='Type-definitions-1'></a></p>
-<h2 id="type-definitions">Type definitions</h2>
-<p>BiologicalSymbols provides two types of NucleicAcid:</p>
+<h3 id="type-definitions">Type definitions</h3>
+<p>BioSymbols provides two types of NucleicAcid:</p>
 <table>
 <thead>
 <tr>
@@ -163,7 +166,7 @@
 </tr>
 </tbody>
 </table>
-<p>The set of nucleotide symbols in BiologicalSymbols.jl covers the IUPAC nucleotides as well as a GAP (-) symbol.</p>
+<p>The set of nucleotide symbols in BioSymbols.jl covers the IUPAC nucleotides as well as a GAP (-) symbol.</p>
 <table>
 <thead>
 <tr>
@@ -275,10 +278,10 @@
 <span class="go">DNA_Gap</span>
 
 <span class="gp">julia&gt;</span> <span class="n">typeof</span><span class="p">(</span><span class="n">DNA_A</span><span class="p">)</span>
-<span class="go">BiologicalSymbols.DNA</span>
+<span class="go">BioSymbols.DNA</span>
 
 <span class="gp">julia&gt;</span> <span class="n">typeof</span><span class="p">(</span><span class="n">RNA_A</span><span class="p">)</span>
-<span class="go">BiologicalSymbols.RNA</span>
+<span class="go">BioSymbols.RNA</span>
 </pre></div>
 
 
@@ -292,10 +295,10 @@
 
 
 <p><a id='Bit-encoding-1'></a></p>
-<h2 id="bit-encoding">Bit encoding</h2>
+<h3 id="bit-encoding">Bit encoding</h3>
 <p>Every nucleotide is encoded using the lower 4 bits of a byte. An unambiguous nucleotide has only one set bit and the other bits are unset. The table below summarizes all unambiguous nucleotides and their corresponding bits. An ambiguous nucleotide is the bitwise OR of unambiguous nucleotides that the ambiguous nucleotide can take. For example, <code>DNA_R</code> (meaning the nucleotide is either <code>DNA_A</code> or <code>DNA_G</code>) is encoded as <code>0101</code> because <code>0101</code> is the bitwise OR of <code>0001</code> (<code>DNA_A</code>) and <code>0100</code> (<code>DNA_G</code>). The gap symbol is always <code>0000</code>.</p>
 <p><a id='Amino-Acids-1'></a></p>
-<h1 id="amino-acids">Amino Acids</h1>
+<h2 id="amino-acids">Amino Acids</h2>
 <p>Set of amino acid symbols also covers IUPAC amino acid symbols plus a gap symbol:</p>
 <table>
 <thead>
@@ -460,7 +463,7 @@
 <span class="go">AA_Term</span>
 
 <span class="gp">julia&gt;</span> <span class="n">typeof</span><span class="p">(</span><span class="n">AA_A</span><span class="p">)</span>
-<span class="go">BiologicalSymbols.AminoAcid</span>
+<span class="go">BioSymbols.AminoAcid</span>
 </pre></div>
 
 
@@ -509,7 +512,7 @@ alphabet
     <script src="../js/base.js"></script>
     <script>
         ((window.gitter = {}).chat = {}).options = {
-            room: 'BioJulia/BiologicalSymbols.jl'
+            room: 'BioJulia/BioSymbols.jl'
         };
     </script>
     <script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async defer></script>
