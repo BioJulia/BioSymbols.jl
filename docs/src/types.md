@@ -79,10 +79,10 @@ true
 
 `print` and `show` methods are defined to output the text representation of a symbol:
 ```jldoctest
-julia> print(AA_T)  # un-decorated text
-T
-julia> show(AA_T)   # informative text
-AA_T
+julia> print(DNA_A)  # un-decorated text
+A
+julia> show(DNA_A)   # informative text
+DNA_A
 ```
 
 ### Bit encoding
