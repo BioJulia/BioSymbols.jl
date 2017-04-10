@@ -1,4 +1,4 @@
-using Documenter, BiologicalSymbols
+using Documenter, BioSymbols
 
 makedocs()
 deploydocs(
