@@ -258,6 +258,7 @@ end
 
 """
     isGC(nt::NucleicAcid)
+
 Test if `nt` is surely either guanine or cytosine.
 """
 function isGC(nt::NucleicAcid)
@@ -267,7 +268,8 @@ end
 
 """
     ispurine(nt::NucleicAcid)
-Test if nucleotide is surely a purine.
+
+Test if `nt` is surely a purine.
 """
 @inline function ispurine(nt::NucleicAcid)
     bits = reinterpret(UInt8, nt)
@@ -276,7 +278,8 @@ end
 
 """
     ispyrimidine(nt::NucleicAcid)
-Test if nucleotide is surely a pyrimidine.
+
+Test if `nt` is surely a pyrimidine.
 """
 @inline function ispyrimidine(nt::NucleicAcid)
     bits = reinterpret(UInt8, nt)
@@ -285,6 +288,7 @@ end
 
 """
     isambiguous(nt::NucleicAcid)
+
 Test if `nt` is ambiguous nucleotide.
 """
 @inline function isambiguous(nt::NucleicAcid)
@@ -293,6 +297,7 @@ end
 
 """
     iscertain(nt::NucleicAcid)
+
 Test if `nt` is a non-ambiguous nucleotide e.g. ACGT.
 """
 @inline function iscertain(nt::NucleicAcid)
@@ -301,6 +306,7 @@ end
 
 """
     isgap(nt::NucleicAcid)
+
 Test if `nt` is a gap.
 """
 @inline function isgap(nt::NucleicAcid)
