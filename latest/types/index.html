@@ -133,8 +133,8 @@
             <li class="second-level"><a href="#amino-acids">Amino Acids</a></li>
             
         
-    
-        <li class="first-level "><a href="#functions">Functions</a></li>
+            <li class="second-level"><a href="#functions">Functions</a></li>
+            
         
     
     </ul>
@@ -177,87 +177,87 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">'A'</td>
+<td align="left"><code>'A'</code></td>
 <td align="left"><code>DNA_A</code> / <code>RNA_A</code></td>
 <td align="left">A; Adenine</td>
 </tr>
 <tr>
-<td align="left">'C'</td>
+<td align="left"><code>'C'</code></td>
 <td align="left"><code>DNA_C</code> / <code>RNA_C</code></td>
 <td align="left">C; Cytosine</td>
 </tr>
 <tr>
-<td align="left">'G'</td>
+<td align="left"><code>'G'</code></td>
 <td align="left"><code>DNA_G</code> / <code>RNA_G</code></td>
 <td align="left">G; Guanine</td>
 </tr>
 <tr>
-<td align="left">'T'</td>
+<td align="left"><code>'T'</code></td>
 <td align="left"><code>DNA_T</code></td>
 <td align="left">T; Thymine (DNA only)</td>
 </tr>
 <tr>
-<td align="left">'U'</td>
+<td align="left"><code>'U'</code></td>
 <td align="left"><code>RNA_U</code></td>
 <td align="left">U; Uracil (RNA only)</td>
 </tr>
 <tr>
-<td align="left">'M'</td>
+<td align="left"><code>'M'</code></td>
 <td align="left"><code>DNA_M</code> / <code>RNA_M</code></td>
 <td align="left">A or C</td>
 </tr>
 <tr>
-<td align="left">'R'</td>
+<td align="left"><code>'R'</code></td>
 <td align="left"><code>DNA_R</code> / <code>RNA_R</code></td>
 <td align="left">A or G</td>
 </tr>
 <tr>
-<td align="left">'W'</td>
+<td align="left"><code>'W'</code></td>
 <td align="left"><code>DNA_W</code> / <code>RNA_W</code></td>
 <td align="left">A or T/U</td>
 </tr>
 <tr>
-<td align="left">'S'</td>
+<td align="left"><code>'S'</code></td>
 <td align="left"><code>DNA_S</code> / <code>RNA_S</code></td>
 <td align="left">C or G</td>
 </tr>
 <tr>
-<td align="left">'Y'</td>
+<td align="left"><code>'Y'</code></td>
 <td align="left"><code>DNA_Y</code> / <code>RNA_Y</code></td>
 <td align="left">C or T/U</td>
 </tr>
 <tr>
-<td align="left">'K'</td>
+<td align="left"><code>'K'</code></td>
 <td align="left"><code>DNA_K</code> / <code>RNA_K</code></td>
 <td align="left">G or T/U</td>
 </tr>
 <tr>
-<td align="left">'V'</td>
+<td align="left"><code>'V'</code></td>
 <td align="left"><code>DNA_V</code> / <code>RNA_V</code></td>
 <td align="left">A or C or G; not T/U</td>
 </tr>
 <tr>
-<td align="left">'H'</td>
+<td align="left"><code>'H'</code></td>
 <td align="left"><code>DNA_H</code> / <code>RNA_H</code></td>
 <td align="left">A or C or T; not G</td>
 </tr>
 <tr>
-<td align="left">'D'</td>
+<td align="left"><code>'D'</code></td>
 <td align="left"><code>DNA_D</code> / <code>RNA_D</code></td>
 <td align="left">A or G or T/U; not C</td>
 </tr>
 <tr>
-<td align="left">'B'</td>
+<td align="left"><code>'B'</code></td>
 <td align="left"><code>DNA_B</code> / <code>RNA_B</code></td>
 <td align="left">C or G or T/U; not A</td>
 </tr>
 <tr>
-<td align="left">'N'</td>
+<td align="left"><code>'N'</code></td>
 <td align="left"><code>DNA_N</code> / <code>RNA_N</code></td>
 <td align="left">A or C or G or T/U</td>
 </tr>
 <tr>
-<td align="left">'-'</td>
+<td align="left"><code>'-'</code></td>
 <td align="left"><code>DNA_Gap</code> / <code>RNA_Gap</code></td>
 <td align="left">Gap (none of the above)</td>
 </tr>
@@ -291,6 +291,17 @@
 
 <span class="gp">julia&gt;</span> <span class="n">convert</span><span class="p">(</span><span class="n">DNA</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="n">DNA_C</span>
 <span class="go">true</span>
+
+<span class="gp">julia&gt;</span> <span class="n">convert</span><span class="p">(</span><span class="n">DNA</span><span class="p">,</span> <span class="sc">&#39;c&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="n">convert</span><span class="p">(</span><span class="n">DNA</span><span class="p">,</span> <span class="sc">&#39;C&#39;</span><span class="p">)</span>  <span class="c"># convertion is not case-sensitive</span>
+<span class="go">true</span>
+</pre></div>
+
+
+<p><code>print</code> and <code>show</code> methods are defined to output the text representation of a symbol:</p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">print</span><span class="p">(</span><span class="n">DNA_A</span><span class="p">)</span>  <span class="c"># un-decorated text</span>
+<span class="go">A</span>
+<span class="gp">julia&gt;</span> <span class="n">show</span><span class="p">(</span><span class="n">DNA_A</span><span class="p">)</span>   <span class="c"># informative text</span>
+<span class="go">DNA_A</span>
 </pre></div>
 
 
@@ -310,142 +321,142 @@
 </thead>
 <tbody>
 <tr>
-<td align="left">'A'</td>
+<td align="left"><code>'A'</code></td>
 <td align="left"><code>AA_A</code></td>
 <td align="left">Alanine</td>
 </tr>
 <tr>
-<td align="left">'R'</td>
+<td align="left"><code>'R'</code></td>
 <td align="left"><code>AA_R</code></td>
 <td align="left">Arginine</td>
 </tr>
 <tr>
-<td align="left">'N'</td>
+<td align="left"><code>'N'</code></td>
 <td align="left"><code>AA_N</code></td>
 <td align="left">Asparagine</td>
 </tr>
 <tr>
-<td align="left">'D'</td>
+<td align="left"><code>'D'</code></td>
 <td align="left"><code>AA_D</code></td>
 <td align="left">Aspartic acid (Aspartate)</td>
 </tr>
 <tr>
-<td align="left">'C'</td>
+<td align="left"><code>'C'</code></td>
 <td align="left"><code>AA_C</code></td>
 <td align="left">Cysteine</td>
 </tr>
 <tr>
-<td align="left">'Q'</td>
+<td align="left"><code>'Q'</code></td>
 <td align="left"><code>AA_Q</code></td>
 <td align="left">Glutamine</td>
 </tr>
 <tr>
-<td align="left">'E'</td>
+<td align="left"><code>'E'</code></td>
 <td align="left"><code>AA_E</code></td>
 <td align="left">Glutamic acid (Glutamate)</td>
 </tr>
 <tr>
-<td align="left">'G'</td>
+<td align="left"><code>'G'</code></td>
 <td align="left"><code>AA_G</code></td>
 <td align="left">Glycine</td>
 </tr>
 <tr>
-<td align="left">'H'</td>
+<td align="left"><code>'H'</code></td>
 <td align="left"><code>AA_H</code></td>
 <td align="left">Histidine</td>
 </tr>
 <tr>
-<td align="left">'I'</td>
+<td align="left"><code>'I'</code></td>
 <td align="left"><code>AA_I</code></td>
 <td align="left">Isoleucine</td>
 </tr>
 <tr>
-<td align="left">'L'</td>
+<td align="left"><code>'L'</code></td>
 <td align="left"><code>AA_L</code></td>
 <td align="left">Leucine</td>
 </tr>
 <tr>
-<td align="left">'K'</td>
+<td align="left"><code>'K'</code></td>
 <td align="left"><code>AA_K</code></td>
 <td align="left">Lysine</td>
 </tr>
 <tr>
-<td align="left">'M'</td>
+<td align="left"><code>'M'</code></td>
 <td align="left"><code>AA_M</code></td>
 <td align="left">Methionine</td>
 </tr>
 <tr>
-<td align="left">'F'</td>
+<td align="left"><code>'F'</code></td>
 <td align="left"><code>AA_F</code></td>
 <td align="left">Phenylalanine</td>
 </tr>
 <tr>
-<td align="left">'P'</td>
+<td align="left"><code>'P'</code></td>
 <td align="left"><code>AA_P</code></td>
 <td align="left">Proline</td>
 </tr>
 <tr>
-<td align="left">'S'</td>
+<td align="left"><code>'S'</code></td>
 <td align="left"><code>AA_S</code></td>
 <td align="left">Serine</td>
 </tr>
 <tr>
-<td align="left">'T'</td>
+<td align="left"><code>'T'</code></td>
 <td align="left"><code>AA_T</code></td>
 <td align="left">Threonine</td>
 </tr>
 <tr>
-<td align="left">'W'</td>
+<td align="left"><code>'W'</code></td>
 <td align="left"><code>AA_W</code></td>
 <td align="left">Tryptophan</td>
 </tr>
 <tr>
-<td align="left">'Y'</td>
+<td align="left"><code>'Y'</code></td>
 <td align="left"><code>AA_Y</code></td>
 <td align="left">Tyrosine</td>
 </tr>
 <tr>
-<td align="left">'V'</td>
+<td align="left"><code>'V'</code></td>
 <td align="left"><code>AA_V</code></td>
 <td align="left">Valine</td>
 </tr>
 <tr>
-<td align="left">'O'</td>
+<td align="left"><code>'O'</code></td>
 <td align="left"><code>AA_O</code></td>
 <td align="left">Pyrrolysine</td>
 </tr>
 <tr>
-<td align="left">'U'</td>
+<td align="left"><code>'U'</code></td>
 <td align="left"><code>AA_U</code></td>
 <td align="left">Selenocysteine</td>
 </tr>
 <tr>
-<td align="left">'B'</td>
+<td align="left"><code>'B'</code></td>
 <td align="left"><code>AA_B</code></td>
 <td align="left">Aspartic acid or Asparagine</td>
 </tr>
 <tr>
-<td align="left">'J'</td>
+<td align="left"><code>'J'</code></td>
 <td align="left"><code>AA_J</code></td>
 <td align="left">Leucine or Isoleucine</td>
 </tr>
 <tr>
-<td align="left">'Z'</td>
+<td align="left"><code>'Z'</code></td>
 <td align="left"><code>AA_Z</code></td>
 <td align="left">Glutamine or Glutamic acid</td>
 </tr>
 <tr>
-<td align="left">'X'</td>
+<td align="left"><code>'X'</code></td>
 <td align="left"><code>AA_X</code></td>
 <td align="left">Any amino acid</td>
 </tr>
 <tr>
-<td align="left">'*'</td>
+<td align="left"><code>'*'</code></td>
 <td align="left"><code>AA_Term</code></td>
 <td align="left">Termination codon</td>
 </tr>
 <tr>
-<td align="left">'-'</td>
+<td align="left"><code>'-'</code></td>
 <td align="left"><code>AA_Gap</code></td>
 <td align="left">Gap (none of the above)</td>
 </tr>
@@ -473,23 +484,171 @@
 
 <span class="gp">julia&gt;</span> <span class="n">convert</span><span class="p">(</span><span class="n">AminoAcid</span><span class="p">,</span> <span class="sc">&#39;P&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="n">AA_P</span>
 <span class="go">true</span>
+
+<span class="gp">julia&gt;</span> <span class="n">convert</span><span class="p">(</span><span class="n">AminoAcid</span><span class="p">,</span> <span class="sc">&#39;a&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="n">convert</span><span class="p">(</span><span class="n">AminoAcid</span><span class="p">,</span> <span class="sc">&#39;A&#39;</span><span class="p">)</span>
+<span class="go">true</span>
 </pre></div>
 
 
 <p><a id='Functions-1'></a></p>
-<h1 id="functions">Functions</h1>
-<div class="codehilite"><pre><span></span>gap
-isGC
-ispurine
-ispyrimidine
-isambiguous
-iscertain
-isgap
-complement
-iscompatible
-compatbits
-alphabet
-</pre></div></div>
+<h2 id="functions">Functions</h2>
+<p><a id='BioSymbols.alphabet' href='#BioSymbols.alphabet'>#</a>
+<strong><code>BioSymbols.alphabet</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>alphabet(type)
+</pre></div>
+
+
+<p>Get all symbols of <code>type</code>.</p>
+<p><strong>Examples</strong></p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">alphabet</span><span class="p">(</span><span class="n">DNA</span><span class="p">)</span>
+<span class="go">(DNA_Gap,DNA_A,DNA_C,DNA_M,DNA_G,DNA_R,DNA_S,DNA_V,DNA_T,DNA_W,DNA_Y,DNA_H,DNA_K,DNA_D,DNA_B,DNA_N)</span>
+
+<span class="gp">julia&gt;</span> <span class="n">issorted</span><span class="p">(</span><span class="n">alphabet</span><span class="p">(</span><span class="n">DNA</span><span class="p">))</span>
+<span class="go">true</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L145-L160' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.gap' href='#BioSymbols.gap'>#</a>
+<strong><code>BioSymbols.gap</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>gap(type)
+</pre></div>
+
+
+<p>Return the gap value of <code>type</code>.</p>
+<p><strong>Examples</strong></p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">gap</span><span class="p">(</span><span class="n">DNA</span><span class="p">)</span>
+<span class="go">DNA_Gap</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L242-L254' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.compatbits' href='#BioSymbols.compatbits'>#</a>
+<strong><code>BioSymbols.compatbits</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>compatbits(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Return the compatibility bits of <code>nt</code> as <code>UInt8</code>.</p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">compatbits</span><span class="p">(</span><span class="n">DNA_A</span><span class="p">)</span>
+<span class="go">0x01</span>
+
+<span class="gp">julia&gt;</span> <span class="n">compatbits</span><span class="p">(</span><span class="n">DNA_C</span><span class="p">)</span>
+<span class="go">0x02</span>
+
+<span class="gp">julia&gt;</span> <span class="n">compatbits</span><span class="p">(</span><span class="n">DNA_N</span><span class="p">)</span>
+<span class="go">0x0f</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L381-L397' class='documenter-source'>source</a><br></p>
+<div class="codehilite"><pre><span></span>compatbits(aa::AminoAcid)
+</pre></div>
+
+
+<p>Return the compatibility bits of <code>aa</code> as <code>UInt32</code>.</p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">compatbits</span><span class="p">(</span><span class="n">AA_A</span><span class="p">)</span>
+<span class="go">0x00000001</span>
+
+<span class="gp">julia&gt;</span> <span class="n">compatbits</span><span class="p">(</span><span class="n">AA_J</span><span class="p">)</span>
+<span class="go">0x00000600</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/aminoacid.jl#L175-L188' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.complement' href='#BioSymbols.complement'>#</a>
+<strong><code>BioSymbols.complement</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>complement(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Return the complementary nucleotide of <code>nt</code>.</p>
+<p>This function returns the union of all possible complementary nucleotides.</p>
+<p><strong>Examples</strong></p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">complement</span><span class="p">(</span><span class="n">DNA_A</span><span class="p">)</span>
+<span class="go">DNA_T</span>
+
+<span class="gp">julia&gt;</span> <span class="n">complement</span><span class="p">(</span><span class="n">DNA_N</span><span class="p">)</span>
+<span class="go">DNA_N</span>
+
+<span class="gp">julia&gt;</span> <span class="n">complement</span><span class="p">(</span><span class="n">RNA_U</span><span class="p">)</span>
+<span class="go">RNA_A</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L316-L336' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.isgap' href='#BioSymbols.isgap'>#</a>
+<strong><code>BioSymbols.isgap</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>isgap(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Test if <code>nt</code> is a gap.</p>
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L307-L311' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.iscompatible' href='#BioSymbols.iscompatible'>#</a>
+<strong><code>BioSymbols.iscompatible</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>iscompatible(x, y)
+</pre></div>
+
+
+<p>Test if <code>x</code> and <code>y</code> are compatible with each other (i.e. <code>x</code> and <code>y</code> can be the same symbol).</p>
+<p><code>x</code> and <code>y</code> must be the same type (<code>DNA</code>, <code>RNA</code> or <code>AminoAcid</code>).</p>
+<p><strong>Examples</strong></p>
+<div class="codehilite"><pre><span></span><span class="gp">julia&gt;</span> <span class="n">iscompatible</span><span class="p">(</span><span class="n">DNA_A</span><span class="p">,</span> <span class="n">DNA_A</span><span class="p">)</span>
+<span class="go">true</span>
+
+<span class="gp">julia&gt;</span> <span class="n">iscompatible</span><span class="p">(</span><span class="n">DNA_C</span><span class="p">,</span> <span class="n">DNA_N</span><span class="p">)</span>  <span class="c"># DNA_N can be DNA_C</span>
+<span class="go">true</span>
+
+<span class="gp">julia&gt;</span> <span class="n">iscompatible</span><span class="p">(</span><span class="n">DNA_C</span><span class="p">,</span> <span class="n">DNA_R</span><span class="p">)</span>  <span class="c"># DNA_R (A or G) cannot be DNA_C</span>
+<span class="go">false</span>
+
+<span class="gp">julia&gt;</span> <span class="n">iscompatible</span><span class="p">(</span><span class="n">AA_A</span><span class="p">,</span> <span class="n">AA_X</span><span class="p">)</span>    <span class="c"># AA_X can be AA_A</span>
+<span class="go">true</span>
+</pre></div>
+
+
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L353-L376' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.isGC' href='#BioSymbols.isGC'>#</a>
+<strong><code>BioSymbols.isGC</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>isGC(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Test if <code>nt</code> is surely either guanine or cytosine.</p>
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L259-L263' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.ispurine' href='#BioSymbols.ispurine'>#</a>
+<strong><code>BioSymbols.ispurine</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>ispurine(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Test if <code>nt</code> is surely a purine.</p>
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L269-L273' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.ispyrimidine' href='#BioSymbols.ispyrimidine'>#</a>
+<strong><code>BioSymbols.ispyrimidine</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>ispyrimidine(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Test if <code>nt</code> is surely a pyrimidine.</p>
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L279-L283' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.isambiguous' href='#BioSymbols.isambiguous'>#</a>
+<strong><code>BioSymbols.isambiguous</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>isambiguous(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Test if <code>nt</code> is ambiguous nucleotide.</p>
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L289-L293' class='documenter-source'>source</a><br></p>
+<p><a id='BioSymbols.iscertain' href='#BioSymbols.iscertain'>#</a>
+<strong><code>BioSymbols.iscertain</code></strong> &mdash; <em>Function</em>.</p>
+<div class="codehilite"><pre><span></span>iscertain(nt::NucleicAcid)
+</pre></div>
+
+
+<p>Test if <code>nt</code> is a non-ambiguous nucleotide e.g. ACGT.</p>
+<p><a target='_blank' href='https://github.com/BioJulia/BioSymbols.jl/tree/da0fb8f37acf6776e6b77a406dc46281b772797d/src/nucleicacid.jl#L298-L302' class='documenter-source'>source</a><br></p></div>
         
     </div>
 
