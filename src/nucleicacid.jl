@@ -30,10 +30,8 @@
 # Conversion from/to integers
 # ---------------------------
 
-Base.convert(::Type{DNA}, nt::UInt8) = reinterpret(DNA, nt)
-Base.convert(::Type{RNA}, nt::UInt8) = reinterpret(RNA, nt)
-Base.convert(::Type{UInt8}, nt::DNA) = reinterpret(UInt8, nt)
-Base.convert(::Type{UInt8}, nt::RNA) = reinterpret(UInt8, nt)
+Base.convert{T<:NucleicAcid}(::Type{T}, nt::UInt8) = reinterpret(T, nt)
+Base.convert{T<:NucleicAcid}(::Type{UInt8}, nt::T) = reinterpret(UInt8, nt)
 Base.convert{T<:Number,S<:NucleicAcid}(::Type{T}, nt::S) = convert(T, UInt8(nt))
 Base.convert{T<:Number,S<:NucleicAcid}(::Type{S}, nt::T) = convert(S, UInt8(nt))
 
