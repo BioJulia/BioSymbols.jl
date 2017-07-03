@@ -71,18 +71,18 @@ end
 # Print
 # -----
 
-showprefix(::Type{DNA}) = "DNA"
-showprefix(::Type{RNA}) = "RNA"
+prefix(::Type{DNA}) = "DNA"
+prefix(::Type{RNA}) = "RNA"
 
 function Base.show{T<:NucleicAcid}(io::IO, nt::T)
     if isvalid(nt)
         if nt == gap(T)
-            write(io, showprefix(T), "_Gap")
+            write(io, prefix(T), "_Gap")
         else
-            write(io, showprefix(T), "_", Char(nt))
+            write(io, prefix(T), "_", Char(nt))
         end
     else
-        write(io, "Invalid ", showprefix(T))
+        write(io, "Invalid ", prefix(T))
     end
     return
 end
