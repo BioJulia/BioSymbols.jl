@@ -71,28 +71,18 @@ end
 # Print
 # -----
 
-function Base.show(io::IO, nt::DNA)
-    if isvalid(nt)
-        if nt == DNA_Gap
-            write(io, "DNA_Gap")
-        else
-            write(io, "DNA_", Char(nt))
-        end
-    else
-        write(io, "Invalid DNA")
-    end
-    return
-end
+showprefix(::Type{DNA}) = "DNA"
+showprefix(::Type{RNA}) = "RNA"
 
-function Base.show(io::IO, nt::RNA)
+function Base.show{T<:NucleicAcid}(io::IO, nt::T)
     if isvalid(nt)
-        if nt == RNA_Gap
-            write(io, "RNA_Gap")
+        if nt == gap(T)
+            write(io, showprefix(T), "_Gap")
         else
-            write(io, "RNA_", Char(nt))
+            write(io, showprefix(T), "_", Char(nt))
         end
     else
-        write(io, "Invalid RNA")
+        write(io, "Invalid ", showprefix(T))
     end
     return
 end
