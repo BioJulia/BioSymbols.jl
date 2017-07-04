@@ -30,10 +30,8 @@
 # Conversion from/to integers
 # ---------------------------
 
-Base.convert(::Type{DNA}, nt::UInt8) = reinterpret(DNA, nt)
-Base.convert(::Type{RNA}, nt::UInt8) = reinterpret(RNA, nt)
-Base.convert(::Type{UInt8}, nt::DNA) = reinterpret(UInt8, nt)
-Base.convert(::Type{UInt8}, nt::RNA) = reinterpret(UInt8, nt)
+Base.convert{T<:NucleicAcid}(::Type{T}, nt::UInt8) = reinterpret(T, nt)
+Base.convert{T<:NucleicAcid}(::Type{UInt8}, nt::T) = reinterpret(UInt8, nt)
 Base.convert{T<:Number,S<:NucleicAcid}(::Type{T}, nt::S) = convert(T, UInt8(nt))
 Base.convert{T<:Number,S<:NucleicAcid}(::Type{S}, nt::T) = convert(S, UInt8(nt))
 
@@ -73,28 +71,18 @@ end
 # Print
 # -----
 
-function Base.show(io::IO, nt::DNA)
-    if isvalid(nt)
-        if nt == DNA_Gap
-            write(io, "DNA_Gap")
-        else
-            write(io, "DNA_", Char(nt))
-        end
-    else
-        write(io, "Invalid DNA")
-    end
-    return
-end
+prefix(::Type{DNA}) = "DNA"
+prefix(::Type{RNA}) = "RNA"
 
-function Base.show(io::IO, nt::RNA)
+function Base.show{T<:NucleicAcid}(io::IO, nt::T)
     if isvalid(nt)
-        if nt == RNA_Gap
-            write(io, "RNA_Gap")
+        if nt == gap(T)
+            write(io, prefix(T), "_Gap")
         else
-            write(io, "RNA_", Char(nt))
+            write(io, prefix(T), "_", Char(nt))
         end
     else
-        write(io, "Invalid RNA")
+        write(io, "Invalid ", prefix(T))
     end
     return
 end
