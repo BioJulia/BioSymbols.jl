@@ -147,11 +147,12 @@ end
 
 Get all symbols of `type`.
 
-# Examples
+Examples
+--------
 
 ```jldoctest
 julia> alphabet(DNA)
-(DNA_Gap,DNA_A,DNA_C,DNA_M,DNA_G,DNA_R,DNA_S,DNA_V,DNA_T,DNA_W,DNA_Y,DNA_H,DNA_K,DNA_D,DNA_B,DNA_N)
+(DNA_Gap, DNA_A, DNA_C, DNA_M, DNA_G, DNA_R, DNA_S, DNA_V, DNA_T, DNA_W, DNA_Y, DNA_H, DNA_K, DNA_D, DNA_B, DNA_N)
 
 julia> issorted(alphabet(DNA))
 true
@@ -164,7 +165,36 @@ function alphabet end
     return $(tuple([reinterpret(DNA, x) for x in 0b0000:0b1111]...))
 end
 
+"""
+    ACGT
+
+Unambiguous DNA.
+
+Examples
+--------
+
+```jldoctest
+julia> ACGT
+(DNA_A, DNA_C, DNA_G, DNA_T)
+
+```
+"""
 const ACGT = (DNA_A, DNA_C, DNA_G, DNA_T)
+
+"""
+    ACGTN
+
+Unambiguous DNA and `DNA_N`.
+
+Examples
+--------
+
+```jldoctest
+julia> ACGTN
+(DNA_A, DNA_C, DNA_G, DNA_T, DNA_N)
+
+```
+"""
 const ACGTN = (DNA_A, DNA_C, DNA_G, DNA_T, DNA_N)
 
 # lookup table for characters
@@ -200,7 +230,36 @@ end
     return $(tuple([reinterpret(RNA, x) for x in 0b0000:0b1111]...))
 end
 
+"""
+    ACGU
+
+Unambiguous RNA.
+
+Examples
+--------
+
+```jldoctest
+julia> ACGU
+(RNA_A, RNA_C, RNA_G, RNA_U)
+
+```
+"""
 const ACGU = (RNA_A, RNA_C, RNA_G, RNA_U)
+
+"""
+    ACGUN
+
+Unambiguous RNA and `RNA_N`.
+
+Examples
+--------
+
+```jldoctest
+julia> ACGUN
+(RNA_A, RNA_C, RNA_G, RNA_U, RNA_N)
+
+```
+"""
 const ACGUN = (RNA_A, RNA_C, RNA_G, RNA_U, RNA_N)
 
 function Base.:~{N<:NucleicAcid}(x::N)
@@ -244,7 +303,8 @@ end
 
 Return the gap value of `type`.
 
-# Examples
+Examples
+--------
 
 ```jldoctest
 julia> gap(DNA)
@@ -320,7 +380,8 @@ Return the complementary nucleotide of `nt`.
 
 This function returns the union of all possible complementary nucleotides.
 
-# Examples
+Examples
+--------
 
 ```jldoctest
 julia> complement(DNA_A)
@@ -357,7 +418,8 @@ Test if `x` and `y` are compatible with each other (i.e. `x` and `y` can be the 
 
 `x` and `y` must be the same type (`DNA`, `RNA` or `AminoAcid`).
 
-# Examples
+Examples
+--------
 
 ```jldoctest
 julia> iscompatible(DNA_A, DNA_A)
@@ -382,6 +444,9 @@ end
     compatbits(nt::NucleicAcid)
 
 Return the compatibility bits of `nt` as `UInt8`.
+
+Examples
+--------
 
 ```jldoctest
 julia> compatbits(DNA_A)

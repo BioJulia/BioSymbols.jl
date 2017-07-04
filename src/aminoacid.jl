@@ -177,6 +177,9 @@ gap(::Type{AminoAcid}) = AA_Gap
 
 Return the compatibility bits of `aa` as `UInt32`.
 
+Examples
+--------
+
 ```jldoctest
 julia> compatbits(AA_A)
 0x00000001
