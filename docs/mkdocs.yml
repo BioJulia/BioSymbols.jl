@@ -38,4 +38,6 @@ markdown_extensions:
 # Page tree
 pages:
 - Introduction: index.md
-- Biological Symbol Types: types.md
+- Nucleic Acids: nucleicacids.md
+- Amino Acids: aminoacids.md
+- References: references.md
