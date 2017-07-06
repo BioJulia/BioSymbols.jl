@@ -1,15 +1,23 @@
-# BioSymbols.jl Documentation
+BioSymbols.jl
+=============
 
-BioSymbols.jl provides an abstract type and two concrete primitive types
-for julia which act as values representing nucleic acids and amino acids for
-bioinformatics and computational biology scripts and packages.
+Description
+-----------
 
-These types are compatible with other packages in the BioJulia software
-ecosystem.
+BioSymbols.jl provides types for Julia which act as values representing nucleic
+acids and amino acids for bioinformatics and computational biology scripts and
+packages.  These types are compatible with other packages in the BioJulia
+software ecosystem.
 
-## Contents
 
-```@contents
-Pages = ["types.md"]
-Depth = 5
+Installation
+------------
+
+Install BioSymbols from the Julia REPL:
+
+```julia
+julia> Pkg.add("BioSymbols")
 ```
+
+If you are interested in the cutting edge of the development, please check out
+the master branch to try new features before release.
