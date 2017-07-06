@@ -11,7 +11,7 @@ repo_url:  https://github.com/BioJulia/BioSymbols.jl
 copyright: Copyright (c) 2017 The BioJulia Organisation
 
 # Documentation and theme
-theme: biojulia
+theme: material
 docs_dir: 'build'
 
 # Options
