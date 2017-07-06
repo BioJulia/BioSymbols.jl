@@ -6,7 +6,9 @@
 # This file is a part of the BioJulia ecosystem.
 # License is MIT: https://github.com/BioJulia/NucleicAcids.jl/blob/master/LICENSE.md
 
-"Type representing AminoAcids"
+"""
+An amino acid type.
+"""
 @compat primitive type AminoAcid 8 end
 
 # Conversion from/to integers
@@ -130,6 +132,25 @@ compatbits_aa[0x1b+1] = 0
 
 @eval alphabet(::Type{AminoAcid}) = $(tuple([reinterpret(AminoAcid, x) for x in 0x00:0x1b]...))
 
+"""
+    alphabet(AminoAcid)
+
+Get all symbols of `AminoAcid` in sorted order.
+
+Examples
+--------
+
+```jldoctest
+julia> alphabet(AminoAcid)
+(AA_A, AA_R, AA_N, AA_D, AA_C, AA_Q, AA_E, AA_G, AA_H, AA_I, AA_L, AA_K, AA_M, AA_F, AA_P, AA_S, AA_T, AA_W, AA_Y, AA_V, AA_O, AA_U, AA_B, AA_J, AA_Z, AA_X, AA_Term, AA_Gap)
+
+julia> issorted(alphabet(AminoAcid))
+true
+
+```
+"""
+alphabet(::Type{AminoAcid})
+
 # lookup table of 20 standard amino acids
 const threeletter_to_aa = Dict(
     "ALA" => AA_A, "ARG" => AA_R, "ASN" => AA_N, "ASP" => AA_D, "CYS" => AA_C,
@@ -169,8 +190,38 @@ Base.isless(x::AminoAcid, y::AminoAcid) = isless(UInt8(x), UInt8(y))
 
 Base.isvalid(::Type{AminoAcid}, x::Integer) = 0 ≤ x ≤ 0x1b
 Base.isvalid(aa::AminoAcid) = aa ≤ AA_Gap
+
+"""
+    isambiguous(aa::AminoAcid)
+
+Test if `aa` is an ambiguous amino acid.
+"""
 isambiguous(aa::AminoAcid) = AA_B ≤ aa ≤ AA_X
+
+"""
+    iscertain(aa::AminoAcid)
+
+Test if `aa` is a non-ambiguous amino acid.
+"""
+function iscertain(aa::AminoAcid)
+    return AA_A ≤ aa ≤ AA_U || aa == AA_Term
+end
+
+"""
+    gap(AminoAcid)
+
+Return `AA_Gap`.
+"""
 gap(::Type{AminoAcid}) = AA_Gap
+
+"""
+    isgap(aa::AminoAcid)
+
+Test if `aa` is a gap.
+"""
+function isgap(aa::AminoAcid)
+    return aa == AA_Gap
+end
 
 """
     compatbits(aa::AminoAcid)
@@ -191,6 +242,23 @@ julia> compatbits(AA_J)
 """
 compatbits(aa::AminoAcid) = compatbits_aa[reinterpret(UInt8, aa)+1]
 
+"""
+    iscompatible(x::AminoAcid, y::AminoAcid)
+
+Test if `x` and `y` are compatible with each other.
+
+Examples
+--------
+
+```jldoctest
+julia> iscompatible(AA_A, AA_R)
+false
+
+julia> iscompatible(AA_A, AA_X)
+true
+
+```
+"""
 function iscompatible(x::AminoAcid, y::AminoAcid)
     return compatbits(x) & compatbits(y) != 0
 end
