@@ -18,13 +18,13 @@ BioSymbols provides two types of nucleic acids:
 | `DNA` | deoxyribonucleic acid |
 | `RNA` | ribonucleic acid      |
 
-These two are a subtype of `NucleicAcid`.
+These two are an 8-bit primitive type and a subtype of `NucleicAcid`.
 
 ```jldoctest
-julia> DNA <: NucleicAcid
-true
+julia> sizeof(DNA)
+1
 
-julia> RNA <: NucleicAcid
+julia> DNA <: NucleicAcid
 true
 
 ```
@@ -108,3 +108,15 @@ ambiguous nucleotide is the bitwise OR of unambiguous nucleotides that the
 ambiguous nucleotide can take. For example, `DNA_R` (meaning the nucleotide is
 either `DNA_A` or `DNA_G`) is encoded as `0101` because `0101` is the bitwise OR
 of `0001` (`DNA_A`) and `0100` (`DNA_G`). The gap symbol is always `0000`.
+
+```jldoctest
+julia> bits(reinterpret(UInt8, DNA_A))
+"00000001"
+
+julia> bits(reinterpret(UInt8, DNA_G))
+"00000100"
+
+julia> bits(reinterpret(UInt8, DNA_R))
+"00000101"
+
+```

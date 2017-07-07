@@ -40,4 +40,5 @@ pages:
 - Home: index.md
 - Nucleic Acids: nucleicacids.md
 - Amino Acids: aminoacids.md
+- Sequences: sequences.md
 - References: references.md
