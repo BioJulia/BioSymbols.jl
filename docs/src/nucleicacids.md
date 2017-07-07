@@ -120,3 +120,20 @@ julia> bits(reinterpret(UInt8, DNA_R))
 "00000101"
 
 ```
+
+This bit encoding enables efficient bit operations:
+
+```jldoctest
+julia> DNA_A | DNA_G  # A or G
+DNA_R
+
+julia> DNA_A & DNA_G  # A and G
+DNA_Gap
+
+julia> DNA_A | ~DNA_A  # A or not A
+DNA_N
+
+julia> DNA_A | DNA_C | DNA_G | DNA_T  # any DNA
+DNA_N
+
+```
