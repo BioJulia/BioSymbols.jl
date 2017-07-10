@@ -23,8 +23,19 @@
 # always 0000.  The meaningful four bits are stored in the least significant
 # bits of a byte.
 
+"""
+An abstract nucleic acid type.
+"""
 @compat abstract type NucleicAcid end
+
+"""
+A deoxyribonucleic acid type.
+"""
 @compat primitive type DNA <: NucleicAcid 8 end
+
+"""
+A ribonucleic acid type.
+"""
 @compat primitive type RNA <: NucleicAcid 8 end
 
 # Conversion from/to integers
@@ -130,10 +141,14 @@ for (char, doc, bits) in [
     end
 end
 
-"""
-    alphabet(type)
+@eval function alphabet(::Type{DNA})
+    return $(tuple([reinterpret(DNA, x) for x in 0b0000:0b1111]...))
+end
 
-Get all symbols of `type`.
+"""
+    alphabet(DNA)
+
+Get all symbols of `DNA` in sorted order.
 
 Examples
 --------
@@ -147,11 +162,7 @@ true
 
 ```
 """
-function alphabet end
-
-@eval function alphabet(::Type{DNA})
-    return $(tuple([reinterpret(DNA, x) for x in 0b0000:0b1111]...))
-end
+alphabet(::Type{DNA})
 
 """
     ACGT
@@ -217,6 +228,25 @@ end
 @eval function alphabet(::Type{RNA})
     return $(tuple([reinterpret(RNA, x) for x in 0b0000:0b1111]...))
 end
+
+"""
+    alphabet(RNA)
+
+Get all symbols of `RNA` in sorted order.
+
+Examples
+--------
+
+```jldoctest
+julia> alphabet(RNA)
+(RNA_Gap, RNA_A, RNA_C, RNA_M, RNA_G, RNA_R, RNA_S, RNA_V, RNA_U, RNA_W, RNA_Y, RNA_H, RNA_K, RNA_D, RNA_B, RNA_N)
+
+julia> issorted(alphabet(RNA))
+true
+
+```
+"""
+alphabet(::Type{RNA})
 
 """
     ACGU
@@ -287,21 +317,21 @@ function Base.trailing_zeros(nt::NucleicAcid)
 end
 
 """
-    gap(type)
+    gap(DNA)
 
-Return the gap value of `type`.
-
-Examples
---------
-
-```jldoctest
-julia> gap(DNA)
-DNA_Gap
-
-```
+Return `DNA_Gap`.
 """
-function gap{N<:NucleicAcid}(::Type{N})
-    return reinterpret(N, 0b0000)
+function gap(::Type{DNA})
+    return DNA_Gap
+end
+
+"""
+    gap(RNA)
+
+Return `RNA_Gap`.
+"""
+function gap(::Type{RNA})
+    return RNA_Gap
 end
 
 """
@@ -337,7 +367,7 @@ end
 """
     isambiguous(nt::NucleicAcid)
 
-Test if `nt` is ambiguous nucleotide.
+Test if `nt` is an ambiguous nucleotide.
 """
 @inline function isambiguous(nt::NucleicAcid)
     return count_ones(nt) > 1
@@ -400,11 +430,11 @@ function Base.isvalid(nt::NucleicAcid)
 end
 
 """
-    iscompatible(x, y)
+    iscompatible(x::T, y::T) where T <: NucleicAcid
 
 Test if `x` and `y` are compatible with each other (i.e. `x` and `y` can be the same symbol).
 
-`x` and `y` must be the same type (`DNA`, `RNA` or `AminoAcid`).
+`x` and `y` must be the same type.
 
 Examples
 --------
@@ -418,9 +448,6 @@ true
 
 julia> iscompatible(DNA_C, DNA_R)  # DNA_R (A or G) cannot be DNA_C
 false
-
-julia> iscompatible(AA_A, AA_X)    # AA_X can be AA_A
-true
 
 ```
 """

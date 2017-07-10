@@ -479,6 +479,12 @@ end
         end
     end
 
+    @testset "iscertain" begin
+        for x in alphabet(AminoAcid)
+            @test iscertain(x) == (!isambiguous(x) && x != AA_Gap)
+        end
+    end
+
     @testset "Show amino acid" begin
         @testset "print" begin
             buf = IOBuffer()
