@@ -4,15 +4,39 @@
     
     <url>
      <loc>https://biojulia.github.io/BioSymbols.jl//</loc>
-     <lastmod>2017-07-04</lastmod>
+     <lastmod>2017-07-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
     <url>
-     <loc>https://biojulia.github.io/BioSymbols.jl//types/</loc>
-     <lastmod>2017-07-04</lastmod>
+     <loc>https://biojulia.github.io/BioSymbols.jl//nucleicacids/</loc>
+     <lastmod>2017-07-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://biojulia.github.io/BioSymbols.jl//aminoacids/</loc>
+     <lastmod>2017-07-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://biojulia.github.io/BioSymbols.jl//sequences/</loc>
+     <lastmod>2017-07-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>https://biojulia.github.io/BioSymbols.jl//references/</loc>
+     <lastmod>2017-07-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     

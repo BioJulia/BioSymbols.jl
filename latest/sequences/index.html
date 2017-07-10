@@ -10,24 +10,26 @@
         <meta name="description" content="Bioloigcal symbol types for Julia">
       
       
+        <link rel="canonical" href="https://biojulia.github.io/BioSymbols.jl/sequences/">
+      
       
         <meta name="author" content="The BioJulia Organisation">
       
       
-        <link rel="shortcut icon" href="/BioSymbols.jl/assets/images/favicon.png">
+        <link rel="shortcut icon" href="../assets/images/favicon.png">
       
       <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.7.4">
     
     
       
-        <title>BioSymbols.jl</title>
+        <title>Sequences - BioSymbols.jl</title>
       
     
     
-      <script src="/BioSymbols.jl/assets/javascripts/modernizr-1df76c4e58.js"></script>
+      <script src="../assets/javascripts/modernizr-1df76c4e58.js"></script>
     
     
-      <link rel="stylesheet" href="/BioSymbols.jl/assets/stylesheets/application-769c285a91.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application-769c285a91.css">
       
     
     
@@ -41,7 +43,7 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     
     
-      <link rel="stylesheet" href="/BioSymbols.jl/assets/Documenter.css">
+      <link rel="stylesheet" href="../assets/Documenter.css">
     
     
   </head>
@@ -69,7 +71,7 @@
       <div class="md-flex__cell md-flex__cell--shrink">
         
           <a href="https://biojulia.github.io/BioSymbols.jl/" title="BioSymbols.jl" class="md-logo md-header-nav__button">
-            <img src="/BioSymbols.jl/images/logo.png" width="24" height="24">
+            <img src="../images/logo.png" width="24" height="24">
           </a>
         
       </div>
@@ -80,7 +82,9 @@
         <span class="md-flex__ellipsis md-header-nav__title">
           
             
-            BioSymbols.jl
+              
+            
+            Sequences
           
         </span>
       </div>
@@ -153,7 +157,7 @@
   <label class="md-nav__title md-nav__title--site" for="drawer">
     
       <i class="md-logo md-nav__button">
-        <img src="/BioSymbols.jl/images/logo.png">
+        <img src="../images/logo.png">
       </i>
     
     BioSymbols.jl
@@ -189,7 +193,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/BioSymbols.jl/" title="Home" class="md-nav__link">
+    <a href=".." title="Home" class="md-nav__link">
       Home
     </a>
   </li>
@@ -201,7 +205,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/BioSymbols.jl/nucleicacids/" title="Nucleic Acids" class="md-nav__link">
+    <a href="../nucleicacids/" title="Nucleic Acids" class="md-nav__link">
       Nucleic Acids
     </a>
   </li>
@@ -213,7 +217,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/BioSymbols.jl/aminoacids/" title="Amino Acids" class="md-nav__link">
+    <a href="../aminoacids/" title="Amino Acids" class="md-nav__link">
       Amino Acids
     </a>
   </li>
@@ -223,11 +227,61 @@
       
       
 
+  
 
-  <li class="md-nav__item">
-    <a href="/BioSymbols.jl/sequences/" title="Sequences" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="toc">
+        Sequences
+      </label>
+    
+    <a href="./" title="Sequences" class="md-nav__link md-nav__link--active">
       Sequences
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-vector" title="Using Vector" class="md-nav__link">
+    Using Vector
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-tuple" title="Using Tuple" class="md-nav__link">
+    Using Tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-biosequencesjl" title="Using BioSequences.jl" class="md-nav__link">
+    Using BioSequences.jl
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
     
@@ -237,7 +291,7 @@
 
 
   <li class="md-nav__item">
-    <a href="/BioSymbols.jl/references/" title="References" class="md-nav__link">
+    <a href="../references/" title="References" class="md-nav__link">
       References
     </a>
   </li>
@@ -250,12 +304,94 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-vector" title="Using Vector" class="md-nav__link">
+    Using Vector
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-tuple" title="Using Tuple" class="md-nav__link">
+    Using Tuple
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-biosequencesjl" title="Using BioSequences.jl" class="md-nav__link">
+    Using BioSequences.jl
+  </a>
+  
+</li>
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
-  <h1>404 - Not found</h1>
+                
+                  <a href="https://github.com/BioJulia/BioSymbols.jl/edit/master/docs/sequences.md" title="Edit this page" class="md-icon md-content__icon">edit</a>
+                
+                
+                <p><a id='Sequences-1'></a></p>
+<h1 id="sequences">Sequences</h1>
+<p><a id='Using-Vector-1'></a></p>
+<h2 id="using-vector">Using <code>Vector</code></h2>
+<p>A quick way to create a DNA/RNA sequence is storing symbols in a vector.</p>
+<div class="codehilite"><pre><span></span>julia&gt; seq = [DNA_A, DNA_C, DNA_G, DNA_T]
+4-element Array{BioSymbols.DNA,1}:
+ DNA_A
+ DNA_C
+ DNA_G
+ DNA_T
 
+julia&gt; [convert(DNA, x) for x in &quot;ACGT&quot;]  # from a string
+4-element Array{BioSymbols.DNA,1}:
+ DNA_A
+ DNA_C
+ DNA_G
+ DNA_T
+</pre></div>
+
+
+<p><a id='Using-Tuple-1'></a></p>
+<h2 id="using-tuple">Using <code>Tuple</code></h2>
+<p>Julia offers a tuple type to represent multiple values in a value. It is similar to <code>Vector</code> but is significantly different in some points. First, <code>Tuple</code> is immutable while <code>Vector</code> is mutable. So you cannot update elements in a tuple once created. Second, a tuple type is parameterized by its length. That means it is inefficient to represent variable-length sequences in tuple due to type instability problem.</p>
+<div class="codehilite"><pre><span></span>julia&gt; (RNA_A, RNA_U, RNA_C)  # RNA triplet (or codon)
+(RNA_A, RNA_U, RNA_C)
+</pre></div>
+
+
+<p><a id='Using-BioSequences.jl-1'></a></p>
+<h2 id="using-biosequencesjl">Using BioSequences.jl</h2>
+<p>Using <code>Vector</code> or <code>Tuple</code> is simple, however, BioSymbols does not offer useful operations for these representations. So you need to use built-in operations of Julia or other packages. Moreover, these representations are not necessarily efficient. For example, <code>DNA</code> is an 8-bit primitive but it only uses 4 bits, which means 50% of a <code>Vector{DNA}</code>'s space is not used at all.</p>
+<p>For the purpose of representing sequences as efficient as possible BioJulia has developed <a href="https://github.com/BioJulia/BioSequences.jl">BioSequences.jl</a> package. The <code>BioSequence</code> type of BioSequences.jl is able to represent a DNA/RNA sequence in 2 or 4 bits per symbol. It also offers many efficient algorithms and I/O tools for common file formats such as FASTA.</p>
+                
+                  
+                
+              
               
                 
               
@@ -266,6 +402,41 @@
       
         
 <footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../aminoacids/" title="Amino Acids" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Amino Acids
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../references/" title="References" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                References
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -290,14 +461,14 @@
       
     </div>
     
-      <script src="/BioSymbols.jl/assets/javascripts/application-c35428f87f.js"></script>
+      <script src="../assets/javascripts/application-c35428f87f.js"></script>
       
       
-      <script>app.initialize({url:{base:"/BioSymbols.jl"}})</script>
+      <script>app.initialize({url:{base:".."}})</script>
       
         <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
       
-        <script src="/BioSymbols.jl/assets/mathjaxhelper.js"></script>
+        <script src="../assets/mathjaxhelper.js"></script>
       
     
     
