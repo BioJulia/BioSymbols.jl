@@ -546,9 +546,15 @@ end
             for (one, three, aa) in aas
                 @test parse(AminoAcid, one) == aa
                 @test parse(AminoAcid, three) == aa
+                @test parse(AminoAcid, Char(one[1])) == aa
+                @test tryparse(AminoAcid, one) === Nullable(aa)
+                @test tryparse(AminoAcid, three) === Nullable(aa)
+                @test tryparse(AminoAcid, Char(one[1])) === Nullable(aa)
             end
             @test parse(AminoAcid, "*") == AA_Term
             @test parse(AminoAcid, "-") == AA_Gap
+            @test tryparse(AminoAcid, "*") === Nullable(AA_Term)
+            @test tryparse(AminoAcid, "-") === Nullable(AA_Gap)
         end
 
         @testset "Invalid Cases" begin
@@ -556,6 +562,10 @@ end
             @test_throws Exception parse(AminoAcid, "AL")
             @test_throws Exception parse(AminoAcid, "LA")
             @test_throws Exception parse(AminoAcid, "ALAA")
+            @test isnull(tryparse(AminoAcid, ""))
+            @test isnull(tryparse(AminoAcid, "AL"))
+            @test isnull(tryparse(AminoAcid, "LA"))
+            @test isnull(tryparse(AminoAcid, "ALAA"))
         end
     end
 end

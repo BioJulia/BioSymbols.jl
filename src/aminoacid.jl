@@ -216,17 +216,33 @@ let
     actions[:Gap]  = :(aa = AA_Gap)
 
     ctx = Automa.CodeGenContext(checkbounds=false)
-    @eval function Base.parse(::Type{AminoAcid}, data::AbstractString)
+    @eval function Base.tryparse(::Type{AminoAcid}, data::AbstractString)
         $(Automa.generate_init_code(ctx, machine))
         p_end = p_eof = sizeof(data)
         aa = AA_INVALID
         $(Automa.generate_exec_code(ctx, machine, actions))
         if cs != 0
-            throw(ArgumentError("invalid amino acid"))
+            return Nullable{AminoAcid}()
         end
-        @assert aa != AA_INVALID
-        return aa
+        return Nullable(aa)
     end
+end
+
+function Base.tryparse(::Type{AminoAcid}, c::Char)
+    @inbounds aa = c <= '\x7f' ? char_to_aa[Int(c)+1] : AA_INVALID
+    if aa == AA_INVALID
+        return Nullable{AminoAcid}()
+    else
+        return Nullable(aa)
+    end
+end
+
+function Base.parse(::Type{AminoAcid}, c::Union{AbstractString,Char})
+    aa = tryparse(AminoAcid, c)
+    if isnull(aa)
+        throw(ArgumentError("invalid amino acid"))
+    end
+    return get(aa)
 end
 
 # Arithmetic and Order
