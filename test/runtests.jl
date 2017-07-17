@@ -419,6 +419,19 @@ end
 
         @test convert(AminoAcid, 0) === AA_A
         @test convert(AminoAcid, 10) === AA_L
+
+        for (c, aa) in [
+                ('A', AA_A), ('R', AA_R), ('N', AA_N), ('D', AA_D), ('C', AA_C),
+                ('Q', AA_Q), ('E', AA_E), ('G', AA_G), ('H', AA_H), ('I', AA_I),
+                ('L', AA_L), ('K', AA_K), ('M', AA_M), ('F', AA_F), ('P', AA_P),
+                ('S', AA_S), ('T', AA_T), ('W', AA_W), ('Y', AA_Y), ('V', AA_V),
+                ('O', AA_O), ('U', AA_U), ('B', AA_B), ('J', AA_J), ('Z', AA_Z),
+                ('X', AA_X), ('*', AA_Term), ('-', AA_Gap)]
+            @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == aa
+        end
+        @test_throws InexactError convert(AminoAcid, '\0')
+        @test_throws InexactError convert(AminoAcid, '@')
+        @test_throws InexactError convert(AminoAcid, '亜')
     end
 
     @testset "isvalid" begin

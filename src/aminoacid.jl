@@ -23,9 +23,11 @@ Base.convert{T<:Number}(::Type{AminoAcid}, aa::T) = convert(AminoAcid, UInt8(aa)
 # -----------------------
 
 function Base.convert(::Type{AminoAcid}, c::Char)
-    @inbounds aa = c <= '\x7f' ? char_to_aa[Int(c)+1] : AA_INVALID
-    @assert aa != AA_INVALID error("$(c) is not a valid amino acid")
-    return aa
+    aa = tryparse(AminoAcid, c)
+    if isnull(aa)
+        throw(InexactError())
+    end
+    return get(aa)
 end
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
