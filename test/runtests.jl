@@ -571,14 +571,20 @@ end
         end
 
         @testset "Invalid Cases" begin
-            @test_throws Exception parse(AminoAcid, "")
-            @test_throws Exception parse(AminoAcid, "AL")
-            @test_throws Exception parse(AminoAcid, "LA")
-            @test_throws Exception parse(AminoAcid, "ALAA")
+            @test_throws ArgumentError parse(AminoAcid, "")
+            @test_throws ArgumentError parse(AminoAcid, "AL")
+            @test_throws ArgumentError parse(AminoAcid, "LA")
+            @test_throws ArgumentError parse(AminoAcid, "ALAA")
+            @test_throws ArgumentError parse(AminoAcid, '\0')
+            @test_throws ArgumentError parse(AminoAcid, '@')
+            @test_throws ArgumentError parse(AminoAcid, '亜')
             @test isnull(tryparse(AminoAcid, ""))
             @test isnull(tryparse(AminoAcid, "AL"))
             @test isnull(tryparse(AminoAcid, "LA"))
             @test isnull(tryparse(AminoAcid, "ALAA"))
+            @test isnull(tryparse(AminoAcid, '\0'))
+            @test isnull(tryparse(AminoAcid, '@'))
+            @test isnull(tryparse(AminoAcid, '亜'))
         end
     end
 end
