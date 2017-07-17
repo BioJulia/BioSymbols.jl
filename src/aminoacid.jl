@@ -23,9 +23,11 @@ Base.convert{T<:Number}(::Type{AminoAcid}, aa::T) = convert(AminoAcid, UInt8(aa)
 # -----------------------
 
 function Base.convert(::Type{AminoAcid}, c::Char)
-    @inbounds aa = c <= '\x7f' ? char_to_aa[Int(c)+1] : AA_INVALID
-    @assert aa != AA_INVALID error("$(c) is not a valid amino acid")
-    return aa
+    aa = tryparse(AminoAcid, c)
+    if isnull(aa)
+        throw(InexactError())
+    end
+    return get(aa)
 end
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
@@ -161,19 +163,88 @@ const threeletter_to_aa = Dict(
     "PYL" => AA_O, "SEC" => AA_U,
 )
 
-function Base.parse(::Type{AminoAcid}, s::AbstractString)
-    s′ = strip(s)
-    if length(s′) == 1
-        return convert(AminoAcid, s′[1])
+# Generate an amino acid parser.
+let
+    re = Automa.RegExp
+    function aapat(three, aa)
+        one = convert(Char, aa)
+        pat = re.alt(
+            re.cat([re.alt(lowercase(x), uppercase(x)) for x in three]...),
+            lowercase(one),
+            uppercase(one))
+        pat.actions[:exit] = [Symbol(three)]
+        return pat
     end
-    try
-        return threeletter_to_aa[uppercase(s′)]
-    catch ex
-        if isa(ex, KeyError)
-            error("invalid amino acid string: \"$s\" ")
+    aminoacids = [
+        ("ALA", AA_A),
+        ("ARG", AA_R),
+        ("ASN", AA_N),
+        ("ASP", AA_D),
+        ("CYS", AA_C),
+        ("GLN", AA_Q),
+        ("GLU", AA_E),
+        ("GLY", AA_G),
+        ("HIS", AA_H),
+        ("ILE", AA_I),
+        ("LEU", AA_L),
+        ("LYS", AA_K),
+        ("MET", AA_M),
+        ("PHE", AA_F),
+        ("PRO", AA_P),
+        ("SER", AA_S),
+        ("THR", AA_T),
+        ("TRP", AA_W),
+        ("TYR", AA_Y),
+        ("VAL", AA_V),
+        ("ASX", AA_B),
+        ("XLE", AA_J),
+        ("GLX", AA_Z),
+        ("XAA", AA_X),
+        ("PYL", AA_O),
+        ("SEC", AA_U),
+    ]
+    aa_term = re"\*"
+    aa_term.actions[:exit] = [:Term]
+    aa_gap = re"-"
+    aa_gap.actions[:exit] = [:Gap]
+    whitespaces = re"[ \t\r\n]*"
+    aminoacid = re.cat(
+        whitespaces,
+        re.alt(vcat((aapat(three, aa) for (three, aa) in aminoacids)..., aa_term, aa_gap)...),
+        whitespaces)
+    machine = Automa.compile(aminoacid)
+    actions = Dict(Symbol(three) => :(aa = $(aa)) for (three, aa) in aminoacids)
+    actions[:Term] = :(aa = AA_Term)
+    actions[:Gap]  = :(aa = AA_Gap)
+
+    ctx = Automa.CodeGenContext(checkbounds=false)
+    @eval function Base.tryparse(::Type{AminoAcid}, data::AbstractString)
+        $(Automa.generate_init_code(ctx, machine))
+        p_end = p_eof = sizeof(data)
+        aa = AA_INVALID
+        $(Automa.generate_exec_code(ctx, machine, actions))
+        if cs != 0
+            return Nullable{AminoAcid}()
         end
-        rethrow()
+        return Nullable(aa)
     end
+end
+
+function Base.tryparse(::Type{AminoAcid}, c::Char)
+    @inbounds aa = c <= '\x7f' ? char_to_aa[Int(c)+1] : AA_INVALID
+    if aa == AA_INVALID
+        return Nullable{AminoAcid}()
+    else
+        return Nullable(aa)
+    end
+end
+
+function Base.parse(::Type{AminoAcid}, c::Union{AbstractString,Char})
+    aa = tryparse(AminoAcid, c)
+    if isnull(aa)
+        throw(ArgumentError("invalid amino acid"))
+    end
+    return get(aa)
 end
 
 # Arithmetic and Order

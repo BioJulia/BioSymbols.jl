@@ -96,6 +96,8 @@ export
     compatbits,
     alphabet
 
+import Automa
+import Automa.RegExp: @re_str
 using Compat
 
 include("nucleicacid.jl")

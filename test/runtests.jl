@@ -419,6 +419,19 @@ end
 
         @test convert(AminoAcid, 0) === AA_A
         @test convert(AminoAcid, 10) === AA_L
+
+        for (c, aa) in [
+                ('A', AA_A), ('R', AA_R), ('N', AA_N), ('D', AA_D), ('C', AA_C),
+                ('Q', AA_Q), ('E', AA_E), ('G', AA_G), ('H', AA_H), ('I', AA_I),
+                ('L', AA_L), ('K', AA_K), ('M', AA_M), ('F', AA_F), ('P', AA_P),
+                ('S', AA_S), ('T', AA_T), ('W', AA_W), ('Y', AA_Y), ('V', AA_V),
+                ('O', AA_O), ('U', AA_U), ('B', AA_B), ('J', AA_J), ('Z', AA_Z),
+                ('X', AA_X), ('*', AA_Term), ('-', AA_Gap)]
+            @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == aa
+        end
+        @test_throws InexactError convert(AminoAcid, '\0')
+        @test_throws InexactError convert(AminoAcid, '@')
+        @test_throws InexactError convert(AminoAcid, '亜')
     end
 
     @testset "isvalid" begin
@@ -546,16 +559,32 @@ end
             for (one, three, aa) in aas
                 @test parse(AminoAcid, one) == aa
                 @test parse(AminoAcid, three) == aa
+                @test parse(AminoAcid, Char(one[1])) == aa
+                @test tryparse(AminoAcid, one) === Nullable(aa)
+                @test tryparse(AminoAcid, three) === Nullable(aa)
+                @test tryparse(AminoAcid, Char(one[1])) === Nullable(aa)
             end
             @test parse(AminoAcid, "*") == AA_Term
             @test parse(AminoAcid, "-") == AA_Gap
+            @test tryparse(AminoAcid, "*") === Nullable(AA_Term)
+            @test tryparse(AminoAcid, "-") === Nullable(AA_Gap)
         end
 
         @testset "Invalid Cases" begin
-            @test_throws Exception parse(AminoAcid, "")
-            @test_throws Exception parse(AminoAcid, "AL")
-            @test_throws Exception parse(AminoAcid, "LA")
-            @test_throws Exception parse(AminoAcid, "ALAA")
+            @test_throws ArgumentError parse(AminoAcid, "")
+            @test_throws ArgumentError parse(AminoAcid, "AL")
+            @test_throws ArgumentError parse(AminoAcid, "LA")
+            @test_throws ArgumentError parse(AminoAcid, "ALAA")
+            @test_throws ArgumentError parse(AminoAcid, '\0')
+            @test_throws ArgumentError parse(AminoAcid, '@')
+            @test_throws ArgumentError parse(AminoAcid, '亜')
+            @test isnull(tryparse(AminoAcid, ""))
+            @test isnull(tryparse(AminoAcid, "AL"))
+            @test isnull(tryparse(AminoAcid, "LA"))
+            @test isnull(tryparse(AminoAcid, "ALAA"))
+            @test isnull(tryparse(AminoAcid, '\0'))
+            @test isnull(tryparse(AminoAcid, '@'))
+            @test isnull(tryparse(AminoAcid, '亜'))
         end
     end
 end
