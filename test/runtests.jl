@@ -440,6 +440,8 @@ end
         end
         @test !isvalid(reinterpret(AminoAcid, 0x1c))
         @test !isvalid(reinterpret(AminoAcid, 0xff))
+        @test  isvalid(AminoAcid, 0x1b)
+        @test !isvalid(AminoAcid, 0x1c)
     end
 
     @testset "Arithmetic and Order" begin
@@ -498,6 +500,12 @@ end
         end
     end
 
+    @testset "isgap" begin
+        for x in alphabet(AminoAcid)
+            @test isgap(x) == (x == AA_Gap)
+        end
+    end
+
     @testset "Show amino acid" begin
         @testset "print" begin
             buf = IOBuffer()
@@ -505,6 +513,7 @@ end
                 print(buf, aa)
             end
             @test String(take!(buf)) == "ADBX*-"
+            @test_throws ArgumentError print(BioSymbols.AA_INVALID)
         end
 
         @testset "show" begin
@@ -514,6 +523,7 @@ end
                 write(buf, ' ')
             end
             @test String(take!(buf)) == "AA_A AA_D AA_B AA_X AA_Term AA_Gap "
+            @test sprint(show, BioSymbols.AA_INVALID) == "Invalid Amino Acid"
         end
     end
 
