@@ -138,8 +138,8 @@ using Compat
                 @test convert(RNA, 'G') == RNA_G
                 @test convert(RNA, 'U') == RNA_U
                 @test convert(RNA, 'N') == RNA_N
-                @test_throws InexactError convert(DNA, 'Z')
-                @test_throws InexactError convert(DNA, '核')
+                @test_throws InexactError convert(RNA, 'Z')
+                @test_throws InexactError convert(RNA, '核')
             end
 
             @testset "DNA conversions to Char" begin
@@ -288,6 +288,10 @@ using Compat
             @test DNA_Gap - 1 === DNA_Gap - 17 === DNA_N
             @test DNA_Gap < DNA_A < DNA_C < DNA_G < DNA_T < DNA_N
             @test !(DNA_A > DNA_G)
+            @test trailing_zeros(DNA_A) === 0
+            @test trailing_zeros(DNA_C) === 1
+            @test trailing_zeros(DNA_G) === 2
+            @test trailing_zeros(DNA_T) === 3
             @test gap(DNA) === DNA_Gap
             @test collect(alphabet(DNA)) == sort([
                 DNA_A, DNA_C, DNA_G, DNA_T,
@@ -306,6 +310,10 @@ using Compat
             @test RNA_Gap - 1 === RNA_Gap - 17 === RNA_N
             @test RNA_Gap < RNA_A < RNA_C < RNA_G < RNA_U < RNA_N
             @test !(RNA_A > RNA_G)
+            @test trailing_zeros(RNA_A) === 0
+            @test trailing_zeros(RNA_C) === 1
+            @test trailing_zeros(RNA_G) === 2
+            @test trailing_zeros(RNA_U) === 3
             @test gap(RNA) === RNA_Gap
             @test collect(alphabet(RNA)) == sort([
                 RNA_A, RNA_C, RNA_G, RNA_U,
@@ -322,6 +330,7 @@ using Compat
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGTN-"
+            @test_throws ArgumentError print(reinterpret(DNA, 0xf0))
         end
 
         @testset "show" begin
@@ -331,6 +340,7 @@ using Compat
                 write(buf, ' ')
             end
             @test String(take!(buf)) == "DNA_A DNA_C DNA_G DNA_T DNA_N DNA_Gap "
+            @test sprint(show, reinterpret(DNA, 0xf0)) == "Invalid DNA"
         end
     end
 
@@ -341,6 +351,7 @@ using Compat
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGUN-"
+            @test_throws ArgumentError print(reinterpret(RNA, 0xf0))
         end
 
         @testset "show" begin
@@ -350,6 +361,7 @@ using Compat
                 write(buf, ' ')
             end
             @test String(take!(buf)) == "RNA_A RNA_C RNA_G RNA_U RNA_N RNA_Gap "
+            @test sprint(show, reinterpret(RNA, 0xf0)) == "Invalid RNA"
         end
     end
 
@@ -440,6 +452,8 @@ end
         end
         @test !isvalid(reinterpret(AminoAcid, 0x1c))
         @test !isvalid(reinterpret(AminoAcid, 0xff))
+        @test  isvalid(AminoAcid, 0x1b)
+        @test !isvalid(AminoAcid, 0x1c)
     end
 
     @testset "Arithmetic and Order" begin
@@ -498,6 +512,12 @@ end
         end
     end
 
+    @testset "isgap" begin
+        for x in alphabet(AminoAcid)
+            @test isgap(x) == (x == AA_Gap)
+        end
+    end
+
     @testset "Show amino acid" begin
         @testset "print" begin
             buf = IOBuffer()
@@ -505,6 +525,7 @@ end
                 print(buf, aa)
             end
             @test String(take!(buf)) == "ADBX*-"
+            @test_throws ArgumentError print(BioSymbols.AA_INVALID)
         end
 
         @testset "show" begin
@@ -514,6 +535,7 @@ end
                 write(buf, ' ')
             end
             @test String(take!(buf)) == "AA_A AA_D AA_B AA_X AA_Term AA_Gap "
+            @test sprint(show, BioSymbols.AA_INVALID) == "Invalid Amino Acid"
         end
     end
 
