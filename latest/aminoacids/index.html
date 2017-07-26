@@ -18,7 +18,7 @@
       
         <link rel="shortcut icon" href="../assets/images/favicon.png">
       
-      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.7.4">
+      <meta name="generator" content="mkdocs-0.16.3, mkdocs-material-1.7.5">
     
     
       
@@ -92,11 +92,11 @@
         
           <label class="md-icon md-icon--search md-header-nav__button" for="search"></label>
           
-<div class="md-search" data-md-component="search">
+<div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="search"></label>
   <div class="md-search__inner">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" required placeholder="Search" accesskey="s" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
+      <input type="text" class="md-search__input" name="query" required placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query">
       <label class="md-icon md-search__icon" for="search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset">close</button>
     </form>
@@ -466,6 +466,24 @@ true
 julia&gt; convert(AminoAcid, &#39;a&#39;) === convert(AminoAcid, &#39;A&#39;)
 true
 </pre></div>
+
+
+<p>3-letter and 1-letter abbreviations can be parsed using <code>parse</code> in a case-insensitive way:</p>
+<div class="codehilite"><pre><span></span>julia&gt; parse(AminoAcid, &quot;Pro&quot;)  # 3-letter abbreviation
+AA_P
+
+julia&gt; parse(AminoAcid, &quot;P&quot;)    # 1-letter abbreviation
+AA_P
+
+julia&gt; parse(AminoAcid, &quot;Pro&quot;) == parse(AminoAcid, &quot;pRo&quot;)
+true
+
+julia&gt; tryparse(AminoAcid, &quot;Pro&quot;)  # tryparse returns a nullable value
+Nullable{BioSymbols.AminoAcid}(AA_P)
+
+julia&gt; tryparse(AminoAcid, &quot;Pr&quot;)
+Nullable{BioSymbols.AminoAcid}()
+</pre></div>
                 
                   
                 
@@ -539,7 +557,7 @@ true
       
     </div>
     
-      <script src="../assets/javascripts/application-c35428f87f.js"></script>
+      <script src="../assets/javascripts/application-07b0fbb49b.js"></script>
       
       
       <script>app.initialize({url:{base:".."}})</script>
