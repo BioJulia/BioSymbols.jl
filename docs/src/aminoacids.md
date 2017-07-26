@@ -73,7 +73,7 @@ true
 
 ```
 
-3-letter and 1-letter abbreviations can be persed using `parse` in a
+3-letter and 1-letter abbreviations can be parsed using `parse` in a
 case-insensitive way:
 ```jldoctest
 julia> parse(AminoAcid, "Pro")  # 3-letter abbreviation
