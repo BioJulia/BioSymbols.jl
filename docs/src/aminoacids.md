@@ -73,3 +73,22 @@ true
 
 ```
 
+3-letter and 1-letter abbreviations can be parsed using `parse` in a
+case-insensitive way:
+```jldoctest
+julia> parse(AminoAcid, "Pro")  # 3-letter abbreviation
+AA_P
+
+julia> parse(AminoAcid, "P")    # 1-letter abbreviation
+AA_P
+
+julia> parse(AminoAcid, "Pro") == parse(AminoAcid, "pRo")
+true
+
+julia> tryparse(AminoAcid, "Pro")  # tryparse returns a nullable value
+Nullable{BioSymbols.AminoAcid}(AA_P)
+
+julia> tryparse(AminoAcid, "Pr")
+Nullable{BioSymbols.AminoAcid}()
+
+```
