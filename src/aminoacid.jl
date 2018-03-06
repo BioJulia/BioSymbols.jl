@@ -9,15 +9,15 @@
 """
 An amino acid type.
 """
-@compat primitive type AminoAcid 8 end
+primitive type AminoAcid 8 end
 
 # Conversion from/to integers
 # ---------------------------
 
 Base.convert(::Type{AminoAcid}, aa::UInt8) = reinterpret(AminoAcid, aa)
 Base.convert(::Type{UInt8}, aa::AminoAcid) = reinterpret(UInt8, aa)
-Base.convert{T<:Number}(::Type{T}, aa::AminoAcid) = convert(T, UInt8(aa))
-Base.convert{T<:Number}(::Type{AminoAcid}, aa::T) = convert(AminoAcid, UInt8(aa))
+Base.convert(::Type{T}, aa::AminoAcid) where T <: Number = convert(T, UInt8(aa))
+Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, UInt8(aa))
 
 # Conversion from/to Char
 # -----------------------

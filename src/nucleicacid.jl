@@ -26,31 +26,31 @@
 """
 An abstract nucleic acid type.
 """
-@compat abstract type NucleicAcid end
+abstract type NucleicAcid end
 
 """
 A deoxyribonucleic acid type.
 """
-@compat primitive type DNA <: NucleicAcid 8 end
+primitive type DNA <: NucleicAcid 8 end
 
 """
 A ribonucleic acid type.
 """
-@compat primitive type RNA <: NucleicAcid 8 end
+primitive type RNA <: NucleicAcid 8 end
 
 # Conversion from/to integers
 # ---------------------------
 
-Base.convert{T<:NucleicAcid}(::Type{T}, nt::UInt8) = reinterpret(T, nt)
-Base.convert{T<:NucleicAcid}(::Type{UInt8}, nt::T) = reinterpret(UInt8, nt)
-Base.convert{T<:Number,S<:NucleicAcid}(::Type{T}, nt::S) = convert(T, UInt8(nt))
-Base.convert{T<:Number,S<:NucleicAcid}(::Type{S}, nt::T) = convert(S, UInt8(nt))
+Base.convert(::Type{T}, nt::UInt8) where T <: NucleicAcid = reinterpret(T, nt)
+Base.convert(::Type{UInt8}, nt::T) where T <: NucleicAcid = reinterpret(UInt8, nt)
+Base.convert(::Type{T}, nt::S) where {T <: Number, S <: NucleicAcid} = convert(T, UInt8(nt))
+Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S, UInt8(nt))
 
 # Conversion from/to characters
 # -----------------------------
 
 function Base.convert(::Type{DNA}, c::Char)
-    if c > '\xff'
+    if c > '\uff'
         throw(InexactError())
     end
     @inbounds dna = char_to_dna[Int(c) + 1]
@@ -61,7 +61,7 @@ function Base.convert(::Type{DNA}, c::Char)
 end
 
 function Base.convert(::Type{RNA}, c::Char)
-    if c > '\xff'
+    if c > '\uff'
         throw(InexactError())
     end
     @inbounds rna = char_to_rna[Int(c) + 1]
@@ -85,7 +85,7 @@ end
 prefix(::Type{DNA}) = "DNA"
 prefix(::Type{RNA}) = "RNA"
 
-function Base.show{T<:NucleicAcid}(io::IO, nt::T)
+function Base.show(io::IO, nt::T) where T <: NucleicAcid
     if isvalid(nt)
         if nt == gap(T)
             write(io, prefix(T), "_Gap")
@@ -280,31 +280,31 @@ julia> ACGUN
 """
 const ACGUN = (RNA_A, RNA_C, RNA_G, RNA_U, RNA_N)
 
-function Base.:~{N<:NucleicAcid}(x::N)
+function Base.:~(x::N) where N <: NucleicAcid
     return reinterpret(N, ~reinterpret(UInt8, x) & 0b1111)
 end
 
-function Base.:|{N<:NucleicAcid}(x::N, y::N)
+function Base.:|(x::N, y::N) where N <: NucleicAcid
     return reinterpret(N, reinterpret(UInt8, x) | reinterpret(UInt8, y))
 end
 
-function Base.:&{N<:NucleicAcid}(x::N, y::N)
+function Base.:&(x::N, y::N) where N <: NucleicAcid
     return reinterpret(N, reinterpret(UInt8, x) & reinterpret(UInt8, y))
 end
 
-function Base.:-{N<:NucleicAcid}(x::N, y::N)
+function Base.:-(x::N, y::N) where N <: NucleicAcid
     return Int(x) - Int(y)
 end
 
-function Base.:-{N<:NucleicAcid}(x::N, y::Integer)
+function Base.:-(x::N, y::Integer) where N <: NucleicAcid
     return x + (-y)
 end
 
-function Base.:+{N<:NucleicAcid}(x::N, y::Integer)
+function Base.:+(x::N, y::Integer) where N <: NucleicAcid
     return reinterpret(N, (UInt8(x) + y % UInt8) & 0b1111)
 end
 
-function Base.isless{N<:NucleicAcid}(x::N, y::N)
+function Base.isless(x::N, y::N) where N <: NucleicAcid
     return isless(reinterpret(UInt8, x), reinterpret(UInt8, y))
 end
 
@@ -421,7 +421,7 @@ function complement(nt::NucleicAcid)
         (bits & 0x02) << 1 | (bits & 0x04) >> 1)
 end
 
-function Base.isvalid{T<:NucleicAcid}(::Type{T}, x::Integer)
+function Base.isvalid(::Type{T}, x::Integer) where T <: NucleicAcid
     return 0 ≤ x < 16
 end
 
@@ -451,7 +451,7 @@ false
 
 ```
 """
-@inline function iscompatible{T<:NucleicAcid}(x::T, y::T)
+@inline function iscompatible(x::T, y::T) where T <: NucleicAcid
     return compatbits(x) & compatbits(y) != 0
 end
 
@@ -478,3 +478,23 @@ julia> compatbits(DNA_N)
 @inline function compatbits(nt::NucleicAcid)
     return reinterpret(UInt8, nt)
 end
+
+#=
+# TODO - extra boundschecking which can be turned off using @inbounds.
+
+@inline function Base.getindex(arr::SVector{4}, idx::NucleicAcid)
+    @inbounds return arr[trailing_zeros(idx) + 1]
+end
+
+@inline function Base.getindex(arr::SVector{16}, idx::NucleicAcid)
+    @inbounds return arr[reinterpret(UInt8, idx) + 1]
+end
+
+@inline function Base.getindex(arr::SMatrix{4,4}, i::NucleicAcid, j::NucleicAcid)
+    @inbounds return arr[trailing_zeros(i) + 1, trailing_zeros(j) + 1]
+end
+
+@inline function Base.getindex(arr::SMatrix{16,16}, i::NucleicAcid, j::NucleicAcid)
+    @inbounds return arr[reinterpret(UInt8, i) + 1, reinterpret(UInt8, j) + 1]
+end
+=#
