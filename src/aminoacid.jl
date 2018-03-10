@@ -42,7 +42,7 @@ function Base.show(io::IO, aa::AminoAcid)
         elseif aa == AA_Gap
             write(io, "AA_Gap")
         else
-            write(io, "AA_", Char(aa))
+            write(io, "AA_", convert(Char, aa))
         end
     else
         write(io, "Invalid Amino Acid")
@@ -54,7 +54,7 @@ function Base.print(io::IO, aa::AminoAcid)
     if !isvalid(aa)
         throw(ArgumentError("invalid amino acid"))
     end
-    write(io, Char(aa))
+    write(io, convert(Char, aa))
     return
 end
 
