@@ -43,8 +43,8 @@ primitive type RNA <: NucleicAcid 8 end
 
 Base.convert(::Type{T}, nt::UInt8) where T <: NucleicAcid = reinterpret(T, nt)
 Base.convert(::Type{UInt8}, nt::T) where T <: NucleicAcid = reinterpret(UInt8, nt)
-Base.convert(::Type{T}, nt::S) where {T <: Number, S <: NucleicAcid} = convert(T, UInt8(nt))
-Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S, UInt8(nt))
+Base.convert(::Type{T}, nt::S) where {T <: Number, S <: NucleicAcid} = convert(T, convert(UInt8, nt))
+Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S, convert(UInt8, nt))
 
 # Conversion from/to characters
 # -----------------------------
@@ -53,7 +53,7 @@ function Base.convert(::Type{DNA}, c::Char)
     if c > '\uff'
         throw(InexactError())
     end
-    @inbounds dna = char_to_dna[Int(c) + 1]
+    @inbounds dna = char_to_dna[convert(Int, c) + 1]
     if !isvalid(DNA, dna)
         throw(InexactError())
     end
@@ -64,7 +64,7 @@ function Base.convert(::Type{RNA}, c::Char)
     if c > '\uff'
         throw(InexactError())
     end
-    @inbounds rna = char_to_rna[Int(c) + 1]
+    @inbounds rna = char_to_rna[convert(Int, c) + 1]
     if !isvalid(RNA, rna)
         throw(InexactError())
     end
@@ -90,7 +90,7 @@ function Base.show(io::IO, nt::T) where T <: NucleicAcid
         if nt == gap(T)
             write(io, prefix(T), "_Gap")
         else
-            write(io, prefix(T), "_", Char(nt))
+            write(io, prefix(T), "_", convert(Char, nt))
         end
     else
         write(io, "Invalid ", prefix(T))
@@ -102,7 +102,7 @@ function Base.print(io::IO, nt::NucleicAcid)
     if !isvalid(nt)
         throw(ArgumentError("nucleic acid is invalid"))
     end
-    write(io, Char(nt))
+    write(io, convert(Char, nt))
     return
 end
 
@@ -136,8 +136,8 @@ for (char, doc, bits) in [
     var = Symbol("DNA_", char != '-' ? char : "Gap")
     @eval begin
         @doc $(doc) const $(var) = reinterpret(DNA, $(bits))
-        char_to_dna[$(Int(char)+1)] = char_to_dna[$(Int(lowercase(char))+1)] = $(bits)
-        dna_to_char[$(Int(bits)+1)] = $(char)
+        char_to_dna[$(convert(Int, char) + 1)] = char_to_dna[$(convert(Int, lowercase(char)) + 1)] = $(bits)
+        dna_to_char[$(convert(Int, bits) + 1)] = $(char)
     end
 end
 
@@ -220,8 +220,8 @@ for (char, doc, dna) in [
     var = Symbol("RNA_", char != '-' ? char : "Gap")
     @eval begin
         @doc $(doc) const $(var) = reinterpret(RNA, $(dna))
-        char_to_rna[$(Int(char)+1)] = char_to_rna[$(Int(lowercase(char)+1))] = reinterpret(UInt8, $(dna))
-        rna_to_char[$(Int(dna)+1)] = $(char)
+        char_to_rna[$(convert(Int, char) + 1)] = char_to_rna[$(convert(Int, lowercase(char) + 1))] = reinterpret(UInt8, $(dna))
+        rna_to_char[$(convert(Int, dna) + 1)] = $(char)
     end
 end
 
@@ -293,7 +293,7 @@ function Base.:&(x::N, y::N) where N <: NucleicAcid
 end
 
 function Base.:-(x::N, y::N) where N <: NucleicAcid
-    return Int(x) - Int(y)
+    return convert(Int, x) - convert(Int, y)
 end
 
 function Base.:-(x::N, y::Integer) where N <: NucleicAcid
@@ -301,7 +301,7 @@ function Base.:-(x::N, y::Integer) where N <: NucleicAcid
 end
 
 function Base.:+(x::N, y::Integer) where N <: NucleicAcid
-    return reinterpret(N, (UInt8(x) + y % UInt8) & 0b1111)
+    return reinterpret(N, (convert(UInt8, x) + y % UInt8) & 0b1111)
 end
 
 function Base.isless(x::N, y::N) where N <: NucleicAcid

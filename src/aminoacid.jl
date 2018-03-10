@@ -252,7 +252,7 @@ end
 
 # These methods are necessary when deriving some algorithims
 # like iteration, sort, comparison, and so on.
-Base.:-(x::AminoAcid, y::AminoAcid) = Int(x) - Int(y)
+Base.:-(x::AminoAcid, y::AminoAcid) = convert(Int, x) - convert(Int, y)
 # 0x1c is the size of the amino acid alphabet
 Base.:-(x::AminoAcid, y::Integer) = x + mod(-y, 0x1c)
 Base.:+(x::AminoAcid, y::Integer) = reinterpret(AminoAcid, mod((convert(UInt8, x) + y) % UInt8, 0x1c))
