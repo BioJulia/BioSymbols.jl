@@ -16,8 +16,8 @@ primitive type AminoAcid 8 end
 
 Base.convert(::Type{AminoAcid}, aa::UInt8) = reinterpret(AminoAcid, aa)
 Base.convert(::Type{UInt8}, aa::AminoAcid) = reinterpret(UInt8, aa)
-Base.convert(::Type{T}, aa::AminoAcid) where T <: Number = convert(T, UInt8(aa))
-Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, UInt8(aa))
+Base.convert(::Type{T}, aa::AminoAcid) where T <: Number = convert(T, convert(UInt8, aa))
+Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, convert(UInt8, aa))
 
 # Conversion from/to Char
 # -----------------------
@@ -255,9 +255,9 @@ end
 Base.:-(x::AminoAcid, y::AminoAcid) = Int(x) - Int(y)
 # 0x1c is the size of the amino acid alphabet
 Base.:-(x::AminoAcid, y::Integer) = x + mod(-y, 0x1c)
-Base.:+(x::AminoAcid, y::Integer) = reinterpret(AminoAcid, mod((UInt8(x) + y) % UInt8, 0x1c))
+Base.:+(x::AminoAcid, y::Integer) = reinterpret(AminoAcid, mod((convert(UInt8, x) + y) % UInt8, 0x1c))
 Base.:+(x::Integer, y::AminoAcid) = y + x
-Base.isless(x::AminoAcid, y::AminoAcid) = isless(UInt8(x), UInt8(y))
+Base.isless(x::AminoAcid, y::AminoAcid) = isless(convert(UInt8, x), convert(UInt8, y))
 
 Base.isvalid(::Type{AminoAcid}, x::Integer) = 0 ≤ x ≤ 0x1b
 Base.isvalid(aa::AminoAcid) = aa ≤ AA_Gap
