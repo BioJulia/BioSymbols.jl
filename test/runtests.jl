@@ -1,7 +1,8 @@
-using Base.Test
 
 using BioSymbols
 using Compat
+using Compat: Test
+using Nullables
 
 @testset "NucleicAcids" begin
     @testset "Conversions" begin
