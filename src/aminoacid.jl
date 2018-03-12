@@ -9,15 +9,15 @@
 """
 An amino acid type.
 """
-@compat primitive type AminoAcid 8 end
+primitive type AminoAcid 8 end
 
 # Conversion from/to integers
 # ---------------------------
 
 Base.convert(::Type{AminoAcid}, aa::UInt8) = reinterpret(AminoAcid, aa)
 Base.convert(::Type{UInt8}, aa::AminoAcid) = reinterpret(UInt8, aa)
-Base.convert{T<:Number}(::Type{T}, aa::AminoAcid) = convert(T, UInt8(aa))
-Base.convert{T<:Number}(::Type{AminoAcid}, aa::T) = convert(AminoAcid, UInt8(aa))
+Base.convert(::Type{T}, aa::AminoAcid) where T <: Number = convert(T, convert(UInt8, aa))
+Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, convert(UInt8, aa))
 
 # Conversion from/to Char
 # -----------------------
@@ -42,7 +42,7 @@ function Base.show(io::IO, aa::AminoAcid)
         elseif aa == AA_Gap
             write(io, "AA_Gap")
         else
-            write(io, "AA_", Char(aa))
+            write(io, "AA_", convert(Char, aa))
         end
     else
         write(io, "Invalid Amino Acid")
@@ -54,7 +54,7 @@ function Base.print(io::IO, aa::AminoAcid)
     if !isvalid(aa)
         throw(ArgumentError("invalid amino acid"))
     end
-    write(io, Char(aa))
+    write(io, convert(Char, aa))
     return
 end
 
@@ -252,12 +252,12 @@ end
 
 # These methods are necessary when deriving some algorithims
 # like iteration, sort, comparison, and so on.
-Base.:-(x::AminoAcid, y::AminoAcid) = Int(x) - Int(y)
+Base.:-(x::AminoAcid, y::AminoAcid) = convert(Int, x) - convert(Int, y)
 # 0x1c is the size of the amino acid alphabet
 Base.:-(x::AminoAcid, y::Integer) = x + mod(-y, 0x1c)
-Base.:+(x::AminoAcid, y::Integer) = reinterpret(AminoAcid, mod((UInt8(x) + y) % UInt8, 0x1c))
+Base.:+(x::AminoAcid, y::Integer) = reinterpret(AminoAcid, mod((convert(UInt8, x) + y) % UInt8, 0x1c))
 Base.:+(x::Integer, y::AminoAcid) = y + x
-Base.isless(x::AminoAcid, y::AminoAcid) = isless(UInt8(x), UInt8(y))
+Base.isless(x::AminoAcid, y::AminoAcid) = isless(convert(UInt8, x), convert(UInt8, y))
 
 Base.isvalid(::Type{AminoAcid}, x::Integer) = 0 ≤ x ≤ 0x1b
 Base.isvalid(aa::AminoAcid) = aa ≤ AA_Gap
