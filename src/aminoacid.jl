@@ -9,7 +9,7 @@
 """
 An amino acid type.
 """
-primitive type AminoAcid 8 end
+primitive type AminoAcid <: BioSymbol 8 end
 
 # Conversion from/to integers
 # ---------------------------
@@ -32,31 +32,6 @@ end
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
 
-# Print
-# -----
-
-function Base.show(io::IO, aa::AminoAcid)
-    if isvalid(aa)
-        if aa == AA_Term
-            write(io, "AA_Term")
-        elseif aa == AA_Gap
-            write(io, "AA_Gap")
-        else
-            write(io, "AA_", convert(Char, aa))
-        end
-    else
-        write(io, "Invalid Amino Acid")
-    end
-    return
-end
-
-function Base.print(io::IO, aa::AminoAcid)
-    if !isvalid(aa)
-        throw(ArgumentError("invalid amino acid"))
-    end
-    write(io, convert(Char, aa))
-    return
-end
 
 Base.write(io::IO, aa::AminoAcid) = write(io, reinterpret(UInt8, aa))
 Base.read(io::IO, ::Type{AminoAcid}) = reinterpret(AminoAcid, read(io, UInt8))
@@ -287,15 +262,6 @@ end
 Return `AA_Gap`.
 """
 gap(::Type{AminoAcid}) = AA_Gap
-
-"""
-    isgap(aa::AminoAcid)
-
-Test if `aa` is a gap.
-"""
-function isgap(aa::AminoAcid)
-    return aa == AA_Gap
-end
 
 """
     compatbits(aa::AminoAcid)

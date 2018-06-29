@@ -99,7 +99,45 @@ export
 import Automa
 import Automa.RegExp: @re_str
 
+abstract type BioSymbol end
+
 include("nucleicacid.jl")
 include("aminoacid.jl")
+
+"""
+    isgap(aa::AminoAcid)
+
+Test if `aa` is a gap.
+"""
+isgap(symbol::BioSymbol) = symbol == gap(typeof(symbol))
+
+
+# Printing BioSymbols
+# -------------------
+
+prefix(::DNA) = "DNA"
+prefix(::RNA) = "RNA"
+prefix(::AminoAcid) = "AA"
+
+function Base.show(io::IO, symbol::BioSymbol)
+    if isvalid(symbol)
+        if isgap(symbol)
+            write(io, prefix(symbol), "_Gap")
+        else
+            write(io, prefix(symbol), '_', convert(Char, symbol))
+        end
+    else
+        write(io, "Invalid ", prefix(symbol))
+    end
+    return nothing
+end
+
+function Base.print(io::IO, symbol::BioSymbol)
+    if !isvalid(symbol)
+        throw(ArgumentError("Invalid $(prefix(symbol))"))
+    end
+    write(io, convert(Char, symbol))
+    return nothing
+end
 
 end

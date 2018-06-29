@@ -26,7 +26,7 @@
 """
 An abstract nucleic acid type.
 """
-abstract type NucleicAcid end
+abstract type NucleicAcid <: BioSymbol end
 
 """
 A deoxyribonucleic acid type.
@@ -79,32 +79,6 @@ function Base.convert(::Type{Char}, nt::RNA)
     return rna_to_char[convert(UInt8, nt) + 1]
 end
 
-# Print
-# -----
-
-prefix(::Type{DNA}) = "DNA"
-prefix(::Type{RNA}) = "RNA"
-
-function Base.show(io::IO, nt::T) where T <: NucleicAcid
-    if isvalid(nt)
-        if nt == gap(T)
-            write(io, prefix(T), "_Gap")
-        else
-            write(io, prefix(T), "_", convert(Char, nt))
-        end
-    else
-        write(io, "Invalid ", prefix(T))
-    end
-    return
-end
-
-function Base.print(io::IO, nt::NucleicAcid)
-    if !isvalid(nt)
-        throw(ArgumentError("nucleic acid is invalid"))
-    end
-    write(io, convert(Char, nt))
-    return
-end
 
 Base.write(io::IO, na::NucleicAcid) = write(io, reinterpret(UInt8, na))
 Base.read(io::IO, ::Type{T}) where T<:NucleicAcid = reinterpret(T, read(io, UInt8))
@@ -324,18 +298,14 @@ end
 
 Return `DNA_Gap`.
 """
-function gap(::Type{DNA})
-    return DNA_Gap
-end
+gap(::Type{DNA}) = DNA_Gap
 
 """
     gap(RNA)
 
 Return `RNA_Gap`.
 """
-function gap(::Type{RNA})
-    return RNA_Gap
-end
+gap(::Type{RNA}) = RNA_Gap
 
 """
     isGC(nt::NucleicAcid)
