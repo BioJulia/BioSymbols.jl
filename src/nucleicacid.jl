@@ -90,7 +90,7 @@ Base.read(io::IO, ::Type{T}) where T<:NucleicAcid = reinterpret(T, read(io, UInt
 const char_to_dna = [0x80 for _ in 0x00:0xff]
 const dna_to_char = Vector{Char}(undef, 16)
 
-# derived from "The DDBJ/ENA/GenBank Feature Table Definition"
+# Derived from "The DDBJ/ENA/GenBank Feature Table Definition"
 # §7.4.1 Nucleotide base code (IUPAC)
 # http://www.insdc.org/documents/feature_table.html#7.4.1
 for (char, doc, bits) in [

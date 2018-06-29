@@ -111,6 +111,9 @@ Test if `aa` is a gap.
 """
 isgap(symbol::BioSymbol) = symbol == gap(typeof(symbol))
 
+isterm(symbol::NucleicAcid) = false
+isterm(symbol::AminoAcid) = symbol == AA_Term
+
 
 # Printing BioSymbols
 # -------------------
@@ -118,23 +121,31 @@ isgap(symbol::BioSymbol) = symbol == gap(typeof(symbol))
 prefix(::DNA) = "DNA"
 prefix(::RNA) = "RNA"
 prefix(::AminoAcid) = "AA"
+type_text(::AminoAcid) = "Amino Acid"
+type_text(x::NucleicAcid) = prefix(x)
+
+function suffix(symbol::BioSymbol)
+    if isterm(symbol)
+        return "_Term"
+    end
+    if isgap(symbol)
+        return "_Gap"
+    end
+    return "_$(convert(Char, symbol))"
+end
 
 function Base.show(io::IO, symbol::BioSymbol)
     if isvalid(symbol)
-        if isgap(symbol)
-            write(io, prefix(symbol), "_Gap")
-        else
-            write(io, prefix(symbol), '_', convert(Char, symbol))
-        end
+        write(io, prefix(symbol), suffix(symbol))
     else
-        write(io, "Invalid ", prefix(symbol))
+        write(io, "Invalid ", type_text(symbol))
     end
     return nothing
 end
 
 function Base.print(io::IO, symbol::BioSymbol)
     if !isvalid(symbol)
-        throw(ArgumentError("Invalid $(prefix(symbol))"))
+        throw(ArgumentError("Invalid $(type_text(symbol))"))
     end
     write(io, convert(Char, symbol))
     return nothing
