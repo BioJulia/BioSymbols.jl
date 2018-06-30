@@ -105,14 +105,49 @@ include("nucleicacid.jl")
 include("aminoacid.jl")
 
 """
-    isgap(aa::AminoAcid)
+    isgap(symbol::BioSymbol)
 
-Test if `aa` is a gap.
+Test if `symbol` is a gap.
 """
 isgap(symbol::BioSymbol) = symbol == gap(typeof(symbol))
 
 isterm(symbol::NucleicAcid) = false
 isterm(symbol::AminoAcid) = symbol == AA_Term
+bytemask(symbol::NucleicAcid) = 0b1111
+bytemask(symbol::AminoAcid) = 0b11111
+
+# Arithmetic and Order
+# --------------------
+
+# These methods are necessary when deriving some algorithims
+# like iteration, sort, comparison, and so on.
+
+Base.:-(x::S, y::S) where S <: BioSymbol = convert(Int, x) - convert(Int, y)
+
+Base.:+(x::Integer, y::BioSymbol) = y + x
+
+Base.isless(x::S, y::S) where S <: BioSymbol = isless(convert(Integer, x), convert(Integer, y))
+
+function Base.:~(x::BioSymbol)
+    return reinterpret(typeof(x), ~reinterpret(UInt8, x) & bytemask(x))
+end
+
+function Base.:&(x::S, y::S) where S <: BioSymbol
+    return reinterpret(S, convert(Integer, x) & convert(Integer, y))
+end
+
+
+@inline function Base.count_ones(symbol::BioSymbol)
+    return count_ones(convert(Integer, symbol))
+end
+
+@inline function Base.trailing_zeros(symbol::BioSymbol)
+    return trailing_zeros(convert(Integer, symbol))
+end
+
+
+
+
 
 
 # Printing BioSymbols
@@ -131,7 +166,7 @@ function suffix(symbol::BioSymbol)
     if isgap(symbol)
         return "_Gap"
     end
-    return "_$(convert(Char, symbol))"
+    return string('_', convert(Char, symbol))
 end
 
 function Base.show(io::IO, symbol::BioSymbol)
@@ -149,6 +184,37 @@ function Base.print(io::IO, symbol::BioSymbol)
     end
     write(io, convert(Char, symbol))
     return nothing
+end
+
+
+"""
+    iscompatible(x::S, y::S) where S <: BioSymbol
+
+Test if `x` and `y` are compatible with each other.
+
+Examples
+--------
+
+```jldoctest
+julia> iscompatible(AA_A, AA_R)
+false
+
+julia> iscompatible(AA_A, AA_X)
+true
+
+julia> iscompatible(DNA_A, DNA_A)
+true
+
+julia> iscompatible(DNA_C, DNA_N)  # DNA_N can be DNA_C
+true
+
+julia> iscompatible(DNA_C, DNA_R)  # DNA_R (A or G) cannot be DNA_C
+false
+
+```
+"""
+@inline function iscompatible(x::S, y::S) where S <: BioSymbol
+    return compatbits(x) & compatbits(y) != 0
 end
 
 end

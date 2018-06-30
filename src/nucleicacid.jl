@@ -265,32 +265,12 @@ function Base.:|(x::N, y::N) where N <: NucleicAcid
     return reinterpret(N, reinterpret(UInt8, x) | reinterpret(UInt8, y))
 end
 
-function Base.:&(x::N, y::N) where N <: NucleicAcid
-    return reinterpret(N, reinterpret(UInt8, x) & reinterpret(UInt8, y))
-end
-
-function Base.:-(x::N, y::N) where N <: NucleicAcid
-    return convert(Int, x) - convert(Int, y)
-end
-
 function Base.:-(x::N, y::Integer) where N <: NucleicAcid
     return x + (-y)
 end
 
 function Base.:+(x::N, y::Integer) where N <: NucleicAcid
     return reinterpret(N, (convert(UInt8, x) + y % UInt8) & 0b1111)
-end
-
-function Base.isless(x::N, y::N) where N <: NucleicAcid
-    return isless(reinterpret(UInt8, x), reinterpret(UInt8, y))
-end
-
-@inline function Base.count_ones(nt::NucleicAcid)
-    return count_ones(reinterpret(UInt8, nt))
-end
-
-function Base.trailing_zeros(nt::NucleicAcid)
-    return trailing_zeros(reinterpret(UInt8, nt))
 end
 
 """
@@ -356,15 +336,6 @@ Test if `nt` is a non-ambiguous nucleotide e.g. ACGT.
 end
 
 """
-    isgap(nt::NucleicAcid)
-
-Test if `nt` is a gap.
-"""
-@inline function isgap(nt::NucleicAcid)
-    return count_ones(nt) == 0
-end
-
-"""
     complement(nt::NucleicAcid)
 
 Return the complementary nucleotide of `nt`.
@@ -402,31 +373,7 @@ function Base.isvalid(nt::NucleicAcid)
     return reinterpret(UInt8, nt) ≤ 0b1111
 end
 
-"""
-    iscompatible(x::T, y::T) where T <: NucleicAcid
 
-Test if `x` and `y` are compatible with each other (i.e. `x` and `y` can be the same symbol).
-
-`x` and `y` must be the same type.
-
-Examples
---------
-
-```jldoctest
-julia> iscompatible(DNA_A, DNA_A)
-true
-
-julia> iscompatible(DNA_C, DNA_N)  # DNA_N can be DNA_C
-true
-
-julia> iscompatible(DNA_C, DNA_R)  # DNA_R (A or G) cannot be DNA_C
-false
-
-```
-"""
-@inline function iscompatible(x::T, y::T) where T <: NucleicAcid
-    return compatbits(x) & compatbits(y) != 0
-end
 
 """
     compatbits(nt::NucleicAcid)
@@ -451,23 +398,3 @@ julia> compatbits(DNA_N)
 @inline function compatbits(nt::NucleicAcid)
     return reinterpret(UInt8, nt)
 end
-
-#=
-# TODO - extra boundschecking which can be turned off using @inbounds.
-
-@inline function Base.getindex(arr::SVector{4}, idx::NucleicAcid)
-    @inbounds return arr[trailing_zeros(idx) + 1]
-end
-
-@inline function Base.getindex(arr::SVector{16}, idx::NucleicAcid)
-    @inbounds return arr[reinterpret(UInt8, idx) + 1]
-end
-
-@inline function Base.getindex(arr::SMatrix{4,4}, i::NucleicAcid, j::NucleicAcid)
-    @inbounds return arr[trailing_zeros(i) + 1, trailing_zeros(j) + 1]
-end
-
-@inline function Base.getindex(arr::SMatrix{16,16}, i::NucleicAcid, j::NucleicAcid)
-    @inbounds return arr[reinterpret(UInt8, i) + 1, reinterpret(UInt8, j) + 1]
-end
-=#
