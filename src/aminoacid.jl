@@ -58,6 +58,9 @@ function Base.print(io::IO, aa::AminoAcid)
     return
 end
 
+Base.write(io::IO, aa::AminoAcid) = write(io, reinterpret(UInt8, x))
+Base.read(io::IO, ::Type{AminoAcid}) = reinterpret(AminoAcid, read(io, UInt8))
+
 # Amino acid encoding definition
 # ------------------------------
 
