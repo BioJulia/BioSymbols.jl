@@ -38,7 +38,7 @@ BioSymbols is tested against Julia `0.7` on Linux, OS X, and Windows.
 
 | **PackageEvaluator** | **Latest Build Status** |
 |:--------------------:|:-----------------------:|
-| [![](http://pkg.julialang.org/badges/BioSymbols_0.7.svg)](http://pkg.julialang.org/?pkg=BioSymbols) [![](http://pkg.julialang.org/badges/BioSymbols_1.0.svg)](http://pkg.julialang.org/?pkg=BioSymbols) | [![](https://travis-ci.org/BioJulia/BioSymbols.jl.svg?branch=master)](https://travis-ci.org/BioJulia/BioSymbols.jl) [![](https://ci.appveyor.com/api/projects/status/q9i9c79h0p33tiqp/branch/master?svg=true)](https://ci.appveyor.com/project/Ward9250/BioSymbols-jl/branch/master) [![](https://codecov.io/gh/BioJulia/BioSymbols.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/BioJulia/BioSymbols.jl) |
+| [![](http://pkg.julialang.org/badges/BioSymbols_0.7.svg)](http://pkg.julialang.org/?pkg=BioSymbols) | [![](https://travis-ci.org/BioJulia/BioSymbols.jl.svg?branch=master)](https://travis-ci.org/BioJulia/BioSymbols.jl) [![](https://ci.appveyor.com/api/projects/status/q9i9c79h0p33tiqp/branch/master?svg=true)](https://ci.appveyor.com/project/Ward9250/BioSymbols-jl/branch/master) [![](https://codecov.io/gh/BioJulia/BioSymbols.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/BioJulia/BioSymbols.jl) |
 
 
 ## Contributing
