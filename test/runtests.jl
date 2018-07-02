@@ -1,13 +1,7 @@
 
 using BioSymbols
-using Compat
-using Nullables
 
-if VERSION >= v"0.7-"
-    using Test
-else
-    using Base.Test
-end
+using Test
 
 function round_trip(x)
     io = IOBuffer()
@@ -606,14 +600,14 @@ end
                 @test parse(AminoAcid, one) == aa
                 @test parse(AminoAcid, three) == aa
                 @test parse(AminoAcid, Char(one[1])) == aa
-                @test tryparse(AminoAcid, one) === Nullable(aa)
-                @test tryparse(AminoAcid, three) === Nullable(aa)
-                @test tryparse(AminoAcid, Char(one[1])) === Nullable(aa)
+                @test tryparse(AminoAcid, one) === aa
+                @test tryparse(AminoAcid, three) === aa
+                @test tryparse(AminoAcid, Char(one[1])) === aa
             end
             @test parse(AminoAcid, "*") == AA_Term
             @test parse(AminoAcid, "-") == AA_Gap
-            @test tryparse(AminoAcid, "*") === Nullable(AA_Term)
-            @test tryparse(AminoAcid, "-") === Nullable(AA_Gap)
+            @test tryparse(AminoAcid, "*") === AA_Term
+            @test tryparse(AminoAcid, "-") === AA_Gap
         end
 
         @testset "Invalid Cases" begin
@@ -624,13 +618,13 @@ end
             @test_throws ArgumentError parse(AminoAcid, '\0')
             @test_throws ArgumentError parse(AminoAcid, '@')
             @test_throws ArgumentError parse(AminoAcid, '亜')
-            @test isnull(tryparse(AminoAcid, ""))
-            @test isnull(tryparse(AminoAcid, "AL"))
-            @test isnull(tryparse(AminoAcid, "LA"))
-            @test isnull(tryparse(AminoAcid, "ALAA"))
-            @test isnull(tryparse(AminoAcid, '\0'))
-            @test isnull(tryparse(AminoAcid, '@'))
-            @test isnull(tryparse(AminoAcid, '亜'))
+            @test tryparse(AminoAcid, "") == nothing
+            @test tryparse(AminoAcid, "AL") == nothing
+            @test tryparse(AminoAcid, "LA") == nothing
+            @test tryparse(AminoAcid, "ALAA") == nothing
+            @test tryparse(AminoAcid, '\0') == nothing
+            @test tryparse(AminoAcid, '@') == nothing
+            @test tryparse(AminoAcid, '亜') == nothing
         end
     end
 end

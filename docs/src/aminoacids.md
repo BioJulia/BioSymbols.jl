@@ -85,10 +85,10 @@ AA_P
 julia> parse(AminoAcid, "Pro") == parse(AminoAcid, "pRo")
 true
 
-julia> tryparse(AminoAcid, "Pro")  # tryparse returns a nullable value
-Nullable{BioSymbols.AminoAcid}(AA_P)
+julia> tryparse(AminoAcid, "Pro")  # tryparse returns either an amino acid or nothing
+AA_P
 
 julia> tryparse(AminoAcid, "Pr")
-Nullable{BioSymbols.AminoAcid}()
+nothing
 
 ```
