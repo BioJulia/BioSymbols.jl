@@ -190,7 +190,7 @@ function Base.print(io::IO, symbol::BioSymbol)
     return nothing
 end
 
-Base.write(io::IO, symbol::BioSymbol) = write(io, convert(Integer, na))
+Base.write(io::IO, symbol::BioSymbol) = write(io, convert(Integer, symbol))
 Base.read(io::IO, ::Type{T}) where T<:BioSymbol = reinterpret(T, read(io, UInt8))    
 
 
