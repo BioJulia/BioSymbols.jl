@@ -106,6 +106,9 @@ function Base.print(io::IO, nt::NucleicAcid)
     return
 end
 
+Base.write(io::IO, na::NucleicAcid) = write(io, reinterpret(UInt8, na))
+Base.read(io::IO, ::Type{T}) where T<:NucleicAcid = reinterpret(T, read(io, UInt8))
+
 # Encoding of DNA and RNA NucleicAcids
 # ------------------------------------
 

@@ -9,6 +9,14 @@ else
     using Base.Test
 end
 
+function round_trip(x)
+    io = IOBuffer()
+    write(io, x)
+    io = IOBuffer(take!(io))
+    y = read(io, typeof(x))
+    return x == y
+end
+
 @testset "NucleicAcids" begin
     @testset "Conversions" begin
         @testset "UInt8" begin
@@ -369,6 +377,11 @@ end
             @test String(take!(buf)) == "RNA_A RNA_C RNA_G RNA_U RNA_N RNA_Gap "
             @test sprint(show, reinterpret(RNA, 0xf0)) == "Invalid RNA"
         end
+        
+        @testset "read and write" begin
+            @test round_trip(AA_X)
+            @test round_trip(AA_Y)
+        end
     end
 
     @testset "Sets" begin
@@ -542,6 +555,11 @@ end
             end
             @test String(take!(buf)) == "AA_A AA_D AA_B AA_X AA_Term AA_Gap "
             @test sprint(show, BioSymbols.AA_INVALID) == "Invalid Amino Acid"
+        end
+        
+        @testset "read and write" begin
+            @test round_trip(DNA_G)
+            @test round_trip(RNA_U)
         end
     end
 
