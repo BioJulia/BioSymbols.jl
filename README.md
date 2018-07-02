@@ -27,7 +27,6 @@ However, if you do, you can install BioSymbols from the Julia REPL:
 ```julia
 using Pkg
 add("BioSymbols")
-# Pkg.add("BioSymbols") for julia prior to v0.7
 ```
 
 If you are interested in the cutting edge of the development, please check out
@@ -36,8 +35,7 @@ the master branch to try new features before release.
 
 ## Testing
 
-BioSymbols is tested against Julia `0.6` and current `0.7-dev` on Linux, OS X,
-and Windows.
+BioSymbols is tested against Julia `0.7-dev` on Linux, OS X, and Windows.
 
 | **PackageEvaluator** | **Latest Build Status** |
 |:--------------------:|:-----------------------:|
