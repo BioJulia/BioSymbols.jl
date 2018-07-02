@@ -24,10 +24,10 @@ Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, co
 
 function Base.convert(::Type{AminoAcid}, c::Char)
     aa = tryparse(AminoAcid, c)
-    if isnull(aa)
+    if aa == nothing
         throw(InexactError())
     end
-    return get(aa)
+    return aa
 end
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
@@ -227,9 +227,9 @@ let
         aa = AA_INVALID
         $(Automa.generate_exec_code(ctx, machine, actions))
         if cs != 0
-            return Nullable{AminoAcid}()
+            return nothing
         end
-        return Nullable(aa)
+        return aa
     end
 end
 
@@ -244,10 +244,10 @@ end
 
 function Base.parse(::Type{AminoAcid}, c::Union{AbstractString,Char})
     aa = tryparse(AminoAcid, c)
-    if isnull(aa)
+    if aa == nothing
         throw(ArgumentError("invalid amino acid"))
     end
-    return get(aa)
+    return aa
 end
 
 # Arithmetic and Order

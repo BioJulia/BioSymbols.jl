@@ -98,8 +98,6 @@ export
 
 import Automa
 import Automa.RegExp: @re_str
-using Compat
-using Nullables
 
 include("nucleicacid.jl")
 include("aminoacid.jl")
