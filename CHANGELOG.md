@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Read and write methods to fix errors when using `pmap`.
+- Contributing files and GitHub templates 
 
 ## [2.0.0] - 2018-03-13
 ### Added
