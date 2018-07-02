@@ -125,10 +125,6 @@ Test if `symbol` is a gap.
 """
 isgap(symbol::BioSymbol) = symbol == gap(typeof(symbol))
 
-isterm(symbol::NucleicAcid) = false
-isterm(symbol::AminoAcid) = symbol == AA_Term
-bytemask(symbol::NucleicAcid) = 0b1111
-bytemask(symbol::AminoAcid) = 0b11111
 
 # Arithmetic and Order
 # --------------------
@@ -167,11 +163,6 @@ end
 # Printing BioSymbols
 # -------------------
 
-
-prefix(::AminoAcid) = "AA"
-type_text(::AminoAcid) = "Amino Acid"
-type_text(x::NucleicAcid) = prefix(x)
-
 function suffix(symbol::BioSymbol)
     if isterm(symbol)
         return "_Term"
@@ -198,6 +189,9 @@ function Base.print(io::IO, symbol::BioSymbol)
     write(io, convert(Char, symbol))
     return nothing
 end
+
+Base.write(io::IO, symbol::BioSymbol) = write(io, convert(Integer, na))
+Base.read(io::IO, ::Type{T}) where T<:BioSymbol = reinterpret(T, read(io, UInt8))    
 
 
 """

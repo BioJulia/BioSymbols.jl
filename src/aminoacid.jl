@@ -40,9 +40,6 @@ end
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
 
 
-Base.write(io::IO, aa::AminoAcid) = write(io, reinterpret(UInt8, aa))
-Base.read(io::IO, ::Type{AminoAcid}) = reinterpret(AminoAcid, read(io, UInt8))
-
 # Amino acid encoding definition
 # ------------------------------
 

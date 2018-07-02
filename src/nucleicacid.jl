@@ -42,6 +42,8 @@ prefix(::DNA) = "DNA"
 prefix(::RNA) = "RNA"
 type_text(x::NucleicAcid) = prefix(x)
 isterm(symbol::NucleicAcid) = false
+to_char_array(::DNA) = dna_to_char
+to_char_array(::RNA) = rna_to_char
 
 
 # Conversion from/to integers
@@ -85,9 +87,6 @@ function Base.convert(::Type{Char}, nt::RNA)
     return rna_to_char[convert(UInt8, nt) + 1]
 end
 
-
-Base.write(io::IO, na::NucleicAcid) = write(io, reinterpret(UInt8, na))
-Base.read(io::IO, ::Type{T}) where T<:NucleicAcid = reinterpret(T, read(io, UInt8))
 
 # Encoding of DNA and RNA NucleicAcids
 # ------------------------------------
