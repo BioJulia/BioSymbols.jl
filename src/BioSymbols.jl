@@ -99,6 +99,20 @@ export
 import Automa
 import Automa.RegExp: @re_str
 
+"""
+The BioSymbol type is an abstract type that represents
+any kind of biological symbol that may appear in data
+such as biological sequences, SNP datasets and more.
+
+Every abstract or concrete subtype of BioSymbol is
+expected to have the following methods defined:
+
+`isterm`
+`bytemask`
+`prefix`
+`type_text`
+
+"""
 abstract type BioSymbol end
 
 include("nucleicacid.jl")
@@ -153,8 +167,7 @@ end
 # Printing BioSymbols
 # -------------------
 
-prefix(::DNA) = "DNA"
-prefix(::RNA) = "RNA"
+
 prefix(::AminoAcid) = "AA"
 type_text(::AminoAcid) = "Amino Acid"
 type_text(x::NucleicAcid) = prefix(x)

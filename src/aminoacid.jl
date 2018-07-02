@@ -11,6 +11,13 @@ An amino acid type.
 """
 primitive type AminoAcid <: BioSymbol 8 end
 
+prefix(::AminoAcid) = "AA"
+type_text(::AminoAcid) = "Amino Acid"
+isterm(symbol::AminoAcid) = symbol == AA_Term
+bytemask(symbol::AminoAcid) = 0b11111
+
+
+
 # Conversion from/to integers
 # ---------------------------
 

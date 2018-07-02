@@ -38,6 +38,12 @@ A ribonucleic acid type.
 """
 primitive type RNA <: NucleicAcid 8 end
 
+prefix(::DNA) = "DNA"
+prefix(::RNA) = "RNA"
+type_text(x::NucleicAcid) = prefix(x)
+isterm(symbol::NucleicAcid) = false
+
+
 # Conversion from/to integers
 # ---------------------------
 
