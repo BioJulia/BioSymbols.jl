@@ -69,10 +69,10 @@ const AA_INVALID = convert(AminoAcid, 0x1c)  # Used during conversion from strin
 
 # lookup table for characters
 const char_to_aa = [AA_INVALID for _ in 0x00:0x7f]
-const aa_to_char = Vector{Char}(0x1c)
+const aa_to_char = Vector{Char}(undef, 0x1c)
 
 # compatibility bits
-const compatbits_aa = Vector{UInt32}(28)
+const compatbits_aa = Vector{UInt32}(undef, 28)
 
 # This set of amino acids is defined by IUPAC-IUB Joint Commission on Biochemical Nomenclature.
 # Reference: http://www.insdc.org/documents/feature_table.html#7.4.3

@@ -114,7 +114,7 @@ Base.read(io::IO, ::Type{T}) where T<:NucleicAcid = reinterpret(T, read(io, UInt
 
 # lookup table for characters
 const char_to_dna = [0x80 for _ in 0x00:0xff]
-const dna_to_char = Vector{Char}(16)
+const dna_to_char = Vector{Char}(undef, 16)
 
 # derived from "The DDBJ/ENA/GenBank Feature Table Definition"
 # §7.4.1 Nucleotide base code (IUPAC)
@@ -201,7 +201,7 @@ const ACGTN = (DNA_A, DNA_C, DNA_G, DNA_T, DNA_N)
 
 # lookup table for characters
 const char_to_rna = [0x80 for _ in 0x00:0xff]
-const rna_to_char = Vector{Char}(16)
+const rna_to_char = Vector{Char}(undef, 16)
 
 for (char, doc, dna) in [
         ('-', "RNA Gap",                                  DNA_Gap),
