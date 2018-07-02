@@ -236,9 +236,9 @@ end
 function Base.tryparse(::Type{AminoAcid}, c::Char)
     @inbounds aa = c <= '\x7f' ? char_to_aa[Int(c)+1] : AA_INVALID
     if aa == AA_INVALID
-        return Nullable{AminoAcid}()
+        return nothing
     else
-        return Nullable(aa)
+        return aa
     end
 end
 
