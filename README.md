@@ -1,6 +1,4 @@
-<p align="center"><img src="./sticker.svg" width="30%" alt="BioSymbols" /></p>
-
------
+# <img align="right" src="./sticker.svg" width="30%" /> BioSymbols
 
 [![Latest release](https://img.shields.io/github/release/BioJulia/BioSymbols.jl.svg?style=flat-square)](https://github.com/BioJulia/BioSymbols.jl/releases/latest)
 [![MIT license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/BioJulia/BioSymbols.jl/blob/master/LICENSE) 
