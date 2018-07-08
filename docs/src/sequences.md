@@ -48,8 +48,8 @@ julia> (RNA_A, RNA_U, RNA_C)  # RNA triplet (or codon)
 ```
 
 
-Using BioSequences.jl
----------------------
+Using BioSequences
+------------------
 
 Using `Vector` or `Tuple` is simple, however, BioSymbols does not offer useful
 operations for these representations. So you need to use built-in operations of
@@ -58,7 +58,7 @@ efficient. For example, `DNA` is an 8-bit primitive but it only uses 4 bits,
 which means 50% of a `Vector{DNA}`'s space is not used at all.
 
 For the purpose of representing sequences as efficient as possible BioJulia has
-developed [BioSequences.jl](https://github.com/BioJulia/BioSequences.jl)
-package. The `BioSequence` type of BioSequences.jl is able to represent a
-DNA/RNA sequence in 2 or 4 bits per symbol. It also offers many efficient
+developed [BioSequences](https://github.com/BioJulia/BioSequences.jl)
+package. The `BioSequence` type is able to represent a DNA/RNA sequence in 2 
+or 4 bits per symbol. It also offers many efficient
 algorithms and I/O tools for common file formats such as FASTA.
