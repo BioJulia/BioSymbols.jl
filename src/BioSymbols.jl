@@ -11,13 +11,13 @@ __precompile__()
 module BioSymbols
 
 export
-    # Types
+    # Symbol types
     NucleicAcid,
     DNA,
     RNA,
     AminoAcid,
 
-    # Constants
+    # Symbol constants
     DNA_A,
     DNA_C,
     DNA_G,
@@ -83,7 +83,7 @@ export
     AA_Term,
     AA_Gap,
 
-    # Bit Operations
+    # Symbol methods
     gap,
     isGC,
     ispurine,
@@ -96,10 +96,25 @@ export
     compatbits,
     alphabet
 
+    # Alphabet types
+    Alphabet,
+    NucleicAcidAlphabet,
+    DNAAlphabet,
+    RNAAlphabet,
+    AmbiguousDNA,
+    UnambiguousDNA,
+    AmbiguousRNA,
+    UnambiguousRNA,
+    AminoAcidAlphabet,
+    CharAlphabet,
+    NothingAlphabet
+
+
 import Automa
 import Automa.RegExp: @re_str
 
 include("nucleicacid.jl")
 include("aminoacid.jl")
+include("alphabets.jl")
 
 end
