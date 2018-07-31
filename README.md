@@ -17,8 +17,8 @@ are used for many other packages in the BioJulia software ecosystem.
 ## Installation
 
 BioSymbols is bundled
-into [BioSequences.jl](https://github.com/BioJulia/BioSequences.jl) and
-[Bio.jl](https://github.com/BioJulia/Bio.jl) packages so you may not need to
+into [BioSequences](https://github.com/BioJulia/BioSequences.jl) and
+[Bio](https://github.com/BioJulia/Bio.jl) packages so you may not need to
 install this package explicitly.
 However, if you do, you can install BioSymbols from the Julia REPL:
 
@@ -70,7 +70,7 @@ Love our work and community? [Become a backer](https://opencollective.com/biojul
 [![backers](https://opencollective.com/biojulia/backers.svg?width=890)](https://opencollective.com/biojulia#backers)
 
 Does your company use BioJulia? Help keep BioJulia feature rich and healthy by
-[sponsoring the project](https://opencollective.com/biojulia#sponsor)
+[sponsoring the project](https://opencollective.com/biojulia#sponsor).
 Your logo will show up here with a link to your website.
 
 [![](https://opencollective.com/biojulia/sponsor/0/avatar.svg)](https://opencollective.com/biojulia/sponsor/0/website)
