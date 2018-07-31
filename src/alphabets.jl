@@ -51,7 +51,7 @@ Base.eltype(::Type{A}) where A <: DNAAlphabet = DNA
 Base.eltype(::Type{A}) where A <: RNAAlphabet = RNA
 Base.eltype(::Type{AminoAcidAlphabet}) = AminoAcid
 Base.eltype(::Type{CharAlphabet}) = Char
-Base.eltype(::Type{VoidAlphabet}) = Nothing
+Base.eltype(::Type{NothingAlphabet}) = Nothing
 Base.eltype(::A) where A <: Alphabet = eltype(A)
 
 @inline function Base.iterate(x::Union{UnambiguousDNA, UnambiguousRNA}, state = 0x01)
@@ -80,7 +80,7 @@ symbols(::Type{AmbiguousDNA}) = alphabet(DNA)
 symbols(::Type{AmbiguousRNA}) = alphabet(RNA)
 symbols(::Type{AminoAcidAlphabet}) = alphabet(AminoAcid)
 symbols(::Type{CharAlphabet}) = typemin(Char):typemax(Char)
-symbols(::Type{VoidAlphabet}) = nothing
+symbols(::Type{NothingAlphabet}) = nothing
 symbols(::A) where A <: Alphabet = eltype(A)
 
 # Promotion of Alphabets
