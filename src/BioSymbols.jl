@@ -94,7 +94,7 @@ export
     complement,
     iscompatible,
     compatbits,
-    alphabet
+    alphabet,
 
     # Alphabet types
     Alphabet,
