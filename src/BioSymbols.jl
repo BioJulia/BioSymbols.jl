@@ -6,8 +6,6 @@
 # This file is a part of the BioJulia ecosystem.
 # License is MIT: https://github.com/BioJulia/NucleicAcids.jl/blob/master/LICENSE.md
 
-__precompile__()
-
 module BioSymbols
 
 export
