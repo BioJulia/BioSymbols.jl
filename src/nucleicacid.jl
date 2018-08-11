@@ -51,22 +51,22 @@ Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S
 
 function Base.convert(::Type{DNA}, c::Char)
     if c > '\uff'
-        throw(InexactError())
+        throw(InexactError(:convert, DNA, c))
     end
     @inbounds dna = char_to_dna[convert(Int, c) + 1]
     if !isvalid(DNA, dna)
-        throw(InexactError())
+        throw(InexactError(:convert, DNA, c))
     end
     return reinterpret(DNA, dna)
 end
 
 function Base.convert(::Type{RNA}, c::Char)
     if c > '\uff'
-        throw(InexactError())
+        throw(InexactError(:convert, RNA, c))
     end
     @inbounds rna = char_to_rna[convert(Int, c) + 1]
     if !isvalid(RNA, rna)
-        throw(InexactError())
+        throw(InexactError(:convert, RNA, c))
     end
     return reinterpret(RNA, rna)
 end
