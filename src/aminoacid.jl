@@ -25,7 +25,7 @@ Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, co
 function Base.convert(::Type{AminoAcid}, c::Char)
     aa = tryparse(AminoAcid, c)
     if aa == nothing
-        throw(InexactError())
+        throw(InexactError(:convert, c, AminoAcid))
     end
     return aa
 end
