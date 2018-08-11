@@ -7,6 +7,7 @@ makedocs(
         "Home" => "index.md",
         "Nucleic Acids" => "nucleicacids.md",
         "Amino Acids" => "aminoacids.md",
+        "Alphabets" => "alphabets.md",
         "Sequences" => "sequences.md",
         "References" => "references.md"
     ],
@@ -15,7 +16,7 @@ makedocs(
 
 deploydocs(
     repo = "github.com/BioJulia/BioSymbols.jl.git",
-    julia = "0.7",
+    julia = "1.0",
     osname = "linux",
     target = "build",
     deps = nothing,
