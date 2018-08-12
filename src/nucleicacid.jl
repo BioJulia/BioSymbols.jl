@@ -51,25 +51,27 @@ Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S
 
 function Base.convert(::Type{DNA}, c::Char)
     if c > '\uff'
-        throw(InexactError())
+        throw(InexactError(:convert, DNA, c))
     end
     @inbounds dna = char_to_dna[convert(Int, c) + 1]
     if !isvalid(DNA, dna)
-        throw(InexactError())
+        throw(InexactError(:convert, DNA, c))
     end
     return reinterpret(DNA, dna)
 end
+DNA(c::Char) = convert(DNA, c)
 
 function Base.convert(::Type{RNA}, c::Char)
     if c > '\uff'
-        throw(InexactError())
+        throw(InexactError(:convert, RNA, c))
     end
     @inbounds rna = char_to_rna[convert(Int, c) + 1]
     if !isvalid(RNA, rna)
-        throw(InexactError())
+        throw(InexactError(:convert, RNA, c))
     end
     return reinterpret(RNA, rna)
 end
+RNA(c::Char) = convert(RNA, c)
 
 function Base.convert(::Type{Char}, nt::DNA)
     return dna_to_char[convert(UInt8, nt) + 1]
@@ -114,7 +116,7 @@ Base.read(io::IO, ::Type{T}) where T<:NucleicAcid = reinterpret(T, read(io, UInt
 
 # lookup table for characters
 const char_to_dna = [0x80 for _ in 0x00:0xff]
-const dna_to_char = Vector{Char}(16)
+const dna_to_char = Vector{Char}(undef, 16)
 
 # derived from "The DDBJ/ENA/GenBank Feature Table Definition"
 # §7.4.1 Nucleotide base code (IUPAC)
@@ -201,7 +203,7 @@ const ACGTN = (DNA_A, DNA_C, DNA_G, DNA_T, DNA_N)
 
 # lookup table for characters
 const char_to_rna = [0x80 for _ in 0x00:0xff]
-const rna_to_char = Vector{Char}(16)
+const rna_to_char = Vector{Char}(undef, 16)
 
 for (char, doc, dna) in [
         ('-', "RNA Gap",                                  DNA_Gap),

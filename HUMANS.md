@@ -11,6 +11,8 @@
   - GitHub: [bicycle1885](https://github.com/bicycle1885)
 - Elliot Saba
   - GitHub: [staticfloat](https://github.com/staticfloat)
+- Dan Jones
+  - GitHub: [dcjones](https://github.com/dcjones)
 
 [Full contributors list](https://github.com/BioJulia/BioSymbols.jl/graphs/contributors)
 

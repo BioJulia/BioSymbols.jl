@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.0]
+### Added
+- Support for julia v0.7 / v1.0. 
+
+### Removed
+- :exclamation: Dropped support for julia v0.6.
+
 ## [2.0.1] - 2018-07-02
 ### Added
 - Read and write methods to fix errors when using `pmap`.
@@ -16,7 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Support for julia v0.7.
 
 ### Removed
-- :exclamation: Dropped support for julia 0.5.
+- :exclamation: Dropped support for julia v0.5.
 
 ## [1.2.0] - 2017-07-26
 ### Added
@@ -32,7 +39,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Generalised the `show` method for `NucleicAcid` types.
 
 
-[Unreleased]: https://github.com/BioJulia/BioSymbols.jl/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/BioJulia/BioSymbols.jl/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/BioJulia/BioSymbols.jl/compare/v2.0.1...v3.0.0
 [2.0.1]: https://github.com/BioJulia/BioSymbols.jl/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/BioJulia/BioSymbols.jl/compare/v1.2.0...v2.0.0
 [1.2.0]: https://github.com/BioJulia/BioSymbols.jl/compare/v1.1.1...v1.2.0

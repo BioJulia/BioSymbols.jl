@@ -24,11 +24,12 @@ Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, co
 
 function Base.convert(::Type{AminoAcid}, c::Char)
     aa = tryparse(AminoAcid, c)
-    if isnull(aa)
-        throw(InexactError())
+    if aa == nothing
+        throw(InexactError(:convert, AminoAcid, c))
     end
-    return get(aa)
+    return aa
 end
+AminoAcid(c::Char) = convert(AminoAcid, c)
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
 
@@ -69,10 +70,10 @@ const AA_INVALID = convert(AminoAcid, 0x1c)  # Used during conversion from strin
 
 # lookup table for characters
 const char_to_aa = [AA_INVALID for _ in 0x00:0x7f]
-const aa_to_char = Vector{Char}(0x1c)
+const aa_to_char = Vector{Char}(undef, 0x1c)
 
 # compatibility bits
-const compatbits_aa = Vector{UInt32}(28)
+const compatbits_aa = Vector{UInt32}(undef, 28)
 
 # This set of amino acids is defined by IUPAC-IUB Joint Commission on Biochemical Nomenclature.
 # Reference: http://www.insdc.org/documents/feature_table.html#7.4.3
@@ -227,27 +228,27 @@ let
         aa = AA_INVALID
         $(Automa.generate_exec_code(ctx, machine, actions))
         if cs != 0
-            return Nullable{AminoAcid}()
+            return nothing
         end
-        return Nullable(aa)
+        return aa
     end
 end
 
 function Base.tryparse(::Type{AminoAcid}, c::Char)
     @inbounds aa = c <= '\x7f' ? char_to_aa[Int(c)+1] : AA_INVALID
     if aa == AA_INVALID
-        return Nullable{AminoAcid}()
+        return nothing
     else
-        return Nullable(aa)
+        return aa
     end
 end
 
 function Base.parse(::Type{AminoAcid}, c::Union{AbstractString,Char})
     aa = tryparse(AminoAcid, c)
-    if isnull(aa)
+    if aa == nothing
         throw(ArgumentError("invalid amino acid"))
     end
-    return get(aa)
+    return aa
 end
 
 # Arithmetic and Order
