@@ -5,8 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Changed
-- tryparse now returns `nothing` instead of a `Nullable`. 
+
+## [3.0.0]
+### Added
+- Support for julia v0.7 / v1.0. 
+
+### Removed
+- :exclamation: Dropped support for julia v0.6.
 
 ## [3.0.0]
 ### Added
