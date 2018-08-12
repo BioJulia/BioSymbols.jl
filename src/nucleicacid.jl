@@ -59,6 +59,7 @@ function Base.convert(::Type{DNA}, c::Char)
     end
     return reinterpret(DNA, dna)
 end
+DNA(c::Char) = convert(DNA, c)
 
 function Base.convert(::Type{RNA}, c::Char)
     if c > '\uff'
@@ -70,6 +71,7 @@ function Base.convert(::Type{RNA}, c::Char)
     end
     return reinterpret(RNA, rna)
 end
+RNA(c::Char) = convert(RNA, c)
 
 function Base.convert(::Type{Char}, nt::DNA)
     return dna_to_char[convert(UInt8, nt) + 1]
