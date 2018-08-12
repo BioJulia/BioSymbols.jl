@@ -29,6 +29,7 @@ function Base.convert(::Type{AminoAcid}, c::Char)
     end
     return aa
 end
+AminoAcid(c::Char) = convert(AminoAcid, c)
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
 
