@@ -25,10 +25,11 @@ Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, co
 function Base.convert(::Type{AminoAcid}, c::Char)
     aa = tryparse(AminoAcid, c)
     if aa == nothing
-        throw(InexactError(:convert, c, AminoAcid))
+        throw(InexactError(:convert, AminoAcid, c))
     end
     return aa
 end
+AminoAcid(c::Char) = convert(AminoAcid, c)
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
 
