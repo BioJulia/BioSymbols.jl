@@ -11,6 +11,10 @@ An amino acid type.
 """
 primitive type AminoAcid 8 end
 
+Base.length(::AminoAcid) = 1
+Base.iterate(aa::AminoAcid) = (nt, nothing)
+Base.iterate(aa::AminoAcid, state) = nothing
+
 # Conversion from/to integers
 # ---------------------------
 
@@ -18,6 +22,7 @@ Base.convert(::Type{AminoAcid}, aa::UInt8) = reinterpret(AminoAcid, aa)
 Base.convert(::Type{UInt8}, aa::AminoAcid) = reinterpret(UInt8, aa)
 Base.convert(::Type{T}, aa::AminoAcid) where T <: Number = convert(T, convert(UInt8, aa))
 Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, convert(UInt8, aa))
+AminoAcid(nt::Integer) = convert(AminoAcid, nt)
 
 # Conversion from/to Char
 # -----------------------
@@ -32,6 +37,7 @@ end
 AminoAcid(c::Char) = convert(AminoAcid, c)
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
+Char(aa::AminoAcid) = convert(Char, aa)
 
 # Print
 # -----
