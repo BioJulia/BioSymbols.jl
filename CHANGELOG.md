@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Removed
 - :exclamation: Dropped support for julia v0.6.
 
+## [3.0.0]
+### Added
+- Support for julia v0.7 / v1.0. 
+
+### Removed
+- :exclamation: Dropped support for julia v0.6.
+
 ## [2.0.1] - 2018-07-02
 ### Added
 - Read and write methods to fix errors when using `pmap`.

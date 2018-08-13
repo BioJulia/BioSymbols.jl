@@ -38,6 +38,12 @@ A ribonucleic acid type.
 """
 primitive type RNA <: NucleicAcid 8 end
 
+
+Base.length(::NucleicAcid) = 1
+Base.iterate(nt::NucleicAcid) = (nt, nothing)
+Base.iterate(nt::NucleicAcid, state) = nothing
+
+
 # Conversion from/to integers
 # ---------------------------
 
@@ -45,6 +51,9 @@ Base.convert(::Type{T}, nt::UInt8) where T <: NucleicAcid = reinterpret(T, nt)
 Base.convert(::Type{UInt8}, nt::T) where T <: NucleicAcid = reinterpret(UInt8, nt)
 Base.convert(::Type{T}, nt::S) where {T <: Number, S <: NucleicAcid} = convert(T, convert(UInt8, nt))
 Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S, convert(UInt8, nt))
+DNA(nt::Integer) = convert(DNA, nt)
+RNA(nt::Integer) = convert(RNA, nt)
+
 
 # Conversion from/to characters
 # -----------------------------
@@ -76,10 +85,12 @@ RNA(c::Char) = convert(RNA, c)
 function Base.convert(::Type{Char}, nt::DNA)
     return dna_to_char[convert(UInt8, nt) + 1]
 end
+Char(nt::DNA) = convert(Char, nt)
 
 function Base.convert(::Type{Char}, nt::RNA)
     return rna_to_char[convert(UInt8, nt) + 1]
 end
+Char(nt::RNA) = convert(Char, nt)
 
 # Print
 # -----
