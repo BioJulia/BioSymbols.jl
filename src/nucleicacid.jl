@@ -54,6 +54,11 @@ Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S
 DNA(nt::Integer) = convert(DNA, nt)
 RNA(nt::Integer) = convert(RNA, nt)
 
+Base.convert(::Type{DNA}, nt::RNA) = DNA(convert(UInt8, nt))
+DNA(nt::RNA) = convert(DNA, nt)
+Base.convert(::Type{RNA}, nt::DNA) = RNA(convert(UInt8, nt))
+RNA(nt::DNA) = convert(RNA, nt)
+
 
 # Conversion from/to characters
 # -----------------------------
