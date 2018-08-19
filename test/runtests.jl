@@ -190,6 +190,42 @@ end
             @test convert(RNA,  8) === RNA_U
             @test convert(RNA, 15) === RNA_N
         end
+        
+        @testset "Nucleic acid types" begin
+            @test convert(DNA, RNA_Gap) === DNA_Gap
+            @test convert(DNA, RNA_A) === DNA_A
+            @test convert(DNA, RNA_C) === DNA_C
+            @test convert(DNA, RNA_M) === DNA_M
+            @test convert(DNA, RNA_G) === DNA_G
+            @test convert(DNA, RNA_R) === DNA_R
+            @test convert(DNA, RNA_S) === DNA_S
+            @test convert(DNA, RNA_V) === DNA_V
+            @test convert(DNA, RNA_U) === DNA_T
+            @test convert(DNA, RNA_W) === DNA_W
+            @test convert(DNA, RNA_Y) === DNA_Y
+            @test convert(DNA, RNA_H) === DNA_H
+            @test convert(DNA, RNA_K) === DNA_K
+            @test convert(DNA, RNA_D) === DNA_D
+            @test convert(DNA, RNA_B) === DNA_B
+            @test convert(DNA, RNA_N) === DNA_N
+            
+            @test convert(RNA, DNA_Gap) === RNA_Gap
+            @test convert(RNA, DNA_A) === RNA_A
+            @test convert(RNA, DNA_C) === RNA_C
+            @test convert(RNA, DNA_M) === RNA_M
+            @test convert(RNA, DNA_G) === RNA_G
+            @test convert(RNA, DNA_R) === RNA_R
+            @test convert(RNA, DNA_S) === RNA_S
+            @test convert(RNA, DNA_V) === RNA_V
+            @test convert(RNA, DNA_T) === RNA_U
+            @test convert(RNA, DNA_W) === RNA_W
+            @test convert(RNA, DNA_Y) === RNA_Y
+            @test convert(RNA, DNA_H) === RNA_H
+            @test convert(RNA, DNA_K) === RNA_K
+            @test convert(RNA, DNA_D) === RNA_D
+            @test convert(RNA, DNA_B) === RNA_B
+            @test convert(RNA, DNA_N) === RNA_N
+        end
     end
 
     @testset "iscompatible" begin
