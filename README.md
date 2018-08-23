@@ -4,7 +4,7 @@
 [![MIT license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/BioJulia/BioSymbols.jl/blob/master/LICENSE) 
 [![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square)](https://biojulia.github.io/BioSymbols.jl/stable)
 [![Latest documentation](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://biojulia.github.io/BioSymbols.jl/latest)
-![Lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg?style=flat-square)
+![Lifecycle](https://img.shields.io/badge/lifecycle-stable-green.svg?style=flat-square)
 [![Chat on Discord](https://img.shields.io/badge/discord-chat-blue.svg?style=flat-square&logo=discord&colorB=%237289DA)](https://discord.gg/z73YNFz)
 
 
