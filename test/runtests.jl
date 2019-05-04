@@ -131,39 +131,39 @@ end
 
         @testset "Char" begin
             @testset "DNA conversions from Char" begin
-                @test convert(DNA, 'A') == DNA_A
-                @test convert(DNA, 'C') == DNA_C
-                @test convert(DNA, 'G') == DNA_G
-                @test convert(DNA, 'T') == DNA_T
-                @test convert(DNA, 'N') == DNA_N
+                @test convert(DNA, 'A') === DNA('A') === DNA_A
+                @test convert(DNA, 'C') === DNA('C') === DNA_C
+                @test convert(DNA, 'G') === DNA('G') === DNA_G
+                @test convert(DNA, 'T') === DNA('T') === DNA_T
+                @test convert(DNA, 'N') === DNA('N') === DNA_N
                 @test_throws InexactError convert(DNA, 'Z')
                 @test_throws InexactError convert(DNA, '核')
             end
 
             @testset "RNA conversions from Char" begin
-                @test convert(RNA, 'A') == RNA_A
-                @test convert(RNA, 'C') == RNA_C
-                @test convert(RNA, 'G') == RNA_G
-                @test convert(RNA, 'U') == RNA_U
-                @test convert(RNA, 'N') == RNA_N
+                @test convert(RNA, 'A') === RNA('A') === RNA_A
+                @test convert(RNA, 'C') === RNA('C') === RNA_C
+                @test convert(RNA, 'G') === RNA('G') === RNA_G
+                @test convert(RNA, 'U') === RNA('U') === RNA_U
+                @test convert(RNA, 'N') === RNA('N') === RNA_N
                 @test_throws InexactError convert(RNA, 'Z')
                 @test_throws InexactError convert(RNA, '核')
             end
 
             @testset "DNA conversions to Char" begin
-                @test convert(Char, DNA_A) == 'A'
-                @test convert(Char, DNA_C) == 'C'
-                @test convert(Char, DNA_G) == 'G'
-                @test convert(Char, DNA_T) == 'T'
-                @test convert(Char, DNA_N) == 'N'
+                @test convert(Char, DNA_A) === Char(DNA_A) === 'A'
+                @test convert(Char, DNA_C) === Char(DNA_C) === 'C'
+                @test convert(Char, DNA_G) === Char(DNA_G) === 'G'
+                @test convert(Char, DNA_T) === Char(DNA_T) === 'T'
+                @test convert(Char, DNA_N) === Char(DNA_N) === 'N'
             end
 
             @testset "RNA conversions to Char" begin
-                @test convert(Char, RNA_A) == 'A'
-                @test convert(Char, RNA_C) == 'C'
-                @test convert(Char, RNA_G) == 'G'
-                @test convert(Char, RNA_U) == 'U'
-                @test convert(Char, RNA_N) == 'N'
+                @test convert(Char, RNA_A) === Char(RNA_A) === 'A'
+                @test convert(Char, RNA_C) === Char(RNA_C) === 'C'
+                @test convert(Char, RNA_G) === Char(RNA_G) === 'G'
+                @test convert(Char, RNA_U) === Char(RNA_U) === 'U'
+                @test convert(Char, RNA_N) === Char(RNA_N) === 'N'
             end
         end
 
@@ -192,39 +192,16 @@ end
         end
         
         @testset "Nucleic acid types" begin
-            @test convert(DNA, RNA_Gap) === DNA_Gap
-            @test convert(DNA, RNA_A) === DNA_A
-            @test convert(DNA, RNA_C) === DNA_C
-            @test convert(DNA, RNA_M) === DNA_M
-            @test convert(DNA, RNA_G) === DNA_G
-            @test convert(DNA, RNA_R) === DNA_R
-            @test convert(DNA, RNA_S) === DNA_S
-            @test convert(DNA, RNA_V) === DNA_V
-            @test convert(DNA, RNA_U) === DNA_T
-            @test convert(DNA, RNA_W) === DNA_W
-            @test convert(DNA, RNA_Y) === DNA_Y
-            @test convert(DNA, RNA_H) === DNA_H
-            @test convert(DNA, RNA_K) === DNA_K
-            @test convert(DNA, RNA_D) === DNA_D
-            @test convert(DNA, RNA_B) === DNA_B
-            @test convert(DNA, RNA_N) === DNA_N
+            fromto = [(DNA_Gap, RNA_Gap), (DNA_A, RNA_A), (DNA_C, RNA_C),
+                      (DNA_M, RNA_M), (DNA_G, RNA_G), (DNA_R, RNA_R),
+                      (DNA_S, RNA_S), (DNA_V, RNA_V), (DNA_T, RNA_U),
+                      (DNA_W, RNA_W), (DNA_Y, RNA_Y), (DNA_H, RNA_H),
+                      (DNA_K, RNA_K), (DNA_D, RNA_D), (DNA_B, RNA_B), (DNA_N, RNA_N)]
             
-            @test convert(RNA, DNA_Gap) === RNA_Gap
-            @test convert(RNA, DNA_A) === RNA_A
-            @test convert(RNA, DNA_C) === RNA_C
-            @test convert(RNA, DNA_M) === RNA_M
-            @test convert(RNA, DNA_G) === RNA_G
-            @test convert(RNA, DNA_R) === RNA_R
-            @test convert(RNA, DNA_S) === RNA_S
-            @test convert(RNA, DNA_V) === RNA_V
-            @test convert(RNA, DNA_T) === RNA_U
-            @test convert(RNA, DNA_W) === RNA_W
-            @test convert(RNA, DNA_Y) === RNA_Y
-            @test convert(RNA, DNA_H) === RNA_H
-            @test convert(RNA, DNA_K) === RNA_K
-            @test convert(RNA, DNA_D) === RNA_D
-            @test convert(RNA, DNA_B) === RNA_B
-            @test convert(RNA, DNA_N) === RNA_N
+            for (from, to) in fromto
+                @test convert(RNA, from) === RNA(from) === to
+                @test convert(DNA, to) === DNA(to) === from
+            end
         end
     end
 
@@ -301,6 +278,15 @@ end
         end
         for nt in alphabet(RNA)
             @test isgap(nt) == (nt === RNA_Gap)
+        end
+    end
+    
+    @testset "isterm" begin
+        for nt in alphabet(DNA)
+            @test BioSymbols.isterm(nt) === false
+        end
+        for nt in alphabet(RNA)
+            @test BioSymbols.isterm(nt) === false
         end
     end
 
@@ -457,6 +443,8 @@ end
 
 @testset "Aminoacids" begin
     @testset "conversion" begin
+        @test BioSymbols.bytemask(AA_A) === 0b11111
+        
         for (int, aa) in [
             (0x00, AA_A), (0x01, AA_R), (0x02, AA_N), (0x03, AA_D), (0x04, AA_C),
             (0x05, AA_Q), (0x06, AA_E), (0x07, AA_G), (0x08, AA_H), (0x09, AA_I),
@@ -478,6 +466,7 @@ end
                 ('O', AA_O), ('U', AA_U), ('B', AA_B), ('J', AA_J), ('Z', AA_Z),
                 ('X', AA_X), ('*', AA_Term), ('-', AA_Gap)]
             @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == AminoAcid(c) === aa
+            @test Char(aa) === c
         end
         @test_throws InexactError convert(AminoAcid, '\0')
         @test_throws InexactError convert(AminoAcid, '@')
