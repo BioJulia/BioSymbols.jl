@@ -457,34 +457,15 @@ end
 
 @testset "Aminoacids" begin
     @testset "conversion" begin
-        @test convert(AminoAcid, 0x00) === AA_A
-        @test convert(AminoAcid, 0x01) === AA_R
-        @test convert(AminoAcid, 0x02) === AA_N
-        @test convert(AminoAcid, 0x03) === AA_D
-        @test convert(AminoAcid, 0x04) === AA_C
-        @test convert(AminoAcid, 0x05) === AA_Q
-        @test convert(AminoAcid, 0x06) === AA_E
-        @test convert(AminoAcid, 0x07) === AA_G
-        @test convert(AminoAcid, 0x08) === AA_H
-        @test convert(AminoAcid, 0x09) === AA_I
-        @test convert(AminoAcid, 0x0a) === AA_L
-        @test convert(AminoAcid, 0x0b) === AA_K
-        @test convert(AminoAcid, 0x0c) === AA_M
-        @test convert(AminoAcid, 0x0d) === AA_F
-        @test convert(AminoAcid, 0x0e) === AA_P
-        @test convert(AminoAcid, 0x0f) === AA_S
-        @test convert(AminoAcid, 0x10) === AA_T
-        @test convert(AminoAcid, 0x11) === AA_W
-        @test convert(AminoAcid, 0x12) === AA_Y
-        @test convert(AminoAcid, 0x13) === AA_V
-        @test convert(AminoAcid, 0x14) === AA_O
-        @test convert(AminoAcid, 0x15) === AA_U
-        @test convert(AminoAcid, 0x16) === AA_B
-        @test convert(AminoAcid, 0x17) === AA_J
-        @test convert(AminoAcid, 0x18) === AA_Z
-        @test convert(AminoAcid, 0x19) === AA_X
-        @test convert(AminoAcid, 0x1a) === AA_Term
-        @test convert(AminoAcid, 0x1b) === AA_Gap
+        for (int, aa) in [
+            (0x00, AA_A), (0x01, AA_R), (0x02, AA_N), (0x03, AA_D), (0x04, AA_C),
+            (0x05, AA_Q), (0x06, AA_E), (0x07, AA_G), (0x08, AA_H), (0x09, AA_I),
+            (0x0a, AA_L), (0x0b, AA_K), (0x0c, AA_M), (0x0d, AA_F), (0x0e, AA_P),
+            (0x0f, AA_S), (0x10, AA_T), (0x11, AA_W), (0x12, AA_Y), (0x13, AA_V),
+            (0x14, AA_O), (0x15, AA_U), (0x16, AA_B), (0x17, AA_J), (0x18, AA_Z),
+            (0x19, AA_X), (0x1a, AA_Term), (0x1b, AA_Gap)]
+            @test convert(AminoAcid, int) === AminoAcid(int) === aa
+        end
 
         @test convert(AminoAcid, 0) === AA_A
         @test convert(AminoAcid, 10) === AA_L
@@ -496,7 +477,7 @@ end
                 ('S', AA_S), ('T', AA_T), ('W', AA_W), ('Y', AA_Y), ('V', AA_V),
                 ('O', AA_O), ('U', AA_U), ('B', AA_B), ('J', AA_J), ('Z', AA_Z),
                 ('X', AA_X), ('*', AA_Term), ('-', AA_Gap)]
-            @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == aa
+            @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == AminoAcid(c) === aa
         end
         @test_throws InexactError convert(AminoAcid, '\0')
         @test_throws InexactError convert(AminoAcid, '@')
@@ -576,9 +557,10 @@ end
     end
 
     @testset "Show amino acid" begin
+        aas = [AA_A, AA_D, AA_B, AA_X, AA_Term, AA_Gap]
         @testset "print" begin
             buf = IOBuffer()
-            for aa in [AA_A, AA_D, AA_B, AA_X, AA_Term, AA_Gap]
+            for aa in aas
                 print(buf, aa)
             end
             @test String(take!(buf)) == "ADBX*-"
@@ -586,8 +568,12 @@ end
         end
 
         @testset "show" begin
+            for aa in aas
+                @test BioSymbols.prefix(aa) === "AA"
+                @test BioSymbols.type_text(aa) === "Amino Acid"
+            end
             buf = IOBuffer()
-            for aa in [AA_A, AA_D, AA_B, AA_X, AA_Term, AA_Gap]
+            for aa in aas
                 show(buf, aa)
                 write(buf, ' ')
             end

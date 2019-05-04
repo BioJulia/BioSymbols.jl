@@ -1,7 +1,7 @@
 using Documenter, BioSymbols
 
 makedocs(
-    format = :html,
+    format = Documenter.HTML(),
     sitename = "BioSymbols",
     pages = [
         "Home" => "index.md",
@@ -14,8 +14,7 @@ makedocs(
 )
 
 deploydocs(
-    deps = Deps.pip("mkdocs", "pygments", "mkdocs-material"),
     repo = "github.com/BioJulia/BioSymbols.jl.git",
-    julia = "1.0",
-    osname = "linux",
+    deps = nothing,
+    make = nothing
 )
