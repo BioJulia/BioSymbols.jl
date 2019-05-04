@@ -7,7 +7,6 @@ makedocs(
         "Home" => "index.md",
         "Nucleic Acids" => "nucleicacids.md",
         "Amino Acids" => "aminoacids.md",
-        "Alphabets" => "alphabets.md",
         "Sequences" => "sequences.md",
         "References" => "references.md"
     ],
