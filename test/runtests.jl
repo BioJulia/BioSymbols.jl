@@ -368,9 +368,10 @@ end
     end
 
     @testset "Show DNA" begin
+        dnas = [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
         @testset "print" begin
             buf = IOBuffer()
-            for nt in [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
+            for nt in dnas
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGTN-"
@@ -379,7 +380,10 @@ end
 
         @testset "show" begin
             buf = IOBuffer()
-            for nt in [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
+            for nt in dnas
+                @test BioSymbols.prefix(nt) === BioSymbols.type_text(nt) === "DNA"
+            end
+            for nt in dnas
                 show(buf, nt)
                 write(buf, ' ')
             end
@@ -389,9 +393,10 @@ end
     end
 
     @testset "Show RNA" begin
+        rnas = [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N, RNA_Gap]
         @testset "print" begin
             buf = IOBuffer()
-            for nt in [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N, RNA_Gap]
+            for nt in rnas
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGUN-"
@@ -399,8 +404,11 @@ end
         end
 
         @testset "show" begin
+            for nt in rnas
+                @test BioSymbols.prefix(nt) === BioSymbols.type_text(nt) === "RNA"
+            end
             buf = IOBuffer()
-            for nt in [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N, RNA_Gap]
+            for nt in rnas
                 show(buf, nt)
                 write(buf, ' ')
             end
