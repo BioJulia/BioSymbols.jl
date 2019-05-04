@@ -1,9 +1,9 @@
 # <img src="./sticker.svg" width="30%" align="right"/> BioSymbols
 
-[![Latest release](https://img.shields.io/github/release/BioJulia/BioSymbols.jl.svg?style=flat-square)](https://github.com/BioJulia/BioSymbols.jl/releases/latest)
-[![MIT license](https://img.shields.io/badge/license-MIT-green.svg?style=flat-square)](https://github.com/BioJulia/BioSymbols.jl/blob/master/LICENSE) 
-[![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg?style=flat-square)](https://biojulia.github.io/BioSymbols.jl/stable)
-[![Latest documentation](https://img.shields.io/badge/docs-latest-blue.svg?style=flat-square)](https://biojulia.github.io/BioSymbols.jl/latest)
+[![Latest release](https://img.shields.io/github/release/BioJulia/BioSymbols.jl.svg)](https://github.com/BioJulia/BioSymbols.jl/releases/latest)
+[![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/BioSymbols.jl/blob/master/LICENSE) 
+[![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://biojulia.github.io/BioSymbols.jl/stable)
+[![Latest documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://biojulia.github.io/BioSymbols.jl/latest)
 [![Pkg Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
 [![Chat](https://img.shields.io/gitter/room/BioJulia/BioSymbols.svg)](https://gitter.im/BioJulia/BioSymbols.jl)
 
@@ -17,7 +17,7 @@ are used for many other packages in the BioJulia software ecosystem.
 ## Installation
 
 BioSymbols is bundled
-into [BioSequences.jl](https://github.com/BioJulia/BioSequences.jl) and so you
+into [BioSequences](https://github.com/BioJulia/BioSequences.jl) and so you
 may not need to install this package explicitly.
 
 BioSymbols is made available to install through BioJulia's package registry.
