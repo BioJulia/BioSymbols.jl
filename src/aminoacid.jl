@@ -285,6 +285,6 @@ julia> compatbits(AA_J)
 
 ```
 """
-compatbits(aa::AminoAcid) = @inbounds compatbits_aa[reinterpret(UInt8, aa)+1]
+compatbits(aa::AminoAcid) = @inbounds compatbits_aa[reinterpret(UInt8, aa) + 1]
 
 

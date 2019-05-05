@@ -8,7 +8,11 @@ makedocs(
         "Nucleic Acids" => "nucleicacids.md",
         "Amino Acids" => "aminoacids.md",
         "Sequences" => "sequences.md",
-        "References" => "references.md"
+        #"References" => "references.md",
+        "Library" => [
+            "Public" => "lib/public.md",
+            hide("Internals" => "lib/internals.md")
+        ]
     ],
     authors = "Ben J. Ward, The BioJulia Organisation and other contributors."
 )

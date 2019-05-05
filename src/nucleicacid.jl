@@ -42,8 +42,6 @@ prefix(::DNA) = "DNA"
 prefix(::RNA) = "RNA"
 type_text(x::NucleicAcid) = prefix(x)
 isterm(symbol::NucleicAcid) = false
-to_char_array(::DNA) = dna_to_char
-to_char_array(::RNA) = rna_to_char
 
 
 # Conversion from/to integers
@@ -103,8 +101,47 @@ Char(nt::RNA) = convert(Char, nt)
 # Encoding of DNA and RNA NucleicAcids
 # ------------------------------------
 
-# lookup table for characters
+"""
+Lookup table used for converting characters to DNA symbol values
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by converting a character to an integer. When indexed, it
+    returns a UInt8 with the bit pattern on the corresponding nucleic acid.
+    The `convert(DNA, x)` method does this for you.
+
+!!! warning
+    If you index this array with a character that is greater than '\uff', then
+    you will get a bounds error. The `convert(DNA, x)` method checks such things
+    to avoid this for you.
+        
+!!! warning
+    If you index this array with a character that does not have a corresonding
+    DNA symbol, then you get a byte with the bit pattern `0x80`, which is an
+    invalid DNA symbol and will be of no use to you. The `convert(DNA, x)`
+    checks such things for you and throws an exception gracefully if such a
+    situation arises.
+"""
 const char_to_dna = [0x80 for _ in 0x00:0xff]
+
+"""
+Lookup table for converting DNA symbol values to characters
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by reinterpreting a DNA symbol value as an UInt8.
+    When indexed, it returns the character corresponding to the symbol.
+    The `convert(Char, x::DNA)` method does this for you.
+
+!!! warning
+    If you index this array with an invalid DNA symbol, then you will hit a
+    bounds error. If you construct DNA symbols properly, then this scenario
+    should never occur. 
+"""
 const dna_to_char = Vector{Char}(undef, 16)
 
 # Derived from "The DDBJ/ENA/GenBank Feature Table Definition"
@@ -190,8 +227,47 @@ julia> ACGTN
 """
 const ACGTN = (DNA_A, DNA_C, DNA_G, DNA_T, DNA_N)
 
-# lookup table for characters
+"""
+Lookup table used for converting characters to RNA symbol values
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by converting a character to an integer. When indexed, it
+    returns a UInt8 with the bit pattern on the corresponding nucleic acid.
+    The `convert(RNA, x)` method does this for you.
+
+!!! warning
+    If you index this array with a character that is greater than '\uff', then
+    you will get a bounds error. The `convert(RNA, x)` method checks such things
+    to avoid this for you.
+        
+!!! warning
+    If you index this array with a character that does not have a corresonding
+    RNA symbol, then you get a byte with the bit pattern `0x80`, which is an
+    invalid RNA symbol and will be of no use to you. The `convert(RNA, x)`
+    checks such things for you and throws an exception gracefully if such a
+    situation arises.
+"""
 const char_to_rna = [0x80 for _ in 0x00:0xff]
+
+"""
+Lookup table for converting RNA symbol values to characters
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by reinterpreting a RNA symbol value as an UInt8.
+    When indexed, it returns the character corresponding to the symbol.
+    The `convert(Char, x::RNA)` method does this for you.
+
+!!! warning
+    If you index this array with an invalid RNA symbol, then you will hit a
+    bounds error. If you construct RNA symbols properly, then this scenario
+    should never occur. 
+"""
 const rna_to_char = Vector{Char}(undef, 16)
 
 for (char, doc, dna) in [
