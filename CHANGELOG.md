@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- An abstract type `BioSymbol` has been added.
+
 ### Changed
-- tryparse now returns `nothing` instead of a `Nullable`. 
+- `tryparse` now returns `nothing` instead of a `Nullable`.
+- The project now uses Project TOML files instead of a REQUIRE file.
 
 ## [3.0.2]
 ### Added

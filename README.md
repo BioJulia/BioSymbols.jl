@@ -10,7 +10,7 @@
 
 ## Description
 
-BioSymbols defines the primitive type for nucleic acids and amino acids that
+BioSymbols defines the primitive types for nucleic acids and amino acids that
 are used for many other packages in the BioJulia software ecosystem.
 
 
