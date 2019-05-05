@@ -56,7 +56,7 @@ julia> AA_Term
 AA_Term
 
 julia> typeof(AA_A)
-BioSymbols.AminoAcid
+AminoAcid
 
 ```
 
@@ -89,6 +89,6 @@ julia> tryparse(AminoAcid, "Pro")  # tryparse returns either an amino acid or no
 AA_P
 
 julia> tryparse(AminoAcid, "Pr")
-nothing
+
 
 ```

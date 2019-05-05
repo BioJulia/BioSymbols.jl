@@ -69,10 +69,10 @@ julia> DNA_Gap
 DNA_Gap
 
 julia> typeof(DNA_A)
-BioSymbols.DNA
+DNA
 
 julia> typeof(RNA_A)
-BioSymbols.RNA
+RNA
 
 ```
 
@@ -110,13 +110,13 @@ either `DNA_A` or `DNA_G`) is encoded as `0101` because `0101` is the bitwise OR
 of `0001` (`DNA_A`) and `0100` (`DNA_G`). The gap symbol is always `0000`.
 
 ```jldoctest
-julia> bits(reinterpret(UInt8, DNA_A))
+julia> bitstring(reinterpret(UInt8, DNA_A))
 "00000001"
 
-julia> bits(reinterpret(UInt8, DNA_G))
+julia> bitstring(reinterpret(UInt8, DNA_G))
 "00000100"
 
-julia> bits(reinterpret(UInt8, DNA_R))
+julia> bitstring(reinterpret(UInt8, DNA_R))
 "00000101"
 
 ```

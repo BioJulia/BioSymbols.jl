@@ -26,7 +26,7 @@
 """
 An abstract nucleic acid type.
 """
-abstract type NucleicAcid end
+abstract type NucleicAcid <: BioSymbol end
 
 """
 A deoxyribonucleic acid type.
@@ -38,10 +38,10 @@ A ribonucleic acid type.
 """
 primitive type RNA <: NucleicAcid 8 end
 
-
-Base.length(::NucleicAcid) = 1
-Base.iterate(nt::NucleicAcid) = (nt, nothing)
-Base.iterate(nt::NucleicAcid, state) = nothing
+prefix(::DNA) = "DNA"
+prefix(::RNA) = "RNA"
+type_text(x::NucleicAcid) = prefix(x)
+isterm(symbol::NucleicAcid) = false
 
 
 # Conversion from/to integers
@@ -97,44 +97,54 @@ function Base.convert(::Type{Char}, nt::RNA)
 end
 Char(nt::RNA) = convert(Char, nt)
 
-# Print
-# -----
-
-prefix(::Type{DNA}) = "DNA"
-prefix(::Type{RNA}) = "RNA"
-
-function Base.show(io::IO, nt::T) where T <: NucleicAcid
-    if isvalid(nt)
-        if nt == gap(T)
-            write(io, prefix(T), "_Gap")
-        else
-            write(io, prefix(T), "_", convert(Char, nt))
-        end
-    else
-        write(io, "Invalid ", prefix(T))
-    end
-    return
-end
-
-function Base.print(io::IO, nt::NucleicAcid)
-    if !isvalid(nt)
-        throw(ArgumentError("nucleic acid is invalid"))
-    end
-    write(io, convert(Char, nt))
-    return
-end
-
-Base.write(io::IO, na::NucleicAcid) = write(io, reinterpret(UInt8, na))
-Base.read(io::IO, ::Type{T}) where T<:NucleicAcid = reinterpret(T, read(io, UInt8))
 
 # Encoding of DNA and RNA NucleicAcids
 # ------------------------------------
 
-# lookup table for characters
+"""
+Lookup table used for converting characters to DNA symbol values
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by converting a character to an integer. When indexed, it
+    returns a UInt8 with the bit pattern on the corresponding nucleic acid.
+    The `convert(DNA, x)` method does this for you.
+
+!!! warning
+    If you index this array with a character that is greater than '\uff', then
+    you will get a bounds error. The `convert(DNA, x)` method checks such things
+    to avoid this for you.
+        
+!!! warning
+    If you index this array with a character that does not have a corresonding
+    DNA symbol, then you get a byte with the bit pattern `0x80`, which is an
+    invalid DNA symbol and will be of no use to you. The `convert(DNA, x)`
+    checks such things for you and throws an exception gracefully if such a
+    situation arises.
+"""
 const char_to_dna = [0x80 for _ in 0x00:0xff]
+
+"""
+Lookup table for converting DNA symbol values to characters
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by reinterpreting a DNA symbol value as an UInt8.
+    When indexed, it returns the character corresponding to the symbol.
+    The `convert(Char, x::DNA)` method does this for you.
+
+!!! warning
+    If you index this array with an invalid DNA symbol, then you will hit a
+    bounds error. If you construct DNA symbols properly, then this scenario
+    should never occur. 
+"""
 const dna_to_char = Vector{Char}(undef, 16)
 
-# derived from "The DDBJ/ENA/GenBank Feature Table Definition"
+# Derived from "The DDBJ/ENA/GenBank Feature Table Definition"
 # §7.4.1 Nucleotide base code (IUPAC)
 # http://www.insdc.org/documents/feature_table.html#7.4.1
 for (char, doc, bits) in [
@@ -217,8 +227,47 @@ julia> ACGTN
 """
 const ACGTN = (DNA_A, DNA_C, DNA_G, DNA_T, DNA_N)
 
-# lookup table for characters
+"""
+Lookup table used for converting characters to RNA symbol values
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by converting a character to an integer. When indexed, it
+    returns a UInt8 with the bit pattern on the corresponding nucleic acid.
+    The `convert(RNA, x)` method does this for you.
+
+!!! warning
+    If you index this array with a character that is greater than '\uff', then
+    you will get a bounds error. The `convert(RNA, x)` method checks such things
+    to avoid this for you.
+        
+!!! warning
+    If you index this array with a character that does not have a corresonding
+    RNA symbol, then you get a byte with the bit pattern `0x80`, which is an
+    invalid RNA symbol and will be of no use to you. The `convert(RNA, x)`
+    checks such things for you and throws an exception gracefully if such a
+    situation arises.
+"""
 const char_to_rna = [0x80 for _ in 0x00:0xff]
+
+"""
+Lookup table for converting RNA symbol values to characters
+    
+The provided `convert` method should be used rather than this table, but you can
+use it if you insist and know what your are doing.
+
+!!! note
+    The array is indexed by reinterpreting a RNA symbol value as an UInt8.
+    When indexed, it returns the character corresponding to the symbol.
+    The `convert(Char, x::RNA)` method does this for you.
+
+!!! warning
+    If you index this array with an invalid RNA symbol, then you will hit a
+    bounds error. If you construct RNA symbols properly, then this scenario
+    should never occur. 
+"""
 const rna_to_char = Vector{Char}(undef, 16)
 
 for (char, doc, dna) in [
@@ -309,14 +358,6 @@ function Base.:|(x::N, y::N) where N <: NucleicAcid
     return reinterpret(N, reinterpret(UInt8, x) | reinterpret(UInt8, y))
 end
 
-function Base.:&(x::N, y::N) where N <: NucleicAcid
-    return reinterpret(N, reinterpret(UInt8, x) & reinterpret(UInt8, y))
-end
-
-function Base.:-(x::N, y::N) where N <: NucleicAcid
-    return convert(Int, x) - convert(Int, y)
-end
-
 function Base.:-(x::N, y::Integer) where N <: NucleicAcid
     return x + (-y)
 end
@@ -325,35 +366,19 @@ function Base.:+(x::N, y::Integer) where N <: NucleicAcid
     return reinterpret(N, (convert(UInt8, x) + y % UInt8) & 0b1111)
 end
 
-function Base.isless(x::N, y::N) where N <: NucleicAcid
-    return isless(reinterpret(UInt8, x), reinterpret(UInt8, y))
-end
-
-@inline function Base.count_ones(nt::NucleicAcid)
-    return count_ones(reinterpret(UInt8, nt))
-end
-
-function Base.trailing_zeros(nt::NucleicAcid)
-    return trailing_zeros(reinterpret(UInt8, nt))
-end
-
 """
     gap(DNA)
 
 Return `DNA_Gap`.
 """
-function gap(::Type{DNA})
-    return DNA_Gap
-end
+gap(::Type{DNA}) = DNA_Gap
 
 """
     gap(RNA)
 
 Return `RNA_Gap`.
 """
-function gap(::Type{RNA})
-    return RNA_Gap
-end
+gap(::Type{RNA}) = RNA_Gap
 
 """
     isGC(nt::NucleicAcid)
@@ -404,15 +429,6 @@ Test if `nt` is a non-ambiguous nucleotide e.g. ACGT.
 end
 
 """
-    isgap(nt::NucleicAcid)
-
-Test if `nt` is a gap.
-"""
-@inline function isgap(nt::NucleicAcid)
-    return count_ones(nt) == 0
-end
-
-"""
     complement(nt::NucleicAcid)
 
 Return the complementary nucleotide of `nt`.
@@ -450,31 +466,7 @@ function Base.isvalid(nt::NucleicAcid)
     return reinterpret(UInt8, nt) ≤ 0b1111
 end
 
-"""
-    iscompatible(x::T, y::T) where T <: NucleicAcid
 
-Test if `x` and `y` are compatible with each other (i.e. `x` and `y` can be the same symbol).
-
-`x` and `y` must be the same type.
-
-Examples
---------
-
-```jldoctest
-julia> iscompatible(DNA_A, DNA_A)
-true
-
-julia> iscompatible(DNA_C, DNA_N)  # DNA_N can be DNA_C
-true
-
-julia> iscompatible(DNA_C, DNA_R)  # DNA_R (A or G) cannot be DNA_C
-false
-
-```
-"""
-@inline function iscompatible(x::T, y::T) where T <: NucleicAcid
-    return compatbits(x) & compatbits(y) != 0
-end
 
 """
     compatbits(nt::NucleicAcid)
@@ -499,23 +491,3 @@ julia> compatbits(DNA_N)
 @inline function compatbits(nt::NucleicAcid)
     return reinterpret(UInt8, nt)
 end
-
-#=
-# TODO - extra boundschecking which can be turned off using @inbounds.
-
-@inline function Base.getindex(arr::SVector{4}, idx::NucleicAcid)
-    @inbounds return arr[trailing_zeros(idx) + 1]
-end
-
-@inline function Base.getindex(arr::SVector{16}, idx::NucleicAcid)
-    @inbounds return arr[reinterpret(UInt8, idx) + 1]
-end
-
-@inline function Base.getindex(arr::SMatrix{4,4}, i::NucleicAcid, j::NucleicAcid)
-    @inbounds return arr[trailing_zeros(i) + 1, trailing_zeros(j) + 1]
-end
-
-@inline function Base.getindex(arr::SMatrix{16,16}, i::NucleicAcid, j::NucleicAcid)
-    @inbounds return arr[reinterpret(UInt8, i) + 1, reinterpret(UInt8, j) + 1]
-end
-=#

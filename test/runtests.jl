@@ -131,39 +131,39 @@ end
 
         @testset "Char" begin
             @testset "DNA conversions from Char" begin
-                @test convert(DNA, 'A') == DNA_A
-                @test convert(DNA, 'C') == DNA_C
-                @test convert(DNA, 'G') == DNA_G
-                @test convert(DNA, 'T') == DNA_T
-                @test convert(DNA, 'N') == DNA_N
+                @test convert(DNA, 'A') === DNA('A') === DNA_A
+                @test convert(DNA, 'C') === DNA('C') === DNA_C
+                @test convert(DNA, 'G') === DNA('G') === DNA_G
+                @test convert(DNA, 'T') === DNA('T') === DNA_T
+                @test convert(DNA, 'N') === DNA('N') === DNA_N
                 @test_throws InexactError convert(DNA, 'Z')
                 @test_throws InexactError convert(DNA, '核')
             end
 
             @testset "RNA conversions from Char" begin
-                @test convert(RNA, 'A') == RNA_A
-                @test convert(RNA, 'C') == RNA_C
-                @test convert(RNA, 'G') == RNA_G
-                @test convert(RNA, 'U') == RNA_U
-                @test convert(RNA, 'N') == RNA_N
+                @test convert(RNA, 'A') === RNA('A') === RNA_A
+                @test convert(RNA, 'C') === RNA('C') === RNA_C
+                @test convert(RNA, 'G') === RNA('G') === RNA_G
+                @test convert(RNA, 'U') === RNA('U') === RNA_U
+                @test convert(RNA, 'N') === RNA('N') === RNA_N
                 @test_throws InexactError convert(RNA, 'Z')
                 @test_throws InexactError convert(RNA, '核')
             end
 
             @testset "DNA conversions to Char" begin
-                @test convert(Char, DNA_A) == 'A'
-                @test convert(Char, DNA_C) == 'C'
-                @test convert(Char, DNA_G) == 'G'
-                @test convert(Char, DNA_T) == 'T'
-                @test convert(Char, DNA_N) == 'N'
+                @test convert(Char, DNA_A) === Char(DNA_A) === 'A'
+                @test convert(Char, DNA_C) === Char(DNA_C) === 'C'
+                @test convert(Char, DNA_G) === Char(DNA_G) === 'G'
+                @test convert(Char, DNA_T) === Char(DNA_T) === 'T'
+                @test convert(Char, DNA_N) === Char(DNA_N) === 'N'
             end
 
             @testset "RNA conversions to Char" begin
-                @test convert(Char, RNA_A) == 'A'
-                @test convert(Char, RNA_C) == 'C'
-                @test convert(Char, RNA_G) == 'G'
-                @test convert(Char, RNA_U) == 'U'
-                @test convert(Char, RNA_N) == 'N'
+                @test convert(Char, RNA_A) === Char(RNA_A) === 'A'
+                @test convert(Char, RNA_C) === Char(RNA_C) === 'C'
+                @test convert(Char, RNA_G) === Char(RNA_G) === 'G'
+                @test convert(Char, RNA_U) === Char(RNA_U) === 'U'
+                @test convert(Char, RNA_N) === Char(RNA_N) === 'N'
             end
         end
 
@@ -192,39 +192,16 @@ end
         end
         
         @testset "Nucleic acid types" begin
-            @test convert(DNA, RNA_Gap) === DNA_Gap
-            @test convert(DNA, RNA_A) === DNA_A
-            @test convert(DNA, RNA_C) === DNA_C
-            @test convert(DNA, RNA_M) === DNA_M
-            @test convert(DNA, RNA_G) === DNA_G
-            @test convert(DNA, RNA_R) === DNA_R
-            @test convert(DNA, RNA_S) === DNA_S
-            @test convert(DNA, RNA_V) === DNA_V
-            @test convert(DNA, RNA_U) === DNA_T
-            @test convert(DNA, RNA_W) === DNA_W
-            @test convert(DNA, RNA_Y) === DNA_Y
-            @test convert(DNA, RNA_H) === DNA_H
-            @test convert(DNA, RNA_K) === DNA_K
-            @test convert(DNA, RNA_D) === DNA_D
-            @test convert(DNA, RNA_B) === DNA_B
-            @test convert(DNA, RNA_N) === DNA_N
+            fromto = [(DNA_Gap, RNA_Gap), (DNA_A, RNA_A), (DNA_C, RNA_C),
+                      (DNA_M, RNA_M), (DNA_G, RNA_G), (DNA_R, RNA_R),
+                      (DNA_S, RNA_S), (DNA_V, RNA_V), (DNA_T, RNA_U),
+                      (DNA_W, RNA_W), (DNA_Y, RNA_Y), (DNA_H, RNA_H),
+                      (DNA_K, RNA_K), (DNA_D, RNA_D), (DNA_B, RNA_B), (DNA_N, RNA_N)]
             
-            @test convert(RNA, DNA_Gap) === RNA_Gap
-            @test convert(RNA, DNA_A) === RNA_A
-            @test convert(RNA, DNA_C) === RNA_C
-            @test convert(RNA, DNA_M) === RNA_M
-            @test convert(RNA, DNA_G) === RNA_G
-            @test convert(RNA, DNA_R) === RNA_R
-            @test convert(RNA, DNA_S) === RNA_S
-            @test convert(RNA, DNA_V) === RNA_V
-            @test convert(RNA, DNA_T) === RNA_U
-            @test convert(RNA, DNA_W) === RNA_W
-            @test convert(RNA, DNA_Y) === RNA_Y
-            @test convert(RNA, DNA_H) === RNA_H
-            @test convert(RNA, DNA_K) === RNA_K
-            @test convert(RNA, DNA_D) === RNA_D
-            @test convert(RNA, DNA_B) === RNA_B
-            @test convert(RNA, DNA_N) === RNA_N
+            for (from, to) in fromto
+                @test convert(RNA, from) === RNA(from) === to
+                @test convert(DNA, to) === DNA(to) === from
+            end
         end
     end
 
@@ -303,6 +280,15 @@ end
             @test isgap(nt) == (nt === RNA_Gap)
         end
     end
+    
+    @testset "isterm" begin
+        for nt in alphabet(DNA)
+            @test BioSymbols.isterm(nt) === false
+        end
+        for nt in alphabet(RNA)
+            @test BioSymbols.isterm(nt) === false
+        end
+    end
 
     @testset "complement" begin
         @test complement(DNA_A) === DNA_T
@@ -368,9 +354,10 @@ end
     end
 
     @testset "Show DNA" begin
+        dnas = [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
         @testset "print" begin
             buf = IOBuffer()
-            for nt in [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
+            for nt in dnas
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGTN-"
@@ -379,7 +366,10 @@ end
 
         @testset "show" begin
             buf = IOBuffer()
-            for nt in [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
+            for nt in dnas
+                @test BioSymbols.prefix(nt) === BioSymbols.type_text(nt) === "DNA"
+            end
+            for nt in dnas
                 show(buf, nt)
                 write(buf, ' ')
             end
@@ -389,9 +379,10 @@ end
     end
 
     @testset "Show RNA" begin
+        rnas = [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N, RNA_Gap]
         @testset "print" begin
             buf = IOBuffer()
-            for nt in [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N, RNA_Gap]
+            for nt in rnas
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGUN-"
@@ -399,8 +390,11 @@ end
         end
 
         @testset "show" begin
+            for nt in rnas
+                @test BioSymbols.prefix(nt) === BioSymbols.type_text(nt) === "RNA"
+            end
             buf = IOBuffer()
-            for nt in [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N, RNA_Gap]
+            for nt in rnas
                 show(buf, nt)
                 write(buf, ' ')
             end
@@ -449,34 +443,17 @@ end
 
 @testset "Aminoacids" begin
     @testset "conversion" begin
-        @test convert(AminoAcid, 0x00) === AA_A
-        @test convert(AminoAcid, 0x01) === AA_R
-        @test convert(AminoAcid, 0x02) === AA_N
-        @test convert(AminoAcid, 0x03) === AA_D
-        @test convert(AminoAcid, 0x04) === AA_C
-        @test convert(AminoAcid, 0x05) === AA_Q
-        @test convert(AminoAcid, 0x06) === AA_E
-        @test convert(AminoAcid, 0x07) === AA_G
-        @test convert(AminoAcid, 0x08) === AA_H
-        @test convert(AminoAcid, 0x09) === AA_I
-        @test convert(AminoAcid, 0x0a) === AA_L
-        @test convert(AminoAcid, 0x0b) === AA_K
-        @test convert(AminoAcid, 0x0c) === AA_M
-        @test convert(AminoAcid, 0x0d) === AA_F
-        @test convert(AminoAcid, 0x0e) === AA_P
-        @test convert(AminoAcid, 0x0f) === AA_S
-        @test convert(AminoAcid, 0x10) === AA_T
-        @test convert(AminoAcid, 0x11) === AA_W
-        @test convert(AminoAcid, 0x12) === AA_Y
-        @test convert(AminoAcid, 0x13) === AA_V
-        @test convert(AminoAcid, 0x14) === AA_O
-        @test convert(AminoAcid, 0x15) === AA_U
-        @test convert(AminoAcid, 0x16) === AA_B
-        @test convert(AminoAcid, 0x17) === AA_J
-        @test convert(AminoAcid, 0x18) === AA_Z
-        @test convert(AminoAcid, 0x19) === AA_X
-        @test convert(AminoAcid, 0x1a) === AA_Term
-        @test convert(AminoAcid, 0x1b) === AA_Gap
+        @test BioSymbols.bytemask(AA_A) === 0b11111
+        
+        for (int, aa) in [
+            (0x00, AA_A), (0x01, AA_R), (0x02, AA_N), (0x03, AA_D), (0x04, AA_C),
+            (0x05, AA_Q), (0x06, AA_E), (0x07, AA_G), (0x08, AA_H), (0x09, AA_I),
+            (0x0a, AA_L), (0x0b, AA_K), (0x0c, AA_M), (0x0d, AA_F), (0x0e, AA_P),
+            (0x0f, AA_S), (0x10, AA_T), (0x11, AA_W), (0x12, AA_Y), (0x13, AA_V),
+            (0x14, AA_O), (0x15, AA_U), (0x16, AA_B), (0x17, AA_J), (0x18, AA_Z),
+            (0x19, AA_X), (0x1a, AA_Term), (0x1b, AA_Gap)]
+            @test convert(AminoAcid, int) === AminoAcid(int) === aa
+        end
 
         @test convert(AminoAcid, 0) === AA_A
         @test convert(AminoAcid, 10) === AA_L
@@ -488,7 +465,8 @@ end
                 ('S', AA_S), ('T', AA_T), ('W', AA_W), ('Y', AA_Y), ('V', AA_V),
                 ('O', AA_O), ('U', AA_U), ('B', AA_B), ('J', AA_J), ('Z', AA_Z),
                 ('X', AA_X), ('*', AA_Term), ('-', AA_Gap)]
-            @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == aa
+            @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == AminoAcid(c) === aa
+            @test Char(aa) === c
         end
         @test_throws InexactError convert(AminoAcid, '\0')
         @test_throws InexactError convert(AminoAcid, '@')
@@ -568,9 +546,10 @@ end
     end
 
     @testset "Show amino acid" begin
+        aas = [AA_A, AA_D, AA_B, AA_X, AA_Term, AA_Gap]
         @testset "print" begin
             buf = IOBuffer()
-            for aa in [AA_A, AA_D, AA_B, AA_X, AA_Term, AA_Gap]
+            for aa in aas
                 print(buf, aa)
             end
             @test String(take!(buf)) == "ADBX*-"
@@ -578,8 +557,12 @@ end
         end
 
         @testset "show" begin
+            for aa in aas
+                @test BioSymbols.prefix(aa) === "AA"
+                @test BioSymbols.type_text(aa) === "Amino Acid"
+            end
             buf = IOBuffer()
-            for aa in [AA_A, AA_D, AA_B, AA_X, AA_Term, AA_Gap]
+            for aa in aas
                 show(buf, aa)
                 write(buf, ' ')
             end

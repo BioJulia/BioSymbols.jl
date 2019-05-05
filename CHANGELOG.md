@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.0]
+### Added
+- An abstract type `BioSymbol` has been added.
+
+### Changed
+- `tryparse` now returns `nothing` instead of a `Nullable`.
+- The project now uses Project TOML files instead of a REQUIRE file.
+- Documentation has been changed to use Documenter.jl native html generation.
+- Documentation has a new layout with a manual section, and a library section.
+
 ## [3.0.2]
 ### Added
 - Conversion between the DNA and RNA symbol types.
@@ -54,7 +64,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Generalised the `show` method for `NucleicAcid` types.
 
 
-[Unreleased]: https://github.com/BioJulia/BioSymbols.jl/compare/v3.0.2...HEAD
+[Unreleased]: https://github.com/BioJulia/BioSymbols.jl/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/BioJulia/BioSymbols.jl/compare/v3.0.2...v4.0.0
 [3.0.2]: https://github.com/BioJulia/BioSymbols.jl/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/BioJulia/BioSymbols.jl/compare/v3.0.0...v3.0.1
 [3.0.0]: https://github.com/BioJulia/BioSymbols.jl/compare/v2.0.1...v3.0.0

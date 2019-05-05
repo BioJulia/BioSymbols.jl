@@ -15,14 +15,14 @@ A quick way to create a DNA/RNA sequence is storing symbols in a vector.
 
 ```jldoctest
 julia> seq = [DNA_A, DNA_C, DNA_G, DNA_T]
-4-element Array{BioSymbols.DNA,1}:
+4-element Array{DNA,1}:
  DNA_A
  DNA_C
  DNA_G
  DNA_T
 
 julia> [convert(DNA, x) for x in "ACGT"]  # from a string
-4-element Array{BioSymbols.DNA,1}:
+4-element Array{DNA,1}:
  DNA_A
  DNA_C
  DNA_G
@@ -48,8 +48,8 @@ julia> (RNA_A, RNA_U, RNA_C)  # RNA triplet (or codon)
 ```
 
 
-Using BioSequences.jl
----------------------
+Using the BioSequences package
+------------------------------
 
 Using `Vector` or `Tuple` is simple, however, BioSymbols does not offer useful
 operations for these representations. So you need to use built-in operations of
@@ -58,7 +58,7 @@ efficient. For example, `DNA` is an 8-bit primitive but it only uses 4 bits,
 which means 50% of a `Vector{DNA}`'s space is not used at all.
 
 For the purpose of representing sequences as efficient as possible BioJulia has
-developed [BioSequences.jl](https://github.com/BioJulia/BioSequences.jl)
-package. The `BioSequence` type of BioSequences.jl is able to represent a
-DNA/RNA sequence in 2 or 4 bits per symbol. It also offers many efficient
-algorithms and I/O tools for common file formats such as FASTA.
+developed [BioSequences](https://github.com/BioJulia/BioSequences.jl)
+package. The `BioSequence` type is able to represent a DNA/RNA sequence in 2 or
+4 bits per symbol. It also offers many efficient algorithms and I/O tools for
+common file formats such as FASTA.

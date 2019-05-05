@@ -1,0 +1,17 @@
+name = "BioSymbols"
+uuid = "3c28c6f8-a34d-59c4-9654-267d177fcfa9"
+authors = ["Ben J. Ward <benjward@protonmail.com"]
+version = "4.0.0"
+
+[deps]
+Automa = "67c07d97-cdcb-5c2c-af73-a7f9c32a568b"
+
+[compat]
+julia = "1.1"
+Automa = "0.7"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]

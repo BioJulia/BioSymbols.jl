@@ -9,11 +9,14 @@
 """
 An amino acid type.
 """
-primitive type AminoAcid 8 end
+primitive type AminoAcid <: BioSymbol 8 end
 
-Base.length(::AminoAcid) = 1
-Base.iterate(aa::AminoAcid) = (nt, nothing)
-Base.iterate(aa::AminoAcid, state) = nothing
+prefix(::AminoAcid) = "AA"
+type_text(::AminoAcid) = "Amino Acid"
+isterm(symbol::AminoAcid) = symbol == AA_Term
+bytemask(symbol::AminoAcid) = 0b11111
+
+
 
 # Conversion from/to integers
 # ---------------------------
@@ -39,34 +42,6 @@ AminoAcid(c::Char) = convert(AminoAcid, c)
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
 Char(aa::AminoAcid) = convert(Char, aa)
 
-# Print
-# -----
-
-function Base.show(io::IO, aa::AminoAcid)
-    if isvalid(aa)
-        if aa == AA_Term
-            write(io, "AA_Term")
-        elseif aa == AA_Gap
-            write(io, "AA_Gap")
-        else
-            write(io, "AA_", convert(Char, aa))
-        end
-    else
-        write(io, "Invalid Amino Acid")
-    end
-    return
-end
-
-function Base.print(io::IO, aa::AminoAcid)
-    if !isvalid(aa)
-        throw(ArgumentError("invalid amino acid"))
-    end
-    write(io, convert(Char, aa))
-    return
-end
-
-Base.write(io::IO, aa::AminoAcid) = write(io, reinterpret(UInt8, aa))
-Base.read(io::IO, ::Type{AminoAcid}) = reinterpret(AminoAcid, read(io, UInt8))
 
 # Amino acid encoding definition
 # ------------------------------
@@ -262,12 +237,10 @@ end
 
 # These methods are necessary when deriving some algorithims
 # like iteration, sort, comparison, and so on.
-Base.:-(x::AminoAcid, y::AminoAcid) = convert(Int, x) - convert(Int, y)
+
 # 0x1c is the size of the amino acid alphabet
 Base.:-(x::AminoAcid, y::Integer) = x + mod(-y, 0x1c)
 Base.:+(x::AminoAcid, y::Integer) = reinterpret(AminoAcid, mod((convert(UInt8, x) + y) % UInt8, 0x1c))
-Base.:+(x::Integer, y::AminoAcid) = y + x
-Base.isless(x::AminoAcid, y::AminoAcid) = isless(convert(UInt8, x), convert(UInt8, y))
 
 Base.isvalid(::Type{AminoAcid}, x::Integer) = 0 ≤ x ≤ 0x1b
 Base.isvalid(aa::AminoAcid) = aa ≤ AA_Gap
@@ -296,15 +269,6 @@ Return `AA_Gap`.
 gap(::Type{AminoAcid}) = AA_Gap
 
 """
-    isgap(aa::AminoAcid)
-
-Test if `aa` is a gap.
-"""
-function isgap(aa::AminoAcid)
-    return aa == AA_Gap
-end
-
-"""
     compatbits(aa::AminoAcid)
 
 Return the compatibility bits of `aa` as `UInt32`.
@@ -321,25 +285,6 @@ julia> compatbits(AA_J)
 
 ```
 """
-compatbits(aa::AminoAcid) = compatbits_aa[reinterpret(UInt8, aa)+1]
+compatbits(aa::AminoAcid) = @inbounds compatbits_aa[reinterpret(UInt8, aa) + 1]
 
-"""
-    iscompatible(x::AminoAcid, y::AminoAcid)
 
-Test if `x` and `y` are compatible with each other.
-
-Examples
---------
-
-```jldoctest
-julia> iscompatible(AA_A, AA_R)
-false
-
-julia> iscompatible(AA_A, AA_X)
-true
-
-```
-"""
-function iscompatible(x::AminoAcid, y::AminoAcid)
-    return compatbits(x) & compatbits(y) != 0
-end
