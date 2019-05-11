@@ -116,6 +116,10 @@ expected to have the following methods defined:
 """
 abstract type BioSymbol end
 
+Base.length(::BioSymbol) = 1
+Base.iterate(sym::BioSymbol) = (sym, nothing)
+Base.iterate(sym::BioSymbol, state) = nothing
+
 include("nucleicacid.jl")
 include("aminoacid.jl")
 

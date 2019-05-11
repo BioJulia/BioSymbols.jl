@@ -11,6 +11,21 @@ function round_trip(x)
     return x == y
 end
 
+@testset "BioSymbols" begin
+    for i in alphabet(DNA)
+        @test length(i) == 1
+        @test collect(i) == [i]
+    end
+    for i in alphabet(RNA)
+        @test length(i) == 1
+        @test collect(i) == [i]
+    end
+    for i in alphabet(AminoAcid)
+        @test length(i) == 1
+        @test collect(i) == [i]
+    end
+end
+
 @testset "NucleicAcids" begin
     @testset "Conversions" begin
         @testset "UInt8" begin
