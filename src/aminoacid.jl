@@ -51,15 +51,14 @@ const AA_INVALID = convert(AminoAcid, 0x1c)  # Used during conversion from strin
 
 # lookup table for characters
 const char_to_aa = [AA_INVALID for _ in 0x00:0x7f]
-const aa_to_char = Vector{Char}(undef, 0x1c)
-
-# compatibility bits
-const compatbits_aa = Vector{UInt32}(undef, 28)
 
 # This set of amino acids is defined by IUPAC-IUB Joint Commission on Biochemical Nomenclature.
 # Reference: http://www.insdc.org/documents/feature_table.html#7.4.3
 
-for (aa, doc, code) in [
+const (aa_to_char, compatbits_aa) = let
+    aatochar = Vector{Char}(undef, 0x1c)
+    compatbitsaa = Vector{UInt32}(undef, 28)
+    for (aa, doc, code) in [
         ('A', "Alanine",                           0x00),
         ('R', "Arginine",                          0x01),
         ('N', "Asparagine",                        0x02),
@@ -86,36 +85,40 @@ for (aa, doc, code) in [
         ('J', "Leucine or Isoleucine",             0x17),  # ambiguous
         ('Z', "Glutamine or Glutamic Acid",        0x18),  # ambiguous
         ('X', "Unspecified or Unknown Amino Acid", 0x19)]  # ambiguous
-    var = Symbol("AA_", aa)
+        var = Symbol("AA_", aa)
+        @eval begin
+            @doc $doc const $var = convert(AminoAcid, $code)
+            char_to_aa[$(Int(aa)+1)] = char_to_aa[$(Int(lowercase(aa))+1)] = $var
+            $(aatochar)[$(code)+1] = $aa
+        end
+        if code ≤ 0x15
+            compatbitsaa[code+1] = 1 << code
+        elseif code == 0x16
+            compatbitsaa[code+1] = 1 << 0x02 | 1 << 0x03
+        elseif code == 0x17
+            compatbitsaa[code+1] = 1 << 0x09 | 1 << 0x0a
+        elseif code == 0x18
+            compatbitsaa[code+1] = 1 << 0x05 | 1 << 0x06
+        elseif code == 0x19
+            compatbitsaa[code+1] = (1 << 0x16) - 1
+        end
+    end
+
     @eval begin
-        @doc $doc const $var = convert(AminoAcid, $code)
-        char_to_aa[$(Int(aa)+1)] = char_to_aa[$(Int(lowercase(aa))+1)] = $var
-        aa_to_char[$(code)+1] = $aa
+        "Terminal"
+        const AA_Term = convert(AminoAcid, 0x1a)
+        char_to_aa[Int('*')+1] = AA_Term
+        $(aatochar)[0x1a+1] = '*'
+        $(compatbitsaa)[0x1a+1] = 1 << 0x1a
+
+        "Amino Acid Gap"
+        const AA_Gap = convert(AminoAcid, 0x1b)
+        char_to_aa[Int('-') + 1] = AA_Gap
+        $(aatochar)[0x1b+1] = '-'
+        $(compatbitsaa)[0x1b+1] = 0
     end
-    if code ≤ 0x15
-        compatbits_aa[code+1] = 1 << code
-    elseif code == 0x16
-        compatbits_aa[code+1] = 1 << 0x02 | 1 << 0x03
-    elseif code == 0x17
-        compatbits_aa[code+1] = 1 << 0x09 | 1 << 0x0a
-    elseif code == 0x18
-        compatbits_aa[code+1] = 1 << 0x05 | 1 << 0x06
-    elseif code == 0x19
-        compatbits_aa[code+1] = (1 << 0x16) - 1
-    end
+    (Tuple(aatochar), Tuple(compatbitsaa))
 end
-
-"Terminal"
-const AA_Term = convert(AminoAcid, 0x1a)
-char_to_aa[Int('*')+1] = AA_Term
-aa_to_char[0x1a+1] = '*'
-compatbits_aa[0x1a+1] = 1 << 0x1a
-
-"Amino Acid Gap"
-const AA_Gap = convert(AminoAcid, 0x1b)
-char_to_aa[Int('-') + 1] = AA_Gap
-aa_to_char[0x1b+1] = '-'
-compatbits_aa[0x1b+1] = 0
 
 @eval alphabet(::Type{AminoAcid}) = $(tuple([reinterpret(AminoAcid, x) for x in 0x00:0x1b]...))
 
@@ -286,5 +289,3 @@ julia> compatbits(AA_J)
 ```
 """
 compatbits(aa::AminoAcid) = @inbounds compatbits_aa[reinterpret(UInt8, aa) + 1]
-
-
