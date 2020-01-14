@@ -103,7 +103,7 @@ Char(nt::RNA) = convert(Char, nt)
 
 """
 Lookup table used for converting characters to DNA symbol values
-    
+
 The provided `convert` method should be used rather than this table, but you can
 use it if you insist and know what your are doing.
 
@@ -116,7 +116,7 @@ use it if you insist and know what your are doing.
     If you index this array with a character that is greater than '\uff', then
     you will get a bounds error. The `convert(DNA, x)` method checks such things
     to avoid this for you.
-        
+
 !!! warning
     If you index this array with a character that does not have a corresonding
     DNA symbol, then you get a byte with the bit pattern `0x80`, which is an
@@ -128,7 +128,7 @@ const char_to_dna = [0x80 for _ in 0x00:0xff]
 
 """
 Lookup table for converting DNA symbol values to characters
-    
+
 The provided `convert` method should be used rather than this table, but you can
 use it if you insist and know what your are doing.
 
@@ -140,14 +140,16 @@ use it if you insist and know what your are doing.
 !!! warning
     If you index this array with an invalid DNA symbol, then you will hit a
     bounds error. If you construct DNA symbols properly, then this scenario
-    should never occur. 
+    should never occur.
 """
-const dna_to_char = Vector{Char}(undef, 16)
+dna_to_char
 
 # Derived from "The DDBJ/ENA/GenBank Feature Table Definition"
 # §7.4.1 Nucleotide base code (IUPAC)
 # http://www.insdc.org/documents/feature_table.html#7.4.1
-for (char, doc, bits) in [
+const dna_to_char = let
+    chararray = Vector{Char}(undef, 16)
+    for (char, doc, bits) in [
         ('-', "DNA Gap",                                   0b0000),
         ('A', "DNA Adenine",                               0b0001),
         ('C', "DNA Cytosine",                              0b0010),
@@ -164,12 +166,14 @@ for (char, doc, bits) in [
         ('D', "DNA Adenine, Guanine or Thymine",           0b1101),
         ('B', "DNA Cytosine, Guanine or Thymine",          0b1110),
         ('N', "DNA Adenine, Cytosine, Guanine or Thymine", 0b1111)]
-    var = Symbol("DNA_", char != '-' ? char : "Gap")
-    @eval begin
-        @doc $(doc) const $(var) = reinterpret(DNA, $(bits))
-        char_to_dna[$(convert(Int, char) + 1)] = char_to_dna[$(convert(Int, lowercase(char)) + 1)] = $(bits)
-        dna_to_char[$(convert(Int, bits) + 1)] = $(char)
+        var = Symbol("DNA_", char != '-' ? char : "Gap")
+        @eval begin
+            @doc $(doc) const $(var) = reinterpret(DNA, $(bits))
+            char_to_dna[$(convert(Int, char) + 1)] = char_to_dna[$(convert(Int, lowercase(char)) + 1)] = $(bits)
+            $(chararray)[$(convert(Int, bits) + 1)] = $(char)
+        end
     end
+    Tuple(chararray)
 end
 
 @eval function alphabet(::Type{DNA})
@@ -229,7 +233,7 @@ const ACGTN = (DNA_A, DNA_C, DNA_G, DNA_T, DNA_N)
 
 """
 Lookup table used for converting characters to RNA symbol values
-    
+
 The provided `convert` method should be used rather than this table, but you can
 use it if you insist and know what your are doing.
 
@@ -242,7 +246,7 @@ use it if you insist and know what your are doing.
     If you index this array with a character that is greater than '\uff', then
     you will get a bounds error. The `convert(RNA, x)` method checks such things
     to avoid this for you.
-        
+
 !!! warning
     If you index this array with a character that does not have a corresonding
     RNA symbol, then you get a byte with the bit pattern `0x80`, which is an
@@ -254,7 +258,7 @@ const char_to_rna = [0x80 for _ in 0x00:0xff]
 
 """
 Lookup table for converting RNA symbol values to characters
-    
+
 The provided `convert` method should be used rather than this table, but you can
 use it if you insist and know what your are doing.
 
@@ -266,11 +270,14 @@ use it if you insist and know what your are doing.
 !!! warning
     If you index this array with an invalid RNA symbol, then you will hit a
     bounds error. If you construct RNA symbols properly, then this scenario
-    should never occur. 
+    should never occur.
 """
-const rna_to_char = Vector{Char}(undef, 16)
+rna_to_char
 
-for (char, doc, dna) in [
+
+const rna_to_char = let
+    chararray = Vector{Char}(undef, 16)
+    for (char, doc, dna) in [
         ('-', "RNA Gap",                                  DNA_Gap),
         ('A', "RNA Adenine",                              DNA_A  ),
         ('C', "RNA Cytosine",                             DNA_C  ),
@@ -287,12 +294,14 @@ for (char, doc, dna) in [
         ('D', "RNA Adenine, Guanine or Uracil",           DNA_D  ),
         ('B', "RNA Cytosine, Guanine or Uracil",          DNA_B  ),
         ('N', "RNA Adenine, Cytosine, Guanine or Uracil", DNA_N  )]
-    var = Symbol("RNA_", char != '-' ? char : "Gap")
-    @eval begin
-        @doc $(doc) const $(var) = reinterpret(RNA, $(dna))
-        char_to_rna[$(convert(Int, char) + 1)] = char_to_rna[$(convert(Int, lowercase(char) + 1))] = reinterpret(UInt8, $(dna))
-        rna_to_char[$(convert(Int, dna) + 1)] = $(char)
+        var = Symbol("RNA_", char != '-' ? char : "Gap")
+        @eval begin
+            @doc $(doc) const $(var) = reinterpret(RNA, $(dna))
+            char_to_rna[$(convert(Int, char) + 1)] = char_to_rna[$(convert(Int, lowercase(char) + 1))] = reinterpret(UInt8, $(dna))
+            $(chararray)[$(convert(Int, dna) + 1)] = $(char)
+        end
     end
+    Tuple(chararray)
 end
 
 @eval function alphabet(::Type{RNA})
