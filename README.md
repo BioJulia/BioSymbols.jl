@@ -1,7 +1,7 @@
 # <img src="./sticker.svg" width="30%" align="right"/> BioSymbols
 
 [![Latest release](https://img.shields.io/github/release/BioJulia/BioSymbols.jl.svg)](https://github.com/BioJulia/BioSymbols.jl/releases/latest)
-[![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/BioSymbols.jl/blob/master/LICENSE) 
+[![MIT license](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/BioJulia/BioSymbols.jl/blob/master/LICENSE)
 [![Stable documentation](https://img.shields.io/badge/docs-stable-blue.svg)](https://biojulia.github.io/BioSymbols.jl/stable)
 [![Latest documentation](https://img.shields.io/badge/docs-dev-blue.svg)](https://biojulia.github.io/BioSymbols.jl/latest)
 [![Pkg Status](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active)
@@ -35,8 +35,9 @@ the master branch to try new features before release.
 
 BioSymbols is tested against Julia `1.X` on Linux, OS X, and Windows.
 
-[![](https://travis-ci.org/BioJulia/BioSymbols.jl.svg?branch=master)](https://travis-ci.org/BioJulia/BioSymbols.jl)
-[![](https://ci.appveyor.com/api/projects/status/q9i9c79h0p33tiqp/branch/master?svg=true)](https://ci.appveyor.com/project/Ward9250/BioSymbols-jl/branch/master)
+
+[![Unit tests](https://github.com/BioJulia/BioSymbols.jl/workflows/Unit%20tests/badge.svg?branch=master)](https://github.com/BioJulia/BioSymbols.jl/actions?query=workflow%3A%22Unit+tests%22+branch%3Amaster)
+[![Documentation](https://github.com/BioJulia/BioSymbols.jl/workflows/Documentation/badge.svg?branch=master)](https://github.com/BioJulia/BioSymbols.jl/actions?query=workflow%3ADocumentation+branch%3Amaster)
 [![](https://codecov.io/gh/BioJulia/BioSymbols.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/BioJulia/BioSymbols.jl)
 
 
