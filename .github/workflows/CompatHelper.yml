@@ -1,0 +1,17 @@
+name: CompatHelper
+
+on:
+  schedule:
+    - cron: '00 00 * * *'
+
+jobs:
+  CompatHelper:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add CompatHelper
+        run: julia --color=yes -e 'using Pkg; Pkg.add("CompatHelper")'
+      - name: Run CompatHelper
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMPATHELPER_PRIV: ${{ secrets.COMPATHELPER_PRIV }}
+        run: julia --color=yes -e 'using CompatHelper; CompatHelper.main(master_branch = "master")'
