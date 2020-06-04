@@ -16,16 +16,7 @@ type_text(::AminoAcid) = "Amino Acid"
 isterm(symbol::AminoAcid) = symbol == AA_Term
 bytemask(symbol::AminoAcid) = 0b11111
 
-
-
-# Conversion from/to integers
-# ---------------------------
-
-Base.convert(::Type{AminoAcid}, aa::UInt8) = reinterpret(AminoAcid, aa)
-Base.convert(::Type{UInt8}, aa::AminoAcid) = reinterpret(UInt8, aa)
-Base.convert(::Type{T}, aa::AminoAcid) where T <: Number = convert(T, convert(UInt8, aa))
-Base.convert(::Type{AminoAcid}, aa::T) where T <: Number = convert(AminoAcid, convert(UInt8, aa))
-AminoAcid(nt::Integer) = convert(AminoAcid, nt)
+encoded_data_eltype(::Type{AminoAcid}) = UInt8
 
 # Conversion from/to Char
 # -----------------------
@@ -39,7 +30,7 @@ function Base.convert(::Type{AminoAcid}, c::Char)
 end
 AminoAcid(c::Char) = convert(AminoAcid, c)
 
-Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[convert(UInt8, aa) + 1]
+Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[encoded_data(aa) + 1]
 Char(aa::AminoAcid) = convert(Char, aa)
 
 
@@ -47,7 +38,7 @@ Char(aa::AminoAcid) = convert(Char, aa)
 # ------------------------------
 
 "Invalid Amino Acid"
-const AA_INVALID = convert(AminoAcid, 0x1c)  # Used during conversion from strings
+const AA_INVALID = reinterpret(AminoAcid, 0x1c)  # Used during conversion from strings
 
 # lookup table for characters
 const char_to_aa = [AA_INVALID for _ in 0x00:0x7f]
@@ -87,7 +78,7 @@ const (aa_to_char, compatbits_aa) = let
         ('X', "Unspecified or Unknown Amino Acid", 0x19)]  # ambiguous
         var = Symbol("AA_", aa)
         @eval begin
-            @doc $doc const $var = convert(AminoAcid, $code)
+            @doc $doc const $var = reinterpret(AminoAcid, $code)
             char_to_aa[$(Int(aa)+1)] = char_to_aa[$(Int(lowercase(aa))+1)] = $var
             $(aatochar)[$(code)+1] = $aa
         end
@@ -106,13 +97,13 @@ const (aa_to_char, compatbits_aa) = let
 
     @eval begin
         "Terminal"
-        const AA_Term = convert(AminoAcid, 0x1a)
+        const AA_Term = reinterpret(AminoAcid, 0x1a)
         char_to_aa[Int('*')+1] = AA_Term
         $(aatochar)[0x1a+1] = '*'
         $(compatbitsaa)[0x1a+1] = 1 << 0x1a
 
         "Amino Acid Gap"
-        const AA_Gap = convert(AminoAcid, 0x1b)
+        const AA_Gap = reinterpret(AminoAcid, 0x1b)
         char_to_aa[Int('-') + 1] = AA_Gap
         $(aatochar)[0x1b+1] = '-'
         $(compatbitsaa)[0x1b+1] = 0
@@ -237,13 +228,6 @@ end
 
 # Arithmetic and Order
 # --------------------
-
-# These methods are necessary when deriving some algorithims
-# like iteration, sort, comparison, and so on.
-
-# 0x1c is the size of the amino acid alphabet
-Base.:-(x::AminoAcid, y::Integer) = x + mod(-y, 0x1c)
-Base.:+(x::AminoAcid, y::Integer) = reinterpret(AminoAcid, mod((convert(UInt8, x) + y) % UInt8, 0x1c))
 
 Base.isvalid(::Type{AminoAcid}, x::Integer) = 0 ≤ x ≤ 0x1b
 Base.isvalid(aa::AminoAcid) = aa ≤ AA_Gap

@@ -42,21 +42,16 @@ prefix(::DNA) = "DNA"
 prefix(::RNA) = "RNA"
 type_text(x::NucleicAcid) = prefix(x)
 isterm(symbol::NucleicAcid) = false
+encoded_data_eltype(::Type{DNA}) = UInt8
+encoded_data_eltype(::Type{RNA}) = UInt8
 
 
-# Conversion from/to integers
+# Conversion from/to compatible types
 # ---------------------------
 
-Base.convert(::Type{T}, nt::UInt8) where T <: NucleicAcid = reinterpret(T, nt)
-Base.convert(::Type{UInt8}, nt::T) where T <: NucleicAcid = reinterpret(UInt8, nt)
-Base.convert(::Type{T}, nt::S) where {T <: Number, S <: NucleicAcid} = convert(T, convert(UInt8, nt))
-Base.convert(::Type{S}, nt::T) where {T <: Number, S <: NucleicAcid} = convert(S, convert(UInt8, nt))
-DNA(nt::Integer) = convert(DNA, nt)
-RNA(nt::Integer) = convert(RNA, nt)
-
-Base.convert(::Type{DNA}, nt::RNA) = DNA(convert(UInt8, nt))
+Base.convert(::Type{DNA}, nt::RNA) = reinterpret(DNA, nt)
 DNA(nt::RNA) = convert(DNA, nt)
-Base.convert(::Type{RNA}, nt::DNA) = RNA(convert(UInt8, nt))
+Base.convert(::Type{RNA}, nt::DNA) = reinterpret(RNA, nt)
 RNA(nt::DNA) = convert(RNA, nt)
 
 
@@ -88,12 +83,12 @@ end
 RNA(c::Char) = convert(RNA, c)
 
 function Base.convert(::Type{Char}, nt::DNA)
-    return dna_to_char[convert(UInt8, nt) + 1]
+    return dna_to_char[encoded_data(nt) + 1]
 end
 Char(nt::DNA) = convert(Char, nt)
 
 function Base.convert(::Type{Char}, nt::RNA)
-    return rna_to_char[convert(UInt8, nt) + 1]
+    return rna_to_char[encoded_data(nt) + 1]
 end
 Char(nt::RNA) = convert(Char, nt)
 
@@ -298,7 +293,7 @@ const rna_to_char = let
         @eval begin
             @doc $(doc) const $(var) = reinterpret(RNA, $(dna))
             char_to_rna[$(convert(Int, char) + 1)] = char_to_rna[$(convert(Int, lowercase(char) + 1))] = reinterpret(UInt8, $(dna))
-            $(chararray)[$(convert(Int, dna) + 1)] = $(char)
+            $(chararray)[$(encoded_data(dna) + 1)] = $(char)
         end
     end
     Tuple(chararray)
@@ -360,19 +355,11 @@ julia> ACGUN
 const ACGUN = (RNA_A, RNA_C, RNA_G, RNA_U, RNA_N)
 
 function Base.:~(x::N) where N <: NucleicAcid
-    return reinterpret(N, ~reinterpret(UInt8, x) & 0b1111)
+    return reinterpret(N, ~encoded_data(x) & 0b1111)
 end
 
 function Base.:|(x::N, y::N) where N <: NucleicAcid
-    return reinterpret(N, reinterpret(UInt8, x) | reinterpret(UInt8, y))
-end
-
-function Base.:-(x::N, y::Integer) where N <: NucleicAcid
-    return x + (-y)
-end
-
-function Base.:+(x::N, y::Integer) where N <: NucleicAcid
-    return reinterpret(N, (convert(UInt8, x) + y % UInt8) & 0b1111)
+    return reinterpret(N, encoded_data(x) | encoded_data(y))
 end
 
 """
@@ -395,7 +382,7 @@ gap(::Type{RNA}) = RNA_Gap
 Test if `nt` is surely either guanine or cytosine.
 """
 function isGC(nt::NucleicAcid)
-    bits = reinterpret(UInt8, nt)
+    bits = encoded_data(nt)
     return bits != 0 && (bits & 0b1001) == 0
 end
 
@@ -405,7 +392,7 @@ end
 Test if `nt` is surely a purine.
 """
 @inline function ispurine(nt::NucleicAcid)
-    bits = reinterpret(UInt8, nt)
+    bits = encoded_data(nt)
     return bits != 0 && (bits & 0b1010) == 0
 end
 
@@ -415,7 +402,7 @@ end
 Test if `nt` is surely a pyrimidine.
 """
 @inline function ispyrimidine(nt::NucleicAcid)
-    bits = reinterpret(UInt8, nt)
+    bits = encoded_data(nt)
     return bits != 0 && (bits & 0b0101) == 0
 end
 
@@ -472,7 +459,7 @@ function Base.isvalid(::Type{T}, x::Integer) where T <: NucleicAcid
 end
 
 function Base.isvalid(nt::NucleicAcid)
-    return reinterpret(UInt8, nt) ≤ 0b1111
+    return encoded_data(nt) ≤ 0b1111
 end
 
 
@@ -498,5 +485,5 @@ julia> compatbits(DNA_N)
 ```
 """
 @inline function compatbits(nt::NucleicAcid)
-    return reinterpret(UInt8, nt)
+    return encoded_data(nt)
 end
