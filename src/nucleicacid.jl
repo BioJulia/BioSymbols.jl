@@ -454,6 +454,17 @@ function Base.isvalid(nt::NucleicAcid)
     return encoded_data(nt) ≤ 0b1111
 end
 
+function Base.:~(x::N) where N <: NucleicAcid
+    return encode(N, encoded_data(x) ⊻ 0b1111)
+end
+
+function Base.:|(x::N, y::N) where N <: NucleicAcid
+    return encode(N, encoded_data(x) | encoded_data(y))
+end
+
+function Base.:&(x::N, y::N) where N <: NucleicAcid
+    return encode(N, encoded_data(x) & encoded_data(y))
+end
 
 
 """

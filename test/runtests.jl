@@ -259,8 +259,14 @@ end
         @test complement(RNA_N) === RNA_N
     end
 
-    @testset "Arithmetic and Order" begin
+    @testset "Logic operations and Order" begin
         @testset "DNA" begin
+            @test ~DNA_Gap === DNA_N
+            @test ~DNA_N   === DNA_Gap
+            @test DNA_A | DNA_C === DNA_M
+            @test DNA_A & DNA_C === DNA_Gap
+            @test_throws Exception DNA_A & RNA_A
+            @test_throws Exception DNA_A | RNA_A
             @test DNA_Gap < DNA_A < DNA_C < DNA_G < DNA_T < DNA_N
             @test !(DNA_A > DNA_G)
             @test trailing_zeros(DNA_A) === 0
@@ -420,7 +426,11 @@ end
         @test !isvalid(AminoAcid, 0x1c)
     end
 
-    @testset "Arithmetic and Order" begin
+    @testset "Logic operations and Order" begin
+        @test ~RNA_Gap === RNA_N
+        @test ~RNA_N   === RNA_Gap
+        @test RNA_A | RNA_C === RNA_M
+        @test RNA_A & RNA_C === RNA_Gap
         @test (AA_A < AA_R < AA_N < AA_V < AA_O < AA_U <
                AA_B < AA_J < AA_Z < AA_X < AA_Term < AA_Gap)
         @test !(AA_J < AA_B)
