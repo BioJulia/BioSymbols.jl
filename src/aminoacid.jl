@@ -38,7 +38,7 @@ Char(aa::AminoAcid) = convert(Char, aa)
 # ------------------------------
 
 "Invalid Amino Acid"
-const AA_INVALID = reinterpret(AminoAcid, 0x1c)  # Used during conversion from strings
+const AA_INVALID = encode(AminoAcid, 0x1c)  # Used during conversion from strings
 
 # lookup table for characters
 const char_to_aa = [AA_INVALID for _ in 0x00:0x7f]
@@ -78,7 +78,7 @@ const (aa_to_char, compatbits_aa) = let
         ('X', "Unspecified or Unknown Amino Acid", 0x19)]  # ambiguous
         var = Symbol("AA_", aa)
         @eval begin
-            @doc $doc const $var = reinterpret(AminoAcid, $code)
+            @doc $doc const $var = encode(AminoAcid, $code)
             char_to_aa[$(Int(aa)+1)] = char_to_aa[$(Int(lowercase(aa))+1)] = $var
             $(aatochar)[$(code)+1] = $aa
         end
@@ -97,13 +97,13 @@ const (aa_to_char, compatbits_aa) = let
 
     @eval begin
         "Terminal"
-        const AA_Term = reinterpret(AminoAcid, 0x1a)
+        const AA_Term = encode(AminoAcid, 0x1a)
         char_to_aa[Int('*')+1] = AA_Term
         $(aatochar)[0x1a+1] = '*'
         $(compatbitsaa)[0x1a+1] = 1 << 0x1a
 
         "Amino Acid Gap"
-        const AA_Gap = reinterpret(AminoAcid, 0x1b)
+        const AA_Gap = encode(AminoAcid, 0x1b)
         char_to_aa[Int('-') + 1] = AA_Gap
         $(aatochar)[0x1b+1] = '-'
         $(compatbitsaa)[0x1b+1] = 0
@@ -111,7 +111,7 @@ const (aa_to_char, compatbits_aa) = let
     (Tuple(aatochar), Tuple(compatbitsaa))
 end
 
-@eval alphabet(::Type{AminoAcid}) = $(tuple([reinterpret(AminoAcid, x) for x in 0x00:0x1b]...))
+@eval alphabet(::Type{AminoAcid}) = $(tuple([encode(AminoAcid, x) for x in 0x00:0x1b]...))
 
 """
     alphabet(AminoAcid)
@@ -272,4 +272,4 @@ julia> compatbits(AA_J)
 
 ```
 """
-compatbits(aa::AminoAcid) = @inbounds compatbits_aa[reinterpret(UInt8, aa) + 1]
+compatbits(aa::AminoAcid) = @inbounds compatbits_aa[encoded_data(aa) + 1]

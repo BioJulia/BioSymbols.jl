@@ -66,7 +66,7 @@ function Base.convert(::Type{DNA}, c::Char)
     if !isvalid(DNA, dna)
         throw(InexactError(:convert, DNA, c))
     end
-    return reinterpret(DNA, dna)
+    return encode(DNA, dna)
 end
 DNA(c::Char) = convert(DNA, c)
 
@@ -78,7 +78,7 @@ function Base.convert(::Type{RNA}, c::Char)
     if !isvalid(RNA, rna)
         throw(InexactError(:convert, RNA, c))
     end
-    return reinterpret(RNA, rna)
+    return encode(RNA, rna)
 end
 RNA(c::Char) = convert(RNA, c)
 
@@ -163,7 +163,7 @@ const dna_to_char = let
         ('N', "DNA Adenine, Cytosine, Guanine or Thymine", 0b1111)]
         var = Symbol("DNA_", char != '-' ? char : "Gap")
         @eval begin
-            @doc $(doc) const $(var) = reinterpret(DNA, $(bits))
+            @doc $(doc) const $(var) = encode(DNA, $(bits))
             char_to_dna[$(convert(Int, char) + 1)] = char_to_dna[$(convert(Int, lowercase(char)) + 1)] = $(bits)
             $(chararray)[$(convert(Int, bits) + 1)] = $(char)
         end
@@ -172,7 +172,7 @@ const dna_to_char = let
 end
 
 @eval function alphabet(::Type{DNA})
-    return $(tuple([reinterpret(DNA, x) for x in 0b0000:0b1111]...))
+    return $(tuple([encode(DNA, x) for x in 0b0000:0b1111]...))
 end
 
 """
@@ -300,7 +300,7 @@ const rna_to_char = let
 end
 
 @eval function alphabet(::Type{RNA})
-    return $(tuple([reinterpret(RNA, x) for x in 0b0000:0b1111]...))
+    return $(tuple([encode(RNA, x) for x in 0b0000:0b1111]...))
 end
 
 """
@@ -353,14 +353,6 @@ julia> ACGUN
 ```
 """
 const ACGUN = (RNA_A, RNA_C, RNA_G, RNA_U, RNA_N)
-
-function Base.:~(x::N) where N <: NucleicAcid
-    return reinterpret(N, ~encoded_data(x) & 0b1111)
-end
-
-function Base.:|(x::N, y::N) where N <: NucleicAcid
-    return reinterpret(N, encoded_data(x) | encoded_data(y))
-end
 
 """
     gap(DNA)
@@ -448,7 +440,7 @@ RNA_A
 """
 function complement(nt::NucleicAcid)
     bits = compatbits(nt)
-    return reinterpret(
+    return encode(
         typeof(nt),
         (bits & 0x01) << 3 | (bits & 0x08) >> 3 |
         (bits & 0x02) << 1 | (bits & 0x04) >> 1)

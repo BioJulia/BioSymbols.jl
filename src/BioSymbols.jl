@@ -96,7 +96,8 @@ export
     iscompatible,
     compatbits,
     alphabet,
-    encoded_data
+    encoded_data,
+    encode
 
 import Automa
 import Automa.RegExp: @re_str
@@ -118,6 +119,9 @@ expected to have the following methods defined:
 abstract type BioSymbol end
 
 encoded_data(x::BioSymbol) = reinterpret(encoded_data_eltype(typeof(x)), x)
+function encode(::Type{T}, x) where T <: BioSymbol
+    return reinterpret(T, convert(encoded_data_eltype(T), x))
+end
 Base.length(::BioSymbol) = 1
 Base.iterate(sym::BioSymbol) = (sym, nothing)
 Base.iterate(sym::BioSymbol, state) = nothing
@@ -139,15 +143,6 @@ isgap(symbol::BioSymbol) = symbol == gap(typeof(symbol))
 # These methods are necessary when deriving some algorithims
 # like iteration, sort, comparison, and so on.
 Base.isless(x::S, y::S) where S <: BioSymbol = isless(encoded_data(x), encoded_data(y))
-
-function Base.:~(x::BioSymbol)
-    return reinterpret(typeof(x), ~encoded_data(x) & bytemask(x))
-end
-
-function Base.:&(x::S, y::S) where S <: BioSymbol
-    return reinterpret(S, encoded_data(x) & encoded_data(y))
-end
-
 
 @inline function Base.count_ones(symbol::BioSymbol)
     return count_ones(encoded_data(symbol))
@@ -188,7 +183,7 @@ function Base.print(io::IO, symbol::BioSymbol)
 end
 
 Base.write(io::IO, symbol::BioSymbol) = write(io, encoded_data(symbol))
-Base.read(io::IO, ::Type{T}) where T<:BioSymbol = reinterpret(T, read(io, encoded_data_eltype(T)))
+Base.read(io::IO, ::Type{T}) where T<:BioSymbol = encode(T, read(io, encoded_data_eltype(T)))
 
 """
     iscompatible(x::S, y::S) where S <: BioSymbol
