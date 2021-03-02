@@ -128,7 +128,7 @@ include("aminoacid.jl")
 
 Test if `symbol` is a gap.
 """
-isgap(symbol::BioSymbol) = symbol == gap(typeof(symbol))
+isgap(symbol::BioSymbol) = symbol === gap(typeof(symbol))
 
 
 # Arithmetic and Order
