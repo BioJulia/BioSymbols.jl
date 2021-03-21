@@ -29,118 +29,80 @@ end
 @testset "NucleicAcids" begin
     @testset "Conversions" begin
         @testset "UInt8" begin
-            @testset "DNA conversions from UInt8" begin
-                @test convert(DNA, 0b0000) === DNA_Gap
-                @test convert(DNA, 0b0001) === DNA_A
-                @test convert(DNA, 0b0010) === DNA_C
-                @test convert(DNA, 0b0011) === DNA_M
-                @test convert(DNA, 0b0100) === DNA_G
-                @test convert(DNA, 0b0101) === DNA_R
-                @test convert(DNA, 0b0110) === DNA_S
-                @test convert(DNA, 0b0111) === DNA_V
-                @test convert(DNA, 0b1000) === DNA_T
-                @test convert(DNA, 0b1001) === DNA_W
-                @test convert(DNA, 0b1010) === DNA_Y
-                @test convert(DNA, 0b1011) === DNA_H
-                @test convert(DNA, 0b1100) === DNA_K
-                @test convert(DNA, 0b1101) === DNA_D
-                @test convert(DNA, 0b1110) === DNA_B
-                @test convert(DNA, 0b1111) === DNA_N
+            @testset "DNA encoding from UInt8" begin
+                @test encode(DNA, 0b0000) === DNA_Gap
+                @test encode(DNA, 0b0001) === DNA_A
+                @test encode(DNA, 0b0010) === DNA_C
+                @test encode(DNA, 0b0011) === DNA_M
+                @test encode(DNA, 0b0100) === DNA_G
+                @test encode(DNA, 0b0101) === DNA_R
+                @test encode(DNA, 0b0110) === DNA_S
+                @test encode(DNA, 0b0111) === DNA_V
+                @test encode(DNA, 0b1000) === DNA_T
+                @test encode(DNA, 0b1001) === DNA_W
+                @test encode(DNA, 0b1010) === DNA_Y
+                @test encode(DNA, 0b1011) === DNA_H
+                @test encode(DNA, 0b1100) === DNA_K
+                @test encode(DNA, 0b1101) === DNA_D
+                @test encode(DNA, 0b1110) === DNA_B
+                @test encode(DNA, 0b1111) === DNA_N
             end
 
-            @testset "RNA conversions from UInt8" begin
-                @test convert(RNA, 0b0000) === RNA_Gap
-                @test convert(RNA, 0b0001) === RNA_A
-                @test convert(RNA, 0b0010) === RNA_C
-                @test convert(RNA, 0b0011) === RNA_M
-                @test convert(RNA, 0b0100) === RNA_G
-                @test convert(RNA, 0b0101) === RNA_R
-                @test convert(RNA, 0b0110) === RNA_S
-                @test convert(RNA, 0b0111) === RNA_V
-                @test convert(RNA, 0b1000) === RNA_U
-                @test convert(RNA, 0b1001) === RNA_W
-                @test convert(RNA, 0b1010) === RNA_Y
-                @test convert(RNA, 0b1011) === RNA_H
-                @test convert(RNA, 0b1100) === RNA_K
-                @test convert(RNA, 0b1101) === RNA_D
-                @test convert(RNA, 0b1110) === RNA_B
-                @test convert(RNA, 0b1111) === RNA_N
+            @testset "RNA encoding from UInt8" begin
+                @test encode(RNA, 0b0000) === RNA_Gap
+                @test encode(RNA, 0b0001) === RNA_A
+                @test encode(RNA, 0b0010) === RNA_C
+                @test encode(RNA, 0b0011) === RNA_M
+                @test encode(RNA, 0b0100) === RNA_G
+                @test encode(RNA, 0b0101) === RNA_R
+                @test encode(RNA, 0b0110) === RNA_S
+                @test encode(RNA, 0b0111) === RNA_V
+                @test encode(RNA, 0b1000) === RNA_U
+                @test encode(RNA, 0b1001) === RNA_W
+                @test encode(RNA, 0b1010) === RNA_Y
+                @test encode(RNA, 0b1011) === RNA_H
+                @test encode(RNA, 0b1100) === RNA_K
+                @test encode(RNA, 0b1101) === RNA_D
+                @test encode(RNA, 0b1110) === RNA_B
+                @test encode(RNA, 0b1111) === RNA_N
             end
 
             @testset "DNA conversions to UInt8" begin
-                @test convert(UInt8, DNA_Gap) === 0b0000
-                @test convert(UInt8, DNA_A)   === 0b0001
-                @test convert(UInt8, DNA_C)   === 0b0010
-                @test convert(UInt8, DNA_M)   === 0b0011
-                @test convert(UInt8, DNA_G)   === 0b0100
-                @test convert(UInt8, DNA_R)   === 0b0101
-                @test convert(UInt8, DNA_S)   === 0b0110
-                @test convert(UInt8, DNA_V)   === 0b0111
-                @test convert(UInt8, DNA_T)   === 0b1000
-                @test convert(UInt8, DNA_W)   === 0b1001
-                @test convert(UInt8, DNA_Y)   === 0b1010
-                @test convert(UInt8, DNA_H)   === 0b1011
-                @test convert(UInt8, DNA_K)   === 0b1100
-                @test convert(UInt8, DNA_D)   === 0b1101
-                @test convert(UInt8, DNA_B)   === 0b1110
-                @test convert(UInt8, DNA_N)   === 0b1111
+                @test encoded_data(DNA_Gap) === 0b0000
+                @test encoded_data(DNA_A)   === 0b0001
+                @test encoded_data(DNA_C)   === 0b0010
+                @test encoded_data(DNA_M)   === 0b0011
+                @test encoded_data(DNA_G)   === 0b0100
+                @test encoded_data(DNA_R)   === 0b0101
+                @test encoded_data(DNA_S)   === 0b0110
+                @test encoded_data(DNA_V)   === 0b0111
+                @test encoded_data(DNA_T)   === 0b1000
+                @test encoded_data(DNA_W)   === 0b1001
+                @test encoded_data(DNA_Y)   === 0b1010
+                @test encoded_data(DNA_H)   === 0b1011
+                @test encoded_data(DNA_K)   === 0b1100
+                @test encoded_data(DNA_D)   === 0b1101
+                @test encoded_data(DNA_B)   === 0b1110
+                @test encoded_data(DNA_N)   === 0b1111
             end
 
             @testset "RNA conversions to UInt8" begin
-                @test convert(UInt8, RNA_Gap) === 0b0000
-                @test convert(UInt8, RNA_A)   === 0b0001
-                @test convert(UInt8, RNA_C)   === 0b0010
-                @test convert(UInt8, RNA_M)   === 0b0011
-                @test convert(UInt8, RNA_G)   === 0b0100
-                @test convert(UInt8, RNA_R)   === 0b0101
-                @test convert(UInt8, RNA_S)   === 0b0110
-                @test convert(UInt8, RNA_V)   === 0b0111
-                @test convert(UInt8, RNA_U)   === 0b1000
-                @test convert(UInt8, RNA_W)   === 0b1001
-                @test convert(UInt8, RNA_Y)   === 0b1010
-                @test convert(UInt8, RNA_H)   === 0b1011
-                @test convert(UInt8, RNA_K)   === 0b1100
-                @test convert(UInt8, RNA_D)   === 0b1101
-                @test convert(UInt8, RNA_B)   === 0b1110
-                @test convert(UInt8, RNA_N)   === 0b1111
-            end
-        end
-
-        @testset "UInt64" begin
-            @testset "DNA conversions from UInt64" begin
-                @test convert(DNA, UInt64(0b0000)) === DNA_Gap
-                @test convert(DNA, UInt64(0b0001)) === DNA_A
-                @test convert(DNA, UInt64(0b0010)) === DNA_C
-                @test convert(DNA, UInt64(0b0100)) === DNA_G
-                @test convert(DNA, UInt64(0b1000)) === DNA_T
-                @test convert(DNA, UInt64(0b1111)) === DNA_N
-            end
-
-            @testset "RNA conversions from UInt64" begin
-                @test convert(RNA, UInt64(0b0000)) === RNA_Gap
-                @test convert(RNA, UInt64(0b0001)) === RNA_A
-                @test convert(RNA, UInt64(0b0010)) === RNA_C
-                @test convert(RNA, UInt64(0b0100)) === RNA_G
-                @test convert(RNA, UInt64(0b1000)) === RNA_U
-                @test convert(RNA, UInt64(0b1111)) === RNA_N
-            end
-
-            @testset "DNA conversions to UInt64" begin
-                @test convert(UInt64, DNA_Gap) === UInt64(0b0000)
-                @test convert(UInt64, DNA_A)   === UInt64(0b0001)
-                @test convert(UInt64, DNA_C)   === UInt64(0b0010)
-                @test convert(UInt64, DNA_G)   === UInt64(0b0100)
-                @test convert(UInt64, DNA_T)   === UInt64(0b1000)
-                @test convert(UInt64, DNA_N)   === UInt64(0b1111)
-            end
-
-            @testset "RNA conversions to UInt64" begin
-                @test convert(UInt64, RNA_Gap) === UInt64(0b0000)
-                @test convert(UInt64, RNA_A)   === UInt64(0b0001)
-                @test convert(UInt64, RNA_C)   === UInt64(0b0010)
-                @test convert(UInt64, RNA_G)   === UInt64(0b0100)
-                @test convert(UInt64, RNA_U)   === UInt64(0b1000)
-                @test convert(UInt64, RNA_N)   === UInt64(0b1111)
+                @test encoded_data(RNA_Gap) === 0b0000
+                @test encoded_data(RNA_A)   === 0b0001
+                @test encoded_data(RNA_C)   === 0b0010
+                @test encoded_data(RNA_M)   === 0b0011
+                @test encoded_data(RNA_G)   === 0b0100
+                @test encoded_data(RNA_R)   === 0b0101
+                @test encoded_data(RNA_S)   === 0b0110
+                @test encoded_data(RNA_V)   === 0b0111
+                @test encoded_data(RNA_U)   === 0b1000
+                @test encoded_data(RNA_W)   === 0b1001
+                @test encoded_data(RNA_Y)   === 0b1010
+                @test encoded_data(RNA_H)   === 0b1011
+                @test encoded_data(RNA_K)   === 0b1100
+                @test encoded_data(RNA_D)   === 0b1101
+                @test encoded_data(RNA_B)   === 0b1110
+                @test encoded_data(RNA_N)   === 0b1111
             end
         end
 
@@ -182,37 +144,13 @@ end
             end
         end
 
-        @testset "Other numeric types" begin
-            @test convert(Int, DNA_A) === 1
-            @test convert(Int, DNA_C) === 2
-            @test convert(Int, DNA_G) === 4
-            @test convert(Int, DNA_T) === 8
-            @test convert(Int, DNA_N) === 15
-            @test convert(DNA,  1) === DNA_A
-            @test convert(DNA,  2) === DNA_C
-            @test convert(DNA,  4) === DNA_G
-            @test convert(DNA,  8) === DNA_T
-            @test convert(DNA, 15) === DNA_N
-
-            @test convert(Int, RNA_A) === 1
-            @test convert(Int, RNA_C) === 2
-            @test convert(Int, RNA_G) === 4
-            @test convert(Int, RNA_U) === 8
-            @test convert(Int, RNA_N) === 15
-            @test convert(RNA,  1) === RNA_A
-            @test convert(RNA,  2) === RNA_C
-            @test convert(RNA,  4) === RNA_G
-            @test convert(RNA,  8) === RNA_U
-            @test convert(RNA, 15) === RNA_N
-        end
-        
         @testset "Nucleic acid types" begin
             fromto = [(DNA_Gap, RNA_Gap), (DNA_A, RNA_A), (DNA_C, RNA_C),
                       (DNA_M, RNA_M), (DNA_G, RNA_G), (DNA_R, RNA_R),
                       (DNA_S, RNA_S), (DNA_V, RNA_V), (DNA_T, RNA_U),
                       (DNA_W, RNA_W), (DNA_Y, RNA_Y), (DNA_H, RNA_H),
                       (DNA_K, RNA_K), (DNA_D, RNA_D), (DNA_B, RNA_B), (DNA_N, RNA_N)]
-            
+
             for (from, to) in fromto
                 @test convert(RNA, from) === RNA(from) === to
                 @test convert(DNA, to) === DNA(to) === from
@@ -295,7 +233,7 @@ end
             @test isgap(nt) == (nt === RNA_Gap)
         end
     end
-    
+
     @testset "isterm" begin
         for nt in alphabet(DNA)
             @test BioSymbols.isterm(nt) === false
@@ -321,16 +259,14 @@ end
         @test complement(RNA_N) === RNA_N
     end
 
-    @testset "Arithmetic and Order" begin
+    @testset "Logic operations and Order" begin
         @testset "DNA" begin
             @test ~DNA_Gap === DNA_N
             @test ~DNA_N   === DNA_Gap
             @test DNA_A | DNA_C === DNA_M
             @test DNA_A & DNA_C === DNA_Gap
-            @test DNA_Gap - DNA_A   === -1
-            @test DNA_A   - DNA_Gap === +1
-            @test DNA_Gap + 1 === DNA_Gap + 17 === DNA_A
-            @test DNA_Gap - 1 === DNA_Gap - 17 === DNA_N
+            @test_throws Exception DNA_A & RNA_A
+            @test_throws Exception DNA_A | RNA_A
             @test DNA_Gap < DNA_A < DNA_C < DNA_G < DNA_T < DNA_N
             @test !(DNA_A > DNA_G)
             @test trailing_zeros(DNA_A) === 0
@@ -345,14 +281,6 @@ end
                 DNA_D, DNA_B, DNA_N, DNA_Gap])
         end
         @testset "RNA" begin
-            @test ~RNA_Gap === RNA_N
-            @test ~RNA_N   === RNA_Gap
-            @test RNA_A | RNA_C === RNA_M
-            @test RNA_A & RNA_C === RNA_Gap
-            @test RNA_Gap - RNA_A   === -1
-            @test RNA_A   - RNA_Gap === +1
-            @test RNA_Gap + 1 === RNA_Gap + 17 === RNA_A
-            @test RNA_Gap - 1 === RNA_Gap - 17 === RNA_N
             @test RNA_Gap < RNA_A < RNA_C < RNA_G < RNA_U < RNA_N
             @test !(RNA_A > RNA_G)
             @test trailing_zeros(RNA_A) === 0
@@ -376,7 +304,7 @@ end
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGTN-"
-            @test_throws ArgumentError print(reinterpret(DNA, 0xf0))
+            @test_throws ArgumentError print(encode(DNA, 0xf0))
         end
 
         @testset "show" begin
@@ -389,7 +317,7 @@ end
                 write(buf, ' ')
             end
             @test String(take!(buf)) == "DNA_A DNA_C DNA_G DNA_T DNA_N DNA_Gap "
-            @test sprint(show, reinterpret(DNA, 0xf0)) == "Invalid DNA"
+            @test sprint(show, encode(DNA, 0xf0)) == "Invalid DNA"
         end
     end
 
@@ -401,7 +329,7 @@ end
                 print(buf, nt)
             end
             @test String(take!(buf)) == "ACGUN-"
-            @test_throws ArgumentError print(reinterpret(RNA, 0xf0))
+            @test_throws ArgumentError print(encode(RNA, 0xf0))
         end
 
         @testset "show" begin
@@ -414,9 +342,9 @@ end
                 write(buf, ' ')
             end
             @test String(take!(buf)) == "RNA_A RNA_C RNA_G RNA_U RNA_N RNA_Gap "
-            @test sprint(show, reinterpret(RNA, 0xf0)) == "Invalid RNA"
+            @test sprint(show, encode(RNA, 0xf0)) == "Invalid RNA"
         end
-        
+
         @testset "read and write" begin
             @test round_trip(AA_X)
             @test round_trip(AA_Y)
@@ -459,7 +387,7 @@ end
 @testset "Aminoacids" begin
     @testset "conversion" begin
         @test BioSymbols.bytemask(AA_A) === 0b11111
-        
+
         for (int, aa) in [
             (0x00, AA_A), (0x01, AA_R), (0x02, AA_N), (0x03, AA_D), (0x04, AA_C),
             (0x05, AA_Q), (0x06, AA_E), (0x07, AA_G), (0x08, AA_H), (0x09, AA_I),
@@ -467,11 +395,11 @@ end
             (0x0f, AA_S), (0x10, AA_T), (0x11, AA_W), (0x12, AA_Y), (0x13, AA_V),
             (0x14, AA_O), (0x15, AA_U), (0x16, AA_B), (0x17, AA_J), (0x18, AA_Z),
             (0x19, AA_X), (0x1a, AA_Term), (0x1b, AA_Gap)]
-            @test convert(AminoAcid, int) === AminoAcid(int) === aa
+            @test encode(AminoAcid, int) === aa
         end
 
-        @test convert(AminoAcid, 0) === AA_A
-        @test convert(AminoAcid, 10) === AA_L
+        @test encode(AminoAcid, UInt8(0)) === AA_A
+        @test encode(AminoAcid, UInt8(10)) === AA_L
 
         for (c, aa) in [
                 ('A', AA_A), ('R', AA_R), ('N', AA_N), ('D', AA_D), ('C', AA_C),
@@ -492,22 +420,17 @@ end
         for aa in alphabet(AminoAcid)
             @test isvalid(aa)
         end
-        @test !isvalid(reinterpret(AminoAcid, 0x1c))
-        @test !isvalid(reinterpret(AminoAcid, 0xff))
+        @test !isvalid(encode(AminoAcid, 0x1c))
+        @test !isvalid(encode(AminoAcid, 0xff))
         @test  isvalid(AminoAcid, 0x1b)
         @test !isvalid(AminoAcid, 0x1c)
     end
 
-    @testset "Arithmetic and Order" begin
-        @test AA_A + 1 == 1 + AA_A == AA_R
-        @test AA_R + 1 == 1 + AA_R == AA_N
-        @test AA_A + 2 == 2 + AA_A == AA_N
-        @test AA_A + 28 == 28 + AA_A == AA_A
-        @test AA_R - 1 == AA_A
-        @test AA_N - 2 == AA_A
-        @test AA_A - 28 == AA_A
-        @test AA_D - AA_A ==  3
-        @test AA_A - AA_D == -3
+    @testset "Logic operations and Order" begin
+        @test ~RNA_Gap === RNA_N
+        @test ~RNA_N   === RNA_Gap
+        @test RNA_A | RNA_C === RNA_M
+        @test RNA_A & RNA_C === RNA_Gap
         @test (AA_A < AA_R < AA_N < AA_V < AA_O < AA_U <
                AA_B < AA_J < AA_Z < AA_X < AA_Term < AA_Gap)
         @test !(AA_J < AA_B)
@@ -517,17 +440,6 @@ end
         @test AA_A in alphabet(AminoAcid)
         @test AA_I in alphabet(AminoAcid)
         @test AA_U in alphabet(AminoAcid)
-    end
-
-    @testset "Range" begin
-        @test !(AA_C in AA_Q:AA_H)
-        @test   AA_Q in AA_Q:AA_H
-        @test   AA_E in AA_Q:AA_H
-        @test   AA_G in AA_Q:AA_H
-        @test   AA_H in AA_Q:AA_H
-        @test !(AA_I in AA_Q:AA_H)
-
-        @test collect(AA_W:AA_V) == [AA_W, AA_Y, AA_V]
     end
 
     @testset "iscompatible" begin
@@ -584,7 +496,7 @@ end
             @test String(take!(buf)) == "AA_A AA_D AA_B AA_X AA_Term AA_Gap "
             @test sprint(show, BioSymbols.AA_INVALID) == "Invalid Amino Acid"
         end
-        
+
         @testset "read and write" begin
             @test round_trip(DNA_G)
             @test round_trip(RNA_U)

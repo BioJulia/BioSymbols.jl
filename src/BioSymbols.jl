@@ -95,7 +95,9 @@ export
     complement,
     iscompatible,
     compatbits,
-    alphabet
+    alphabet,
+    encoded_data,
+    encode
 
 import Automa
 import Automa.RegExp: @re_str
@@ -116,6 +118,10 @@ expected to have the following methods defined:
 """
 abstract type BioSymbol end
 
+encoded_data(x::BioSymbol) = reinterpret(encoded_data_eltype(typeof(x)), x)
+function encode(::Type{T}, x) where T <: BioSymbol
+    return reinterpret(T, convert(encoded_data_eltype(T), x))
+end
 Base.length(::BioSymbol) = 1
 Base.iterate(sym::BioSymbol) = (sym, nothing)
 Base.iterate(sym::BioSymbol, state) = nothing
@@ -136,34 +142,15 @@ isgap(symbol::BioSymbol) = symbol === gap(typeof(symbol))
 
 # These methods are necessary when deriving some algorithims
 # like iteration, sort, comparison, and so on.
-
-Base.:-(x::S, y::S) where S <: BioSymbol = convert(Int, x) - convert(Int, y)
-
-Base.:+(x::Integer, y::BioSymbol) = y + x
-
-Base.isless(x::S, y::S) where S <: BioSymbol = isless(convert(Integer, x), convert(Integer, y))
-
-function Base.:~(x::BioSymbol)
-    return reinterpret(typeof(x), ~reinterpret(UInt8, x) & bytemask(x))
-end
-
-function Base.:&(x::S, y::S) where S <: BioSymbol
-    return reinterpret(S, convert(Integer, x) & convert(Integer, y))
-end
-
+Base.isless(x::S, y::S) where S <: BioSymbol = isless(encoded_data(x), encoded_data(y))
 
 @inline function Base.count_ones(symbol::BioSymbol)
-    return count_ones(convert(Integer, symbol))
+    return count_ones(encoded_data(symbol))
 end
 
 @inline function Base.trailing_zeros(symbol::BioSymbol)
-    return trailing_zeros(convert(Integer, symbol))
+    return trailing_zeros(encoded_data(symbol))
 end
-
-
-
-
-
 
 # Printing BioSymbols
 # -------------------
@@ -195,9 +182,8 @@ function Base.print(io::IO, symbol::BioSymbol)
     return nothing
 end
 
-Base.write(io::IO, symbol::BioSymbol) = write(io, convert(Integer, symbol))
-Base.read(io::IO, ::Type{T}) where T<:BioSymbol = reinterpret(T, read(io, UInt8))    
-
+Base.write(io::IO, symbol::BioSymbol) = write(io, encoded_data(symbol))
+Base.read(io::IO, ::Type{T}) where T<:BioSymbol = encode(T, read(io, encoded_data_eltype(T)))
 
 """
     iscompatible(x::S, y::S) where S <: BioSymbol

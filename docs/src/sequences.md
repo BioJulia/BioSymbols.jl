@@ -60,5 +60,4 @@ which means 50% of a `Vector{DNA}`'s space is not used at all.
 For the purpose of representing sequences as efficient as possible BioJulia has
 developed [BioSequences](https://github.com/BioJulia/BioSequences.jl)
 package. The `BioSequence` type is able to represent a DNA/RNA sequence in 2 or
-4 bits per symbol. It also offers many efficient algorithms and I/O tools for
-common file formats such as FASTA.
+4 bits per symbol. It also offers many efficient algorithms.
