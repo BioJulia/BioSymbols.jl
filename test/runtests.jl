@@ -11,21 +11,6 @@ function round_trip(x)
     return x == y
 end
 
-@testset "BioSymbols" begin
-    for i in alphabet(DNA)
-        @test length(i) == 1
-        @test collect(i) == [i]
-    end
-    for i in alphabet(RNA)
-        @test length(i) == 1
-        @test collect(i) == [i]
-    end
-    for i in alphabet(AminoAcid)
-        @test length(i) == 1
-        @test collect(i) == [i]
-    end
-end
-
 @testset "NucleicAcids" begin
     @testset "Conversions" begin
         @testset "UInt8" begin
@@ -294,6 +279,14 @@ end
                 RNA_Y, RNA_K, RNA_V, RNA_H,
                 RNA_D, RNA_B, RNA_N, RNA_Gap])
         end
+    end
+
+    @testset "Broadcasting" begin
+    	v = DNA[DNA_A, DNA_C, DNA_G, DNA_C]
+    	v[2:3] .= DNA_A
+    	@test v == [DNA_A, DNA_A, DNA_A, DNA_C]
+    	v .= DNA_T
+    	@test v == fill(DNA_T, 4)
     end
 
     @testset "Show DNA" begin

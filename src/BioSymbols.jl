@@ -122,9 +122,9 @@ encoded_data(x::BioSymbol) = reinterpret(encoded_data_eltype(typeof(x)), x)
 function encode(::Type{T}, x) where T <: BioSymbol
     return reinterpret(T, convert(encoded_data_eltype(T), x))
 end
-Base.length(::BioSymbol) = 1
-Base.iterate(sym::BioSymbol) = (sym, nothing)
-Base.iterate(sym::BioSymbol, state) = nothing
+
+# Enable broadcasting
+Base.broadcastable(x::BioSymbol) = (x,)
 
 include("nucleicacid.jl")
 include("aminoacid.jl")
