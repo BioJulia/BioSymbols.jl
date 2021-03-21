@@ -123,6 +123,9 @@ function encode(::Type{T}, x) where T <: BioSymbol
     return reinterpret(T, convert(encoded_data_eltype(T), x))
 end
 
+# Enable broadcasting
+Base.broadcastable(x::BioSymbol) = (x,)
+
 include("nucleicacid.jl")
 include("aminoacid.jl")
 

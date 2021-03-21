@@ -281,6 +281,14 @@ end
         end
     end
 
+    @testset "Broadcasting" begin
+    	v = DNA[DNA_A, DNA_C, DNA_G, DNA_C]
+    	v[2:3] .= DNA_A
+    	@test v == [DNA_A, DNA_A, DNA_A, DNA_C]
+    	v .= DNA_T
+    	@test v == fill(DNA_T, 4)
+    end
+
     @testset "Show DNA" begin
         dnas = [DNA_A, DNA_C, DNA_G, DNA_T, DNA_N, DNA_Gap]
         @testset "print" begin
