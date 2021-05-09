@@ -99,8 +99,6 @@ export
     encoded_data,
     encode
 
-import Automa
-import Automa.RegExp: @re_str
 
 """
 The BioSymbol type is an abstract type that represents
