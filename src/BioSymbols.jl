@@ -16,7 +16,16 @@ For more information see:
 - Creating Sequences: https://github.com/BioJulia/BioSymbols.jl/blob/master/docs/src/sequences.md
 
 Functions:
-- `alphabet`, `compatbits`, `gap`, `isGC`, `isambiguous`, `iscertain`, `iscompatible`, `isgap`, `ispurine`, `ispyrimidine`
+- `alphabet`
+- `compatbits`
+- `gap`
+- `isGC`
+- `isambiguous`
+- `iscertain`
+- `iscompatible`
+- `isgap`
+- `ispurine`
+- `ispyrimidine`
 """
 module BioSymbols
 
