@@ -8,6 +8,25 @@
 
 __precompile__()
 
+"""
+A package to define types for amino acids and nucleic acids and to perform operations on these types.
+For more information see:
+- Amino Acid Symbols: https://github.com/BioJulia/BioSymbols.jl/blob/master/docs/src/aminoacids.md
+- Nucleic Acid Symbols: https://github.com/BioJulia/BioSymbols.jl/blob/master/docs/src/nucleicacids.md
+- Creating Sequences: https://github.com/BioJulia/BioSymbols.jl/blob/master/docs/src/sequences.md
+
+Functions:
+- `alphabet`
+- `compatbits`
+- `gap`
+- `isGC`
+- `isambiguous`
+- `iscertain`
+- `iscompatible`
+- `isgap`
+- `ispurine`
+- `ispyrimidine`
+"""
 module BioSymbols
 
 export
