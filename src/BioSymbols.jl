@@ -144,7 +144,7 @@ julia> stringbyte(AA_Gap) == UInt8('-')
 true
 ```
 """
-stringbyte(x::BioSymbol) = UInt8(Char(x))
+function stringbyte end
 
 # Create a lookup table from biosymbol to the UInt8 for the character that would
 # represent it in a string, e.g. DNA_G -> UInt8('G')
