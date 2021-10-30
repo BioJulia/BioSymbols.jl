@@ -116,7 +116,8 @@ export
     compatbits,
     alphabet,
     encoded_data,
-    encode
+    encode,
+    stringbyte
 
 
 """
@@ -145,6 +146,42 @@ Base.broadcastable(x::BioSymbol) = (x,)
 
 include("nucleicacid.jl")
 include("aminoacid.jl")
+
+# Less efficient fallback. Should only be called for symbols of AsciiAlphabet
+"""
+	stringbyte(::BioSymbol)::UInt8
+
+For biosymbol types that can be represented as ASCII characters, `stringbyte(x)`
+returns the printable ASCII byte that represents the character in a string.
+
+# Examples
+```julia
+julia> stringbyte(DNA_A) == UInt8('A')
+true
+
+julia> stringbyte(AA_Gap) == UInt8('-')
+true
+```
+"""
+function stringbyte end
+
+# Create a lookup table from biosymbol to the UInt8 for the character that would
+# represent it in a string, e.g. DNA_G -> UInt8('G')
+for alphabettype in ("DNA", "RNA", "AminoAcid")
+    tablename = Symbol(uppercase(alphabettype), "_TO_BYTE")
+    typ = Symbol(alphabettype)
+    @eval begin
+        const $(tablename) = let
+            alph = alphabet($(typ))
+            bytes = zeros(UInt8, length(alph))
+            @inbounds for letter in alph
+                bytes[reinterpret(UInt8, letter) + 1] = UInt8(Char(letter))
+            end
+            Tuple(bytes)
+        end
+        stringbyte(x::$(typ)) = @inbounds $(tablename)[reinterpret(UInt8, x) + 1]
+    end
+end
 
 """
     isgap(symbol::BioSymbol)

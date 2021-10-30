@@ -89,6 +89,14 @@ end
                 @test encoded_data(RNA_B)   === 0b1110
                 @test encoded_data(RNA_N)   === 0b1111
             end
+
+        	@testset "stringbyte" begin
+        		for T in (DNA, RNA)
+	        		@test all(alphabet(DNA)) do i
+	        			UInt8(Char(i)) == stringbyte(i)
+	  	      		end
+	        	end
+        	end
         end
 
         @testset "Char" begin
@@ -407,6 +415,12 @@ end
         @test_throws InexactError convert(AminoAcid, '\0')
         @test_throws InexactError convert(AminoAcid, '@')
         @test_throws InexactError convert(AminoAcid, '亜')
+    end
+
+    @testset "stringbyte" begin
+     	@test all(alphabet(AminoAcid)) do i
+     		UInt8(Char(i)) == stringbyte(i)
+     	end
     end
 
     @testset "isvalid" begin
