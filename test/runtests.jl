@@ -383,6 +383,12 @@ end
         @test ACGUN[5] === RNA_N
         @test collect(ACGUN) == [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N]
     end
+
+    @testset "Hashing" begin
+        @test hash(DNA_A) != hash(RNA_A)
+        @test hash(DNA_A) != hash(DNA_G)
+        @test hash(DNA_W) == hash(DNA_W)
+    end
 end
 
 @testset "Aminoacids" begin
@@ -579,5 +585,13 @@ end
             @test tryparse(AminoAcid, '@') == nothing
             @test tryparse(AminoAcid, '亜') == nothing
         end
+    end
+
+    @testset "Hashing" begin
+        @test hash(AA_K) == hash(AA_K)
+        @test hash(AA_M) != hash(AA_Gap)
+        five = reinterpret(AminoAcid, 0x05)
+        @test hash(five) != hash(0x05)
+        @test hash(five) != hash(reinterpret(DNA, five))
     end
 end
