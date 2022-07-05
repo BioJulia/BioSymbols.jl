@@ -269,4 +269,11 @@ false
     return compatbits(x) & compatbits(y) != 0
 end
 
+# This function needs to be generated, because it looks the objectid of
+# the type of x up at compile time.
+@generated function Base.hash(x::BioSymbol, h::UInt)
+    # This actually looks up the hash of the TYPE of x, not of x
+    :(hash(encoded_data(x), h ⊻ $(hash(x))))
+end
+
 end
