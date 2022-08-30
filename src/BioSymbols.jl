@@ -276,4 +276,6 @@ end
     :(hash(encoded_data(x), h ⊻ $(hash(x))))
 end
 
+include("workload.jl")
+
 end
