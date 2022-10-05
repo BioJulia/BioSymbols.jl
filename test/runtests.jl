@@ -54,49 +54,49 @@ end
 
             @testset "DNA conversions to UInt8" begin
                 @test encoded_data(DNA_Gap) === 0b0000
-                @test encoded_data(DNA_A)   === 0b0001
-                @test encoded_data(DNA_C)   === 0b0010
-                @test encoded_data(DNA_M)   === 0b0011
-                @test encoded_data(DNA_G)   === 0b0100
-                @test encoded_data(DNA_R)   === 0b0101
-                @test encoded_data(DNA_S)   === 0b0110
-                @test encoded_data(DNA_V)   === 0b0111
-                @test encoded_data(DNA_T)   === 0b1000
-                @test encoded_data(DNA_W)   === 0b1001
-                @test encoded_data(DNA_Y)   === 0b1010
-                @test encoded_data(DNA_H)   === 0b1011
-                @test encoded_data(DNA_K)   === 0b1100
-                @test encoded_data(DNA_D)   === 0b1101
-                @test encoded_data(DNA_B)   === 0b1110
-                @test encoded_data(DNA_N)   === 0b1111
+                @test encoded_data(DNA_A) === 0b0001
+                @test encoded_data(DNA_C) === 0b0010
+                @test encoded_data(DNA_M) === 0b0011
+                @test encoded_data(DNA_G) === 0b0100
+                @test encoded_data(DNA_R) === 0b0101
+                @test encoded_data(DNA_S) === 0b0110
+                @test encoded_data(DNA_V) === 0b0111
+                @test encoded_data(DNA_T) === 0b1000
+                @test encoded_data(DNA_W) === 0b1001
+                @test encoded_data(DNA_Y) === 0b1010
+                @test encoded_data(DNA_H) === 0b1011
+                @test encoded_data(DNA_K) === 0b1100
+                @test encoded_data(DNA_D) === 0b1101
+                @test encoded_data(DNA_B) === 0b1110
+                @test encoded_data(DNA_N) === 0b1111
             end
 
             @testset "RNA conversions to UInt8" begin
                 @test encoded_data(RNA_Gap) === 0b0000
-                @test encoded_data(RNA_A)   === 0b0001
-                @test encoded_data(RNA_C)   === 0b0010
-                @test encoded_data(RNA_M)   === 0b0011
-                @test encoded_data(RNA_G)   === 0b0100
-                @test encoded_data(RNA_R)   === 0b0101
-                @test encoded_data(RNA_S)   === 0b0110
-                @test encoded_data(RNA_V)   === 0b0111
-                @test encoded_data(RNA_U)   === 0b1000
-                @test encoded_data(RNA_W)   === 0b1001
-                @test encoded_data(RNA_Y)   === 0b1010
-                @test encoded_data(RNA_H)   === 0b1011
-                @test encoded_data(RNA_K)   === 0b1100
-                @test encoded_data(RNA_D)   === 0b1101
-                @test encoded_data(RNA_B)   === 0b1110
-                @test encoded_data(RNA_N)   === 0b1111
+                @test encoded_data(RNA_A) === 0b0001
+                @test encoded_data(RNA_C) === 0b0010
+                @test encoded_data(RNA_M) === 0b0011
+                @test encoded_data(RNA_G) === 0b0100
+                @test encoded_data(RNA_R) === 0b0101
+                @test encoded_data(RNA_S) === 0b0110
+                @test encoded_data(RNA_V) === 0b0111
+                @test encoded_data(RNA_U) === 0b1000
+                @test encoded_data(RNA_W) === 0b1001
+                @test encoded_data(RNA_Y) === 0b1010
+                @test encoded_data(RNA_H) === 0b1011
+                @test encoded_data(RNA_K) === 0b1100
+                @test encoded_data(RNA_D) === 0b1101
+                @test encoded_data(RNA_B) === 0b1110
+                @test encoded_data(RNA_N) === 0b1111
             end
 
-        	@testset "stringbyte" begin
-        		for T in (DNA, RNA)
-	        		@test all(alphabet(DNA)) do i
-	        			UInt8(Char(i)) == stringbyte(i)
-	  	      		end
-	        	end
-        	end
+            @testset "stringbyte" begin
+                for T in (DNA, RNA)
+                    @test all(alphabet(DNA)) do i
+                        UInt8(Char(i)) == stringbyte(i)
+                    end
+                end
+            end
         end
 
         @testset "Char" begin
@@ -139,10 +139,10 @@ end
 
         @testset "Nucleic acid types" begin
             fromto = [(DNA_Gap, RNA_Gap), (DNA_A, RNA_A), (DNA_C, RNA_C),
-                      (DNA_M, RNA_M), (DNA_G, RNA_G), (DNA_R, RNA_R),
-                      (DNA_S, RNA_S), (DNA_V, RNA_V), (DNA_T, RNA_U),
-                      (DNA_W, RNA_W), (DNA_Y, RNA_Y), (DNA_H, RNA_H),
-                      (DNA_K, RNA_K), (DNA_D, RNA_D), (DNA_B, RNA_B), (DNA_N, RNA_N)]
+                (DNA_M, RNA_M), (DNA_G, RNA_G), (DNA_R, RNA_R),
+                (DNA_S, RNA_S), (DNA_V, RNA_V), (DNA_T, RNA_U),
+                (DNA_W, RNA_W), (DNA_Y, RNA_Y), (DNA_H, RNA_H),
+                (DNA_K, RNA_K), (DNA_D, RNA_D), (DNA_B, RNA_B), (DNA_N, RNA_N)]
 
             for (from, to) in fromto
                 @test convert(RNA, from) === RNA(from) === to
@@ -152,8 +152,8 @@ end
     end
 
     @testset "iscompatible" begin
-        @test  iscompatible(DNA_A, DNA_A)
-        @test  iscompatible(DNA_A, DNA_R)
+        @test iscompatible(DNA_A, DNA_A)
+        @test iscompatible(DNA_A, DNA_R)
         @test !iscompatible(DNA_C, DNA_A)
         @test !iscompatible(DNA_C, DNA_R)
 
@@ -162,8 +162,8 @@ end
             @test iscompatible(DNA_N, x) == (x != DNA_Gap)
         end
 
-        @test  iscompatible(RNA_A, RNA_A)
-        @test  iscompatible(RNA_A, RNA_R)
+        @test iscompatible(RNA_A, RNA_A)
+        @test iscompatible(RNA_A, RNA_R)
         @test !iscompatible(RNA_C, RNA_A)
         @test !iscompatible(RNA_C, RNA_R)
 
@@ -255,7 +255,7 @@ end
     @testset "Logic operations and Order" begin
         @testset "DNA" begin
             @test ~DNA_Gap === DNA_N
-            @test ~DNA_N   === DNA_Gap
+            @test ~DNA_N === DNA_Gap
             @test DNA_A | DNA_C === DNA_M
             @test DNA_A & DNA_C === DNA_Gap
             @test_throws Exception DNA_A & RNA_A
@@ -290,11 +290,11 @@ end
     end
 
     @testset "Broadcasting" begin
-    	v = DNA[DNA_A, DNA_C, DNA_G, DNA_C]
-    	v[2:3] .= DNA_A
-    	@test v == [DNA_A, DNA_A, DNA_A, DNA_C]
-    	v .= DNA_T
-    	@test v == fill(DNA_T, 4)
+        v = DNA[DNA_A, DNA_C, DNA_G, DNA_C]
+        v[2:3] .= DNA_A
+        @test v == [DNA_A, DNA_A, DNA_A, DNA_C]
+        v .= DNA_T
+        @test v == fill(DNA_T, 4)
     end
 
     @testset "Show DNA" begin
@@ -384,6 +384,44 @@ end
         @test collect(ACGUN) == [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N]
     end
 
+    @testset "Parsers" begin
+        @testset "Valid Cases" begin
+            fromto = [('a', DNA_A), ('c', RNA_C)]
+
+            for (from, to) in fromto
+                @test parse(typeof(to), from) === tryparse(typeof(to), from) === to
+                # Strings also work
+                str_from = string(from)
+                @test parse(typeof(to), str_from) === tryparse(typeof(to), str_from) === to
+                # Case doesn't matter
+                @test parse(typeof(to), uppercase(from)) === parse(typeof(to), lowercase(from)) === to
+                # Whitespace doesn't matter
+                whitespace_from = "\t" * from * " \n"
+                @test parse(typeof(to), whitespace_from) === tryparse(typeof(to), whitespace_from) === to
+            end
+        end
+
+        @testset "Invalid Cases" begin
+            @test_throws ArgumentError parse(DNA, "")
+            @test_throws ArgumentError parse(RNA, "")
+            @test_throws ArgumentError parse(DNA, "U")
+            @test_throws ArgumentError parse(RNA, "T")
+            @test_throws ArgumentError parse(DNA, "AL")
+            @test_throws ArgumentError parse(RNA, "LA")
+            @test_throws ArgumentError parse(RNA, '\0')
+            @test_throws ArgumentError parse(DNA, '@')
+            @test_throws ArgumentError parse(DNA, '亜')
+            @test tryparse(DNA, "U") === tryparse(RNA, "T") == nothing
+            @test tryparse(DNA, "") === tryparse(RNA, "") == nothing
+            @test tryparse(DNA, "AL") === tryparse(RNA, "AL") === nothing
+            @test tryparse(DNA, "LA") === tryparse(RNA, "LA") === nothing
+            @test tryparse(DNA, "ALAA") === tryparse(RNA, "ALAA") === nothing
+            @test tryparse(DNA, '\0') === tryparse(RNA, '\0') === nothing
+            @test tryparse(DNA, '@') === tryparse(RNA, '@') === nothing
+            @test tryparse(DNA, '亜') === tryparse(RNA, '亜') === nothing
+        end
+    end
+
     @testset "Hashing" begin
         @test hash(DNA_A) != hash(RNA_A)
         @test hash(DNA_A) != hash(DNA_G)
@@ -409,12 +447,12 @@ end
         @test encode(AminoAcid, UInt8(10)) === AA_L
 
         for (c, aa) in [
-                ('A', AA_A), ('R', AA_R), ('N', AA_N), ('D', AA_D), ('C', AA_C),
-                ('Q', AA_Q), ('E', AA_E), ('G', AA_G), ('H', AA_H), ('I', AA_I),
-                ('L', AA_L), ('K', AA_K), ('M', AA_M), ('F', AA_F), ('P', AA_P),
-                ('S', AA_S), ('T', AA_T), ('W', AA_W), ('Y', AA_Y), ('V', AA_V),
-                ('O', AA_O), ('U', AA_U), ('B', AA_B), ('J', AA_J), ('Z', AA_Z),
-                ('X', AA_X), ('*', AA_Term), ('-', AA_Gap)]
+            ('A', AA_A), ('R', AA_R), ('N', AA_N), ('D', AA_D), ('C', AA_C),
+            ('Q', AA_Q), ('E', AA_E), ('G', AA_G), ('H', AA_H), ('I', AA_I),
+            ('L', AA_L), ('K', AA_K), ('M', AA_M), ('F', AA_F), ('P', AA_P),
+            ('S', AA_S), ('T', AA_T), ('W', AA_W), ('Y', AA_Y), ('V', AA_V),
+            ('O', AA_O), ('U', AA_U), ('B', AA_B), ('J', AA_J), ('Z', AA_Z),
+            ('X', AA_X), ('*', AA_Term), ('-', AA_Gap)]
             @test convert(AminoAcid, c) === convert(AminoAcid, lowercase(c)) == AminoAcid(c) === aa
             @test Char(aa) === c
         end
@@ -424,9 +462,9 @@ end
     end
 
     @testset "stringbyte" begin
-     	@test all(alphabet(AminoAcid)) do i
-     		UInt8(Char(i)) == stringbyte(i)
-     	end
+        @test all(alphabet(AminoAcid)) do i
+            UInt8(Char(i)) == stringbyte(i)
+        end
     end
 
     @testset "isvalid" begin
@@ -435,13 +473,13 @@ end
         end
         @test !isvalid(encode(AminoAcid, 0x1c))
         @test !isvalid(encode(AminoAcid, 0xff))
-        @test  isvalid(AminoAcid, 0x1b)
+        @test isvalid(AminoAcid, 0x1b)
         @test !isvalid(AminoAcid, 0x1c)
     end
 
     @testset "Logic operations and Order" begin
         @test ~RNA_Gap === RNA_N
-        @test ~RNA_N   === RNA_Gap
+        @test ~RNA_N === RNA_Gap
         @test RNA_A | RNA_C === RNA_M
         @test RNA_A & RNA_C === RNA_Gap
         @test (AA_A < AA_R < AA_N < AA_V < AA_O < AA_U <
@@ -456,7 +494,7 @@ end
     end
 
     @testset "iscompatible" begin
-        @test  iscompatible(AA_A, AA_A)
+        @test iscompatible(AA_A, AA_A)
         @test !iscompatible(AA_A, AA_R)
 
         for x in alphabet(AminoAcid)
