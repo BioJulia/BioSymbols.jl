@@ -163,21 +163,21 @@ dna_to_char
 const dna_to_char = let
     chararray = Vector{Char}(undef, 16)
     for (char, doc, bits) in [
-        ('-', "DNA Gap", 0b0000),
-        ('A', "DNA Adenine", 0b0001),
-        ('C', "DNA Cytosine", 0b0010),
-        ('G', "DNA Guanine", 0b0100),
-        ('T', "DNA Thymine", 0b1000),
-        ('M', "DNA Adenine or Cytosine", 0b0011),
-        ('R', "DNA Adenine or Guanine", 0b0101),
-        ('W', "DNA Adenine or Thymine", 0b1001),
-        ('S', "DNA Cytosine or Guanine", 0b0110),
-        ('Y', "DNA Cytosine or Thymine", 0b1010),
-        ('K', "DNA Guanine or Thymine", 0b1100),
-        ('V', "DNA Adenine, Cytosine or Guanine", 0b0111),
-        ('H', "DNA Adenine, Cytosine or Thymine", 0b1011),
-        ('D', "DNA Adenine, Guanine or Thymine", 0b1101),
-        ('B', "DNA Cytosine, Guanine or Thymine", 0b1110),
+        ('-', "DNA Gap",                                   0b0000),
+        ('A', "DNA Adenine",                               0b0001),
+        ('C', "DNA Cytosine",                              0b0010),
+        ('G', "DNA Guanine",                               0b0100),
+        ('T', "DNA Thymine",                               0b1000),
+        ('M', "DNA Adenine or Cytosine",                   0b0011),
+        ('R', "DNA Adenine or Guanine",                    0b0101),
+        ('W', "DNA Adenine or Thymine",                    0b1001),
+        ('S', "DNA Cytosine or Guanine",                   0b0110),
+        ('Y', "DNA Cytosine or Thymine",                   0b1010),
+        ('K', "DNA Guanine or Thymine",                    0b1100),
+        ('V', "DNA Adenine, Cytosine or Guanine",          0b0111),
+        ('H', "DNA Adenine, Cytosine or Thymine",          0b1011),
+        ('D', "DNA Adenine, Guanine or Thymine",           0b1101),
+        ('B', "DNA Cytosine, Guanine or Thymine",          0b1110),
         ('N', "DNA Adenine, Cytosine, Guanine or Thymine", 0b1111)]
         var = Symbol("DNA_", char != '-' ? char : "Gap")
         @eval begin
@@ -291,22 +291,22 @@ rna_to_char
 const rna_to_char = let
     chararray = Vector{Char}(undef, 16)
     for (char, doc, dna) in [
-        ('-', "RNA Gap", DNA_Gap),
-        ('A', "RNA Adenine", DNA_A),
-        ('C', "RNA Cytosine", DNA_C),
-        ('G', "RNA Guanine", DNA_G),
-        ('U', "RNA Uracil", DNA_T),
-        ('M', "RNA Adenine or Cytosine", DNA_M),
-        ('R', "RNA Adenine or Guanine", DNA_R),
-        ('W', "RNA Adenine or Uracil", DNA_W),
-        ('S', "RNA Cytosine or Guanine", DNA_S),
-        ('Y', "RNA Cytosine or Uracil", DNA_Y),
-        ('K', "RNA Guanine or Uracil", DNA_K),
-        ('V', "RNA Adenine, Cytosine or Guanine", DNA_V),
-        ('H', "RNA Adenine, Cytosine or Uracil", DNA_H),
-        ('D', "RNA Adenine, Guanine or Uracil", DNA_D),
-        ('B', "RNA Cytosine, Guanine or Uracil", DNA_B),
-        ('N', "RNA Adenine, Cytosine, Guanine or Uracil", DNA_N)]
+        ('-', "RNA Gap",                                  DNA_Gap),
+        ('A', "RNA Adenine",                              DNA_A  ),
+        ('C', "RNA Cytosine",                             DNA_C  ),
+        ('G', "RNA Guanine",                              DNA_G  ),
+        ('U', "RNA Uracil",                               DNA_T  ),
+        ('M', "RNA Adenine or Cytosine",                  DNA_M  ),
+        ('R', "RNA Adenine or Guanine",                   DNA_R  ),
+        ('W', "RNA Adenine or Uracil",                    DNA_W  ),
+        ('S', "RNA Cytosine or Guanine",                  DNA_S  ),
+        ('Y', "RNA Cytosine or Uracil",                   DNA_Y  ),
+        ('K', "RNA Guanine or Uracil",                    DNA_K  ),
+        ('V', "RNA Adenine, Cytosine or Guanine",         DNA_V  ),
+        ('H', "RNA Adenine, Cytosine or Uracil",          DNA_H  ),
+        ('D', "RNA Adenine, Guanine or Uracil",           DNA_D  ),
+        ('B', "RNA Cytosine, Guanine or Uracil",          DNA_B  ),
+        ('N', "RNA Adenine, Cytosine, Guanine or Uracil", DNA_N  )]
         var = Symbol("RNA_", char != '-' ? char : "Gap")
         @eval begin
             @doc $(doc) const $(var) = reinterpret(RNA, $(dna))
@@ -464,7 +464,7 @@ function complement(nt::NucleicAcid)
         (bits & 0x02) << 1 | (bits & 0x04) >> 1)
 end
 
-function Base.isvalid(::Type{T}, x::Integer) where {T<:NucleicAcid}
+function Base.isvalid(::Type{T}, x::Integer) where T <: NucleicAcid
     return 0 ≤ x < 16
 end
 
@@ -472,15 +472,15 @@ function Base.isvalid(nt::NucleicAcid)
     return encoded_data(nt) ≤ 0b1111
 end
 
-function Base.:~(x::N) where {N<:NucleicAcid}
+function Base.:~(x::N) where N <: NucleicAcid
     return encode(N, encoded_data(x) ⊻ 0b1111)
 end
 
-function Base.:|(x::N, y::N) where {N<:NucleicAcid}
+function Base.:|(x::N, y::N) where N <: NucleicAcid
     return encode(N, encoded_data(x) | encoded_data(y))
 end
 
-function Base.:&(x::N, y::N) where {N<:NucleicAcid}
+function Base.:&(x::N, y::N) where N <: NucleicAcid
     return encode(N, encoded_data(x) & encoded_data(y))
 end
 
