@@ -57,41 +57,59 @@ RNA(nt::DNA) = convert(RNA, nt)
 
 # Conversion from/to characters
 # -----------------------------
-
-function Base.convert(::Type{DNA}, c::Char)
-    if c > '\uff'
-        throw(InexactError(:convert, DNA, c))
+function Base.convert(t::Union{Type{DNA},Type{RNA}}, c::Char)
+    nt = tryparse(t, c)
+    if nt === nothing
+        throw(InexactError(:convert, t, c))
     end
-    @inbounds dna = char_to_dna[convert(Int, c) + 1]
-    if !isvalid(DNA, dna)
-        throw(InexactError(:convert, DNA, c))
-    end
-    return encode(DNA, dna)
+    return nt
 end
 DNA(c::Char) = convert(DNA, c)
-
-function Base.convert(::Type{RNA}, c::Char)
-    if c > '\uff'
-        throw(InexactError(:convert, RNA, c))
-    end
-    @inbounds rna = char_to_rna[convert(Int, c) + 1]
-    if !isvalid(RNA, rna)
-        throw(InexactError(:convert, RNA, c))
-    end
-    return encode(RNA, rna)
-end
 RNA(c::Char) = convert(RNA, c)
 
 function Base.convert(::Type{Char}, nt::DNA)
-    return dna_to_char[encoded_data(nt) + 1]
+    return dna_to_char[encoded_data(nt)+1]
 end
 Char(nt::DNA) = convert(Char, nt)
 
 function Base.convert(::Type{Char}, nt::RNA)
-    return rna_to_char[encoded_data(nt) + 1]
+    return rna_to_char[encoded_data(nt)+1]
 end
 Char(nt::RNA) = convert(Char, nt)
 
+function Base.tryparse(::Type{DNA}, c::Char)
+    c > '\uff' && return nothing
+    @inbounds dna = char_to_dna[convert(Int, c)+1]
+    if !isvalid(DNA, dna)
+        return nothing
+    end
+    return encode(DNA, dna)
+end
+
+function Base.tryparse(::Type{RNA}, c::Char)
+    c > '\uff' && return nothing
+    @inbounds rna = char_to_rna[convert(Int, c)+1]
+    if !isvalid(RNA, rna)
+        return nothing
+    end
+    return encode(RNA, rna)
+
+end
+
+function Base.tryparse(t::Union{Type{DNA},Type{RNA}}, s::AbstractString)
+    sizeof(s) == 1 && return tryparse(t, first(s))
+    stripped = strip(s)
+    sizeof(stripped) == 1 && return tryparse(t, first(stripped))
+    return nothing
+end
+
+function Base.parse(t::Union{Type{DNA},Type{RNA}}, c::Union{AbstractString,Char})
+    nt = tryparse(t, c)
+    if nt === nothing
+        throw(ArgumentError("invalid nucleotide"))
+    end
+    return nt
+end
 
 # Encoding of DNA and RNA NucleicAcids
 # ------------------------------------

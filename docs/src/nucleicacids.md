@@ -89,6 +89,25 @@ true
 
 ```
 
+`parse` also works on characters and strings in a case-insensitive way:
+```jldoctest
+julia> parse(DNA, "T")
+DNA_T
+
+julia> parse(RNA, "U")
+RNA_U
+
+julia> parse(RNA, "U") == parse(RNA, "u")
+true
+
+julia> tryparse(DNA, "A")  # tryparse returns either a DNA nucleotide or nothing
+DNA_A
+
+julia> tryparse(DNA, "SD")
+
+```
+
+
 `print` and `show` methods are defined to output the text representation of a symbol:
 ```jldoctest
 julia> print(DNA_A)  # un-decorated text
