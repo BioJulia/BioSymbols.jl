@@ -386,7 +386,7 @@ end
 
     @testset "Parsers" begin
         @testset "Valid Cases" begin
-            fromto = [('a', DNA_A), ('c', RNA_C)]
+            fromto = [('a', DNA_A), ('c', RNA_C), ('s', DNA_S), ('s', RNA_S)]
 
             for (from, to) in fromto
                 @test parse(typeof(to), from) === tryparse(typeof(to), from) === to
