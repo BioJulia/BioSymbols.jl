@@ -15,14 +15,14 @@ A quick way to create a DNA/RNA sequence is storing symbols in a vector.
 
 ```jldoctest
 julia> seq = [DNA_A, DNA_C, DNA_G, DNA_T]
-4-element Array{DNA,1}:
+4-element Vector{DNA}:
  DNA_A
  DNA_C
  DNA_G
  DNA_T
 
 julia> [convert(DNA, x) for x in "ACGT"]  # from a string
-4-element Array{DNA,1}:
+4-element Vector{DNA}:
  DNA_A
  DNA_C
  DNA_G
