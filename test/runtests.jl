@@ -227,6 +227,8 @@ end
         end
     end
 
+    @test gap(Char) === '-'
+
     @testset "isterm" begin
         for nt in alphabet(DNA)
             @test BioSymbols.isterm(nt) === false
