@@ -192,11 +192,6 @@ function iscertain(aa::AminoAcid)
     return AA_A ≤ aa ≤ AA_U || aa == AA_Term
 end
 
-"""
-    gap(AminoAcid)
-
-Return `AA_Gap`.
-"""
 gap(::Type{AminoAcid}) = AA_Gap
 
 """

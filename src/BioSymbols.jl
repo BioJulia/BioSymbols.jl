@@ -190,6 +190,24 @@ Test if `symbol` is a gap.
 """
 isgap(symbol::BioSymbol) = symbol === gap(typeof(symbol))
 
+"""
+    gap(::Type{T})::T
+
+Return the gap (indel) representation of `T`.
+By default, `gap` is defined for `DNA`, `RNA`, `AminoAcid` and `Char`.
+
+# Examples
+```julia
+julia> gap(RNA)
+RNA_Gap
+
+julia> gap(Char)
+'-': ASCII/Unicode U+002D (category Pd: Punctuation, dash)
+```
+"""
+function gap end
+
+gap(::Type{Char}) = '-'
 
 # Arithmetic and Order
 # --------------------

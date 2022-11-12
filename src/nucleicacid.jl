@@ -354,18 +354,7 @@ julia> ACGUN
 """
 const ACGUN = (RNA_A, RNA_C, RNA_G, RNA_U, RNA_N)
 
-"""
-    gap(DNA)
-
-Return `DNA_Gap`.
-"""
 gap(::Type{DNA}) = DNA_Gap
-
-"""
-    gap(RNA)
-
-Return `RNA_Gap`.
-"""
 gap(::Type{RNA}) = RNA_Gap
 
 """
