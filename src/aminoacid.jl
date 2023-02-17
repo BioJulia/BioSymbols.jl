@@ -24,7 +24,7 @@ encoded_data_eltype(::Type{AminoAcid}) = UInt8
 function Base.convert(::Type{AminoAcid}, c::Char)
     aa = tryparse(AminoAcid, c)
     if aa === nothing
-        throw(InexactError(:convert, AminoAcid, c))
+        throw(InexactError(:convert, AminoAcid, repr(c)))
     end
     return aa
 end
