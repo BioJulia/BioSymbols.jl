@@ -60,11 +60,11 @@ RNA(nt::DNA) = convert(RNA, nt)
 
 function Base.convert(::Type{DNA}, c::Char)
     if c > '\uff'
-        throw(InexactError(:convert, DNA, c))
+        throw(InexactError(:convert, DNA, repr(c)))
     end
     @inbounds dna = char_to_dna[convert(Int, c) + 1]
     if !isvalid(DNA, dna)
-        throw(InexactError(:convert, DNA, c))
+        throw(InexactError(:convert, DNA, repr(c)))
     end
     return encode(DNA, dna)
 end
@@ -72,11 +72,11 @@ DNA(c::Char) = convert(DNA, c)
 
 function Base.convert(::Type{RNA}, c::Char)
     if c > '\uff'
-        throw(InexactError(:convert, RNA, c))
+        throw(InexactError(:convert, RNA, repr(c)))
     end
     @inbounds rna = char_to_rna[convert(Int, c) + 1]
     if !isvalid(RNA, rna)
-        throw(InexactError(:convert, RNA, c))
+        throw(InexactError(:convert, RNA, repr(c)))
     end
     return encode(RNA, rna)
 end
