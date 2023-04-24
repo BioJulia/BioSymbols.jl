@@ -1,6 +1,6 @@
-using SnoopPrecompile
+using PrecompileTools
 
-@precompile_all_calls begin
+@compile_workload begin
     for sym in [DNA_W, RNA_U, AA_Y]
         print(IOBuffer(), sym)
         Char(sym)

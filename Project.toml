@@ -4,11 +4,11 @@ authors = ["Ben J. Ward <benjward@protonmail.com>"]
 version = "5.1.2"
 
 [deps]
-SnoopPrecompile = "66db9d55-30c0-4569-8b51-7e840670fc0c"
+PrecompileTools = "aea7be01-6a6a-4083-8856-8a6e6704d82a"
 
 [compat]
 julia = "1"
-SnoopPrecompile = "1"
+PrecompileTools = "1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
