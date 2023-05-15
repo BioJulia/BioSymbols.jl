@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.0.3]
+- Update dependencies
+
+## [4.0.2]
+- Changed lookup tables to Tuple for performance improvements
+
+## [4.0.1]
+- Fixed missing iterate and length methods
+
 ## [4.0.0]
 ### Added
 - An abstract type `BioSymbol` has been added.
