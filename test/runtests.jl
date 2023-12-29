@@ -239,19 +239,17 @@ end
     end
 
     @testset "complement" begin
-        @test complement(DNA_A) === DNA_T
-        @test complement(DNA_C) === DNA_G
-        @test complement(DNA_G) === DNA_C
-        @test complement(DNA_T) === DNA_A
-        @test complement(DNA_Gap) === DNA_Gap
-        @test complement(DNA_N) === DNA_N
+        for (a, b) in zip(
+            "-ACMGRSVTWYHKDBN",
+            "-TGKCYSBAWRDMHVN"
+        )
+            da, db = DNA(a), DNA(b)
+            for (i, j) in ((da, db), (RNA(da), RNA(db)))
 
-        @test complement(RNA_A) === RNA_U
-        @test complement(RNA_C) === RNA_G
-        @test complement(RNA_G) === RNA_C
-        @test complement(RNA_U) === RNA_A
-        @test complement(RNA_Gap) === RNA_Gap
-        @test complement(RNA_N) === RNA_N
+                @test complement(i) === j
+                @test complement(j) === i
+            end
+        end
     end
 
     @testset "Logic operations and Order" begin
