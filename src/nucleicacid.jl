@@ -427,12 +427,12 @@ RNA_A
 
 ```
 """
-function complement(nt::NucleicAcid)
-    bits = compatbits(nt)
-    return encode(
-        typeof(nt),
-        (bits & 0x01) << 3 | (bits & 0x08) >> 3 |
-        (bits & 0x02) << 1 | (bits & 0x04) >> 1)
+function complement(nt::Union{DNA, RNA})
+    # This is essentially a lookup table of 16 x 4 bits.
+    # It's the concatenation of the bitpatterns of the nucleotides,
+    # in order, complemented.
+    u64 = 0xf7b3d591e6a2c480 >>> ((4 * encoded_data(nt)) & 63)
+    reinterpret(typeof(nt), (u64 % UInt8) & 0x0f)
 end
 
 function Base.isvalid(::Type{T}, x::Integer) where T <: NucleicAcid
