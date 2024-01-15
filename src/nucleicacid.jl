@@ -460,6 +460,11 @@ end
     compatbits(nt::NucleicAcid)
 
 Return the compatibility bits of `nt` as `UInt8`.
+The resulting `UInt8` has the lower four bits set
+if `nt` is compatible with `A`, `C`, `G` and `T/U`, respectively.
+
+Hence, `RNA_Gap` is `0x00` (not compatible with any nucleotide),
+and `DNA_W` is `0x09` (compatible with `A` and `T`)
 
 Examples
 --------
@@ -474,6 +479,11 @@ julia> compatbits(DNA_C)
 julia> compatbits(DNA_N)
 0x0f
 
+julia> compatbits(DNA_W)
+0x09
+
+julia> compatbits(RNA_Gap)
+0x00
 ```
 """
 @inline function compatbits(nt::NucleicAcid)
