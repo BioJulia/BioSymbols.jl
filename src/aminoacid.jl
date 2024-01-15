@@ -198,6 +198,11 @@ gap(::Type{AminoAcid}) = AA_Gap
     compatbits(aa::AminoAcid)
 
 Return the compatibility bits of `aa` as `UInt32`.
+The resulting `UInt32` has one bit set per amino acid
+it is compatible with.
+
+For example, `J` is compatible with `I` (bit 10) and `L` (bit 11),
+and so is `0x00000600`.
 
 Examples
 --------
@@ -206,9 +211,17 @@ Examples
 julia> compatbits(AA_A)
 0x00000001
 
+julia> compatbits(AA_E)
+0x00000040
+
 julia> compatbits(AA_J)
 0x00000600
 
+julia> compatbits(AA_X)
+0x003fffff
+
+julia> compatbits(AA_Gap)
+0x00000000
 ```
 """
 compatbits(aa::AminoAcid) = @inbounds compatbits_aa[encoded_data(aa) + 1]
