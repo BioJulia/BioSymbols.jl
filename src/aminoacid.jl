@@ -31,7 +31,7 @@ end
 AminoAcid(c::Char) = convert(AminoAcid, c)
 
 Base.convert(::Type{Char}, aa::AminoAcid) = aa_to_char[encoded_data(aa) + 1]
-Char(aa::AminoAcid) = convert(Char, aa)
+Base.Char(aa::AminoAcid) = convert(Char, aa)
 
 
 # Amino acid encoding definition

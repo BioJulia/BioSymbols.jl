@@ -85,12 +85,14 @@ RNA(c::Char) = convert(RNA, c)
 function Base.convert(::Type{Char}, nt::DNA)
     return dna_to_char[encoded_data(nt) + 1]
 end
-Char(nt::DNA) = convert(Char, nt)
+
+Base.Char(nt::DNA) = convert(Char, nt)
 
 function Base.convert(::Type{Char}, nt::RNA)
     return rna_to_char[encoded_data(nt) + 1]
 end
-Char(nt::RNA) = convert(Char, nt)
+
+Base.Char(nt::RNA) = convert(Char, nt)
 
 
 # Encoding of DNA and RNA NucleicAcids
