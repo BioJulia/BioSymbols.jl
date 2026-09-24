@@ -90,13 +90,13 @@ end
                 @test encoded_data(RNA_N)   === 0b1111
             end
 
-        	@testset "stringbyte" begin
-        		for T in (DNA, RNA)
-	        		@test all(alphabet(DNA)) do i
-	        			UInt8(Char(i)) == stringbyte(i)
-	  	      		end
-	        	end
-        	end
+            @testset "stringbyte" begin
+                for T in (DNA, RNA)
+                    @test all(alphabet(DNA)) do i
+                        UInt8(Char(i)) == stringbyte(i)
+                    end
+                end
+            end
         end
 
         @testset "Char" begin
@@ -290,11 +290,11 @@ end
     end
 
     @testset "Broadcasting" begin
-    	v = DNA[DNA_A, DNA_C, DNA_G, DNA_C]
-    	v[2:3] .= DNA_A
-    	@test v == [DNA_A, DNA_A, DNA_A, DNA_C]
-    	v .= DNA_T
-    	@test v == fill(DNA_T, 4)
+        v = DNA[DNA_A, DNA_C, DNA_G, DNA_C]
+        v[2:3] .= DNA_A
+        @test v == [DNA_A, DNA_A, DNA_A, DNA_C]
+        v .= DNA_T
+        @test v == fill(DNA_T, 4)
     end
 
     @testset "Show DNA" begin
@@ -384,6 +384,44 @@ end
         @test collect(ACGUN) == [RNA_A, RNA_C, RNA_G, RNA_U, RNA_N]
     end
 
+    @testset "Parsers" begin
+        @testset "Valid Cases" begin
+            fromto = [('a', DNA_A), ('c', RNA_C), ('s', DNA_S), ('s', RNA_S)]
+
+            for (from, to) in fromto
+                @test parse(typeof(to), from) === tryparse(typeof(to), from) === to
+                # Strings also work
+                str_from = string(from)
+                @test parse(typeof(to), str_from) === tryparse(typeof(to), str_from) === to
+                # Case doesn't matter
+                @test parse(typeof(to), uppercase(from)) === parse(typeof(to), lowercase(from)) === to
+                # Whitespace doesn't matter
+                whitespace_from = "\t" * from * " \n"
+                @test parse(typeof(to), whitespace_from) === tryparse(typeof(to), whitespace_from) === to
+            end
+        end
+
+        @testset "Invalid Cases" begin
+            @test_throws ArgumentError parse(DNA, "")
+            @test_throws ArgumentError parse(RNA, "")
+            @test_throws ArgumentError parse(DNA, "U")
+            @test_throws ArgumentError parse(RNA, "T")
+            @test_throws ArgumentError parse(DNA, "AL")
+            @test_throws ArgumentError parse(RNA, "LA")
+            @test_throws ArgumentError parse(RNA, '\0')
+            @test_throws ArgumentError parse(DNA, '@')
+            @test_throws ArgumentError parse(DNA, '亜')
+            @test tryparse(DNA, "U") === tryparse(RNA, "T") == nothing
+            @test tryparse(DNA, "") === tryparse(RNA, "") == nothing
+            @test tryparse(DNA, "AL") === tryparse(RNA, "AL") === nothing
+            @test tryparse(DNA, "LA") === tryparse(RNA, "LA") === nothing
+            @test tryparse(DNA, "ALAA") === tryparse(RNA, "ALAA") === nothing
+            @test tryparse(DNA, '\0') === tryparse(RNA, '\0') === nothing
+            @test tryparse(DNA, '@') === tryparse(RNA, '@') === nothing
+            @test tryparse(DNA, '亜') === tryparse(RNA, '亜') === nothing
+        end
+    end
+
     @testset "Hashing" begin
         @test hash(DNA_A) != hash(RNA_A)
         @test hash(DNA_A) != hash(DNA_G)
@@ -424,9 +462,9 @@ end
     end
 
     @testset "stringbyte" begin
-     	@test all(alphabet(AminoAcid)) do i
-     		UInt8(Char(i)) == stringbyte(i)
-     	end
+        @test all(alphabet(AminoAcid)) do i
+            UInt8(Char(i)) == stringbyte(i)
+        end
     end
 
     @testset "isvalid" begin
